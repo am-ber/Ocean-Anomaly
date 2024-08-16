@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MonsterBodyAnimations : MonoBehaviour
 {
+    Animator anim;
+    RuntimeAnimatorController runtimeAnimatorController;
+
     // Start is called before the first frame update
     void Start()
     {
