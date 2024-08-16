@@ -17,6 +17,9 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private Vector2 moveDirection = Vector2.zero;
 		private PlayerInputActions inputActions;
+		public LinkedList<PlayerInputData> inputBuffer;
+		[SerializeField]
+		private int inputBufferLimit = 20;
 		private void Awake()
 		{
 			inputActions = new PlayerInputActions();
