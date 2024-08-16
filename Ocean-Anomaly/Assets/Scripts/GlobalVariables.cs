@@ -6,18 +6,17 @@ namespace OceanAnomaly
     {
         public enum GameState
         {
-            gamePlay,
-            gamePlayPaused,
-            gamePlayMenuNoPause,
-            cutscene,
-            mainMenu
+            GamePlay,
+            GamePlayPaused,
+            GamePlayMenuNoPause,
+            Cutscene,
+            MainMenu
         }
 
-        public static GameState currentState = GameState.gamePlay;
+        public static GameState CurrentState = GameState.GamePlay;
 
         // Error handeling
-        public static string currentError = "";
-        public static Color currentErrorColor = Color.red;
-        public static bool rotateError = false;
+        public static string CurrentError = "";
+        public static Color CurrentErrorColor = Color.red;
     }
 }
