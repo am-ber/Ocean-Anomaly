@@ -1,0 +1,81 @@
+﻿using System.Collections;
+using System;
+using UnityEngine;
+
+namespace OceanAnomaly.Tools
+{
+	public static class GlobalTools
+	{
+		/// <summary>
+		/// Linearly maps a Value from a number scale (from1-from2) to a different number scale (to1-to2)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="from1"></param>
+		/// <param name="to1"></param>
+		/// <param name="from2"></param>
+		/// <param name="to2"></param>
+		/// <returns></returns>
+		public static float Remap(float value, float from1, float from2, float to1, float to2)
+		{
+			return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+		}
+		/// <summary>
+		/// Starts a Coroutine with a desired delay.
+		/// </summary>
+		/// <param name="mb"></param>
+		/// <param name="delay"></param>
+		/// <param name="action"></param>
+		public static void StartCoroutine(this MonoBehaviour mb, float delay, Action action)
+		{
+			mb.StartCoroutine(WaitForSeconds(delay, action));
+		}
+		/// <summary>
+		/// Needed for the coroutine delay function.
+		/// </summary>
+		/// <param name="delay"></param>
+		/// <param name="action"></param>
+		/// <returns></returns>
+		private static IEnumerator WaitForSeconds(float delay, Action action)
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(delay);
+				action();
+			}
+		}
+		/// <summary>
+		/// An extension for LayerMasks to allow the option to convert to a layer quickly.
+		/// </summary>
+		/// <param name="mask"></param>
+		/// <returns></returns>
+		public static int MaskToLayer(this LayerMask mask)
+		{
+			int layerNumber = 0;
+			int layer = mask.value;
+			while (layer > 0)
+			{
+				layer = layer >> 1;
+				layerNumber++;
+			}
+			return layerNumber - 1;
+		}
+		public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+		{
+			return Quaternion.Euler(angles) * (point - pivot) + pivot;
+		}
+		public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation)
+		{
+			return rotation * (point - pivot) + pivot;
+		}
+		/// <summary>
+		/// A quick a dirty way to randomly pick something from a list of objects.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="ts"></param>
+		/// <returns></returns>
+		public static T RandomPick<T>(params T[] ts)
+		{
+			return ts[UnityEngine.Random.Range(0, ts.Length)];
+		}
+	}
+}
