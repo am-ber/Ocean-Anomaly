@@ -2,15 +2,15 @@
 
 namespace OceanAnomaly.Components
 {
-    public class killSelf : MonoBehaviour
+    public class KillSelf : MonoBehaviour
     {
-        public float timeTillDeath = 0.5f;
-        float time = 0;
+        public float TimeTillDeath = 0.5f;
+        private float time = 0;
 
         void Update()
         {
             time += Time.deltaTime;
-            if (time >= timeTillDeath)
+            if (time >= TimeTillDeath)
                 Destroy(gameObject);
         }
     }
