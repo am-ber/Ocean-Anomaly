@@ -5,9 +5,8 @@ using UnityEngine;
 public class MonsterMovement : MonoBehaviour
 {
     
-    public float timeFactor = 0.5f;
-    
-    static float t = 0.0f;
+    public float timeFast = 0.05f;
+    public float timeSlow = 0.01f;
     
     public Transform target;
     
@@ -45,21 +44,21 @@ public class MonsterMovement : MonoBehaviour
         {
             Debug.Log("1");
             
-            target.localPosition = Vector3.Lerp(targetPos, tailLeft, timeFactor);
+            target.localPosition = Vector3.Lerp(targetPos, tailLeft, timeFast);
         }
         //Otherwise, if the direction of the head is equal to its previous direction, animate the IK target between its current position and its middle position
         else if (headDirection == headDirectionPrevious)
         {
             Debug.Log("2");
             
-            target.localPosition = Vector3.Lerp(targetPos, tailMiddle, timeFactor);
+            target.localPosition = Vector3.Lerp(targetPos, tailMiddle, timeSlow);
         }
         //Otherwise, if the direction of the head is less than its previous direction, animate the IK target between its current position and its right position
         else if (headDirection < headDirectionPrevious)
         {
             Debug.Log("3");
             
-            target.localPosition = Vector3.Lerp(targetPos, tailRight, timeFactor);
+            target.localPosition = Vector3.Lerp(targetPos, tailRight, timeFast);
         }
         
         //Record the the previous direction of the head
