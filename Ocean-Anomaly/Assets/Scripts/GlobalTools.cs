@@ -77,5 +77,43 @@ namespace OceanAnomaly.Tools
 		{
 			return ts[UnityEngine.Random.Range(0, ts.Length)];
 		}
+		/// <summary>
+		/// Finds the Centroid of a given list of Vector3's.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <returns></returns>
+		public static Vector3 FindCentroid(params Vector3[] points)
+		{
+			// If we get junk, lets just leave
+			if (points == null || points.Length <= 0)
+				return Vector3.zero;
+			// Take a bounds and encapsulate everything to get the center
+			Bounds bounds = new Bounds(points[0], Vector3.zero);
+			for (int i = 1; i < points.Length; i++)
+			{
+				bounds.Encapsulate(points[i]);
+			}
+			return bounds.center;
+		}
+		/// <summary>
+		/// Finds the largest distance between the Centroid and all points given.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <param name="centroid"></param>
+		/// <returns></returns>
+		public static float FindLargestDistanceFromCentroid(Vector3[] points, Vector3 centroid)
+		{
+			if (points == null || points.Length <= 0 || centroid == null)
+				return 0.0f;
+			// Find the largest distance between the centroid and all other points
+			float distance = 0.0f;
+			for (int i = 0; i < points.Length; i++)
+			{
+				float tempDistance = Vector3.Distance(points[i], centroid);
+				if (tempDistance > distance)
+					distance = tempDistance;
+			}
+			return distance;
+		}
 	}
 }

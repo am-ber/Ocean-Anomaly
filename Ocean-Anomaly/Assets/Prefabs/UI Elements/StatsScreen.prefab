@@ -456,7 +456,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -545,8 +545,6 @@ MonoBehaviour:
   fixedUpdateCountText: {fileID: 464538084464956645}
   devicesListText: {fileID: 8723305224829912932}
   timeRunningText: {fileID: 553177844473551497}
-  playerInputDataDisplay: {fileID: 2888024354322481687, guid: f8b2e7f89bf880d44926bc2e28fb79f3, type: 3}
-  playerInputAction: {fileID: 631153765713257799, guid: c3f0290bb7cf9ca499e57cef21f79730, type: 3}
   inputColor: {r: 90, g: 90, b: 90, a: 128}
   inputHeldColor: {r: 200, g: 90, b: 90, a: 128}
 --- !u!1 &3677395262710325609
