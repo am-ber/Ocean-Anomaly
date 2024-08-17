@@ -18,6 +18,7 @@ namespace OceanAnomaly.UI
 		public TextMeshProUGUI fpsText;
 		public TextMeshProUGUI updateCountText;
 		public TextMeshProUGUI fixedUpdateCountText;
+		public TextMeshProUGUI deltaTimeText;
 		public TextMeshProUGUI devicesListText;
 		public TextMeshProUGUI timeRunningText;
 		[SerializeField]
@@ -63,6 +64,7 @@ namespace OceanAnomaly.UI
 				yield return new WaitForSeconds(0.1f);
 				float fps = 1.0f / deltaTime;
 				fpsText.text = "FPS: " + Mathf.Ceil(fps).ToString();
+				deltaTimeText.text = "dTime: " + Time.deltaTime.ToString("F3");
 			}
 		}
 		private IEnumerator UpdateCycleCounts()

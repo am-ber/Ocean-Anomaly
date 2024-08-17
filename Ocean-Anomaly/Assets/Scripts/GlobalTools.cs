@@ -125,5 +125,9 @@ namespace OceanAnomaly.Tools
 			}
 			return distance;
 		}
+		public static bool InRange(this float value, float min, float max)
+		{
+			return (value > min) && (value < max);
+		}
 	}
 }
