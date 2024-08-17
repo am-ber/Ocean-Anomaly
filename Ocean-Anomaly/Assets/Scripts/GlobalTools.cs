@@ -7,17 +7,27 @@ namespace OceanAnomaly.Tools
 	public static class GlobalTools
 	{
 		/// <summary>
-		/// Linearly maps a Value from a number scale (from1-from2) to a different number scale (to1-to2)
+		/// Linearly maps a Value from a number scale [fromMin:fromMax] to a different number scale [toMin:toMax]
 		/// </summary>
 		/// <param name="value"></param>
-		/// <param name="from1"></param>
-		/// <param name="to1"></param>
-		/// <param name="from2"></param>
-		/// <param name="to2"></param>
+		/// <param name="fromMin"></param>
+		/// <param name="toMin"></param>
+		/// <param name="fromMax"></param>
+		/// <param name="toMax"></param>
 		/// <returns></returns>
-		public static float Remap(float value, float from1, float from2, float to1, float to2)
+		public static float Map(float from, float fromMin, float fromMax, float toMin, float toMax)
 		{
-			return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+			var fromAbs = from - fromMin;
+			var fromMaxAbs = fromMax - fromMin;
+
+			var normal = fromAbs / fromMaxAbs;
+
+			var toMaxAbs = toMax - toMin;
+			var toAbs = toMaxAbs * normal;
+
+			var to = toAbs + toMin;
+
+			return to;
 		}
 		/// <summary>
 		/// Starts a Coroutine with a desired delay.
@@ -76,6 +86,44 @@ namespace OceanAnomaly.Tools
 		public static T RandomPick<T>(params T[] ts)
 		{
 			return ts[UnityEngine.Random.Range(0, ts.Length)];
+		}
+		/// <summary>
+		/// Finds the Centroid of a given list of Vector3's.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <returns></returns>
+		public static Vector3 FindCentroid(params Vector3[] points)
+		{
+			// If we get junk, lets just leave
+			if (points == null || points.Length <= 0)
+				return Vector3.zero;
+			// Take a bounds and encapsulate everything to get the center
+			Bounds bounds = new Bounds(points[0], Vector3.zero);
+			for (int i = 1; i < points.Length; i++)
+			{
+				bounds.Encapsulate(points[i]);
+			}
+			return bounds.center;
+		}
+		/// <summary>
+		/// Finds the largest distance between the Centroid and all points given.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <param name="centroid"></param>
+		/// <returns></returns>
+		public static float FindLargestDistanceFromCentroid(Vector3[] points, Vector3 centroid)
+		{
+			if (points == null || points.Length <= 0 || centroid == null)
+				return 0.0f;
+			// Find the largest distance between the centroid and all other points
+			float distance = 0.0f;
+			for (int i = 0; i < points.Length; i++)
+			{
+				float tempDistance = Vector3.Distance(points[i], centroid);
+				if (tempDistance > distance)
+					distance = tempDistance;
+			}
+			return distance;
 		}
 	}
 }

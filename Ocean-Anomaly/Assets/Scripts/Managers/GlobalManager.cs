@@ -1,0 +1,79 @@
+using OceanAnomaly.Controllers;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
+
+namespace OceanAnomaly
+{
+	public class GlobalManager : MonoBehaviour
+	{
+		public static GlobalManager instance;
+		public static DateTime LaunchTime;
+		public bool displayStats = false;
+		public Canvas statsScreen;
+		public Canvas bindPlayerScreen;
+		public PlayerInputManager playerInputManager;
+		public PlayerVirtualCameraController playerVirtualCamera;
+		public GlobalManager()
+		{
+			if (instance == null)
+				instance = this;
+			else
+				Destroy(this);
+		}
+		/// <summary>
+		/// Figures the number of fixed frames from a given fixed time from the start of the game.
+		/// </summary>
+		/// <param name="fixedTime"></param>
+		/// <returns></returns>
+		public static long FixedFramesFrom(float fixedTime = -1)
+		{
+			if (fixedTime < 0)
+				fixedTime = Time.fixedTime;
+			return Mathf.RoundToInt(fixedTime / Time.fixedDeltaTime);
+		}
+		void Awake()
+		{
+			InputSystem.onDeviceChange += deviceChange;
+			LaunchTime = DateTime.Now;
+		}
+		void Start()
+		{
+			if (playerInputManager == null)
+				playerInputManager = GetComponent<PlayerInputManager>();
+
+			statsScreen.gameObject.SetActive(displayStats);
+		}
+		void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F1))
+			{
+				displayStats = !displayStats;
+				statsScreen.gameObject.SetActive(displayStats);
+			}
+		}
+		public void OnPlayerJoined(PlayerInput playerInput)
+		{
+			Debug.Log($"Joined New Player ({playerInput.user.id})");
+			if (bindPlayerScreen.gameObject.activeSelf)
+			{
+				bindPlayerScreen.gameObject.SetActive(false);
+			}
+			if (playerVirtualCamera != null)
+			{
+				playerVirtualCamera.CameraTargets.Add(playerInput.transform);
+			}
+		}
+		void deviceChange(InputDevice device, InputDeviceChange inputDeviceChange)
+		{
+			Debug.Log($"{device.displayName} changed!");
+		}
+		public static List<InputDevice> GetInputDevices()
+		{
+			return new List<InputDevice>(InputSystem.devices);
+		}
+	}
+}
