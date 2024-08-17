@@ -9,18 +9,17 @@ public class GlobalManager : MonoBehaviour
 {
 	public static GlobalManager instance;
 	public static DateTime LaunchTime;
-	public static List<PlayerInputController> players;
 	public bool displayStats = false;
     public Canvas statsScreen;
     public Canvas bindPlayerScreen;
 	public PlayerInputManager playerInputManager;
+	public PlayerVirtualCameraController playerVirtualCamera;
 	public GlobalManager()
 	{
 		if (instance == null)
 			instance = this;
 		else
 			Destroy(this);
-		players = new List<PlayerInputController>();
 	}
 	/// <summary>
 	/// Figures the number of fixed frames from a given fixed time from the start of the game.
@@ -59,6 +58,10 @@ public class GlobalManager : MonoBehaviour
 		if (bindPlayerScreen.gameObject.activeSelf)
 		{
 			bindPlayerScreen.gameObject.SetActive(false);
+		}
+		if (playerVirtualCamera != null)
+		{
+			playerVirtualCamera.CameraTargets.Add(playerInput.transform);
 		}
 	}
 	void deviceChange(InputDevice device, InputDeviceChange inputDeviceChange)

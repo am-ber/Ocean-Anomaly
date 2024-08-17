@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace OceanAnomaly.Controllers
 {
-	public class PlayerMovementController : MonoBehaviour, Observer<PlayerInputController, PlayerInputData>
+	public class PlayerMovementController : MonoBehaviour
 	{
 		[SerializeField]
 		private float movementSpeed = 5f;
@@ -21,10 +21,6 @@ namespace OceanAnomaly.Controllers
 
 		}
 		private void FixedUpdate()
-		{
-
-		}
-		public void OnNotify(PlayerInputController caller, PlayerInputData input)
 		{
 
 		}
