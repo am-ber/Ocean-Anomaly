@@ -18,5 +18,7 @@ namespace OceanAnomaly
         // Error handeling
         public static string CurrentError = "";
         public static Color CurrentErrorColor = Color.red;
+
+
     }
 }
