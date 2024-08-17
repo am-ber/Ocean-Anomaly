@@ -7,17 +7,27 @@ namespace OceanAnomaly.Tools
 	public static class GlobalTools
 	{
 		/// <summary>
-		/// Linearly maps a Value from a number scale (from1-from2) to a different number scale (to1-to2)
+		/// Linearly maps a Value from a number scale [fromMin:fromMax] to a different number scale [toMin:toMax]
 		/// </summary>
 		/// <param name="value"></param>
-		/// <param name="from1"></param>
-		/// <param name="to1"></param>
-		/// <param name="from2"></param>
-		/// <param name="to2"></param>
+		/// <param name="fromMin"></param>
+		/// <param name="toMin"></param>
+		/// <param name="fromMax"></param>
+		/// <param name="toMax"></param>
 		/// <returns></returns>
-		public static float Remap(float value, float from1, float from2, float to1, float to2)
+		public static float Map(float from, float fromMin, float fromMax, float toMin, float toMax)
 		{
-			return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+			var fromAbs = from - fromMin;
+			var fromMaxAbs = fromMax - fromMin;
+
+			var normal = fromAbs / fromMaxAbs;
+
+			var toMaxAbs = toMax - toMin;
+			var toAbs = toMaxAbs * normal;
+
+			var to = toAbs + toMin;
+
+			return to;
 		}
 		/// <summary>
 		/// Starts a Coroutine with a desired delay.

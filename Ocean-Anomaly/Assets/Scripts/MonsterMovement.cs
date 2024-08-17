@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using OceanAnomaly.Attributes;
+using Unity.Mathematics;
+using OceanAnomaly.Tools;
 
 public class MonsterMovement : MonoBehaviour
 {
@@ -22,7 +25,7 @@ public class MonsterMovement : MonoBehaviour
     
     public Transform target;
     
-    static float t = 0.0f;
+    public float t = 0.0f;
     
     public float largeAmount = 10f;
     public float medAmount = 1f;
@@ -36,8 +39,19 @@ public class MonsterMovement : MonoBehaviour
     
     Vector3 swayTo;
     Vector3 swayFro;
-    
-    void Start ()
+
+    [Header("Movement Noise Settings")]
+    [SerializeField]
+    private float noiseIncrement = 0.01f;
+    [SerializeField]
+    private float noiseScale = 0.05f;
+    [ReadOnly]
+    [SerializeField]
+    private float noiseValue = 0f;
+	[ReadOnly]
+	[SerializeField]
+	private float mappedNoiseValue = 0f;
+	void Start ()
     {
         tailLeft = new Vector3(tailLeftX, tailMaxY, 0f);
         tailMiddle = new Vector3(tailMidX, tailMinY, 0f);
@@ -78,16 +92,21 @@ public class MonsterMovement : MonoBehaviour
             Debug.Log("2");
             
             waitCount += Time.deltaTime;
-            
+
             if (waitCount < waitDuration)
-                target.localPosition = Vector3.Lerp(targetPos, tailMiddle, timeSlow);
+                target.localPosition = Vector3.Lerp(targetPos, swayTo, timeSlow);
             else
             {
                 // animate the position of the game object...
                 target.localPosition = Vector3.Lerp(swayTo, swayFro, t);
-                
-                // .. and increase the t interpolater
-                t += smallAmount * Time.deltaTime;
+
+				// Multiply deltaTime by a scale because noise moves very fast above 1.0
+				noiseValue = Mathf.PerlinNoise1D(waitCount * noiseScale);
+                // Remap the noise value from 0:1 to -1:1
+                mappedNoiseValue = GlobalTools.Map(noiseValue, 0, 1, -1, 1);
+
+				// .. and increase the t interpolater
+				t += (smallAmount + mappedNoiseValue) * Time.deltaTime;
                 
                 // now check if the interpolator has reached 1.0
                 // and swap maximum and minimum so game object moves

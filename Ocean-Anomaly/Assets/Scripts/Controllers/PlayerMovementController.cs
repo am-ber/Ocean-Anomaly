@@ -1,6 +1,4 @@
 using OceanAnomaly.Attributes;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +7,8 @@ namespace OceanAnomaly.Controllers
 	public class PlayerMovementController : MonoBehaviour
 	{
 		[SerializeField]
+		private PlayerInputActions inputActions;
+		[SerializeField]
 		private float movementSpeed = 5f;
 		[ReadOnly]
 		[SerializeField]
@@ -16,6 +16,7 @@ namespace OceanAnomaly.Controllers
 		[ReadOnly]
 		[SerializeField]
 		private Vector2 moveDirection = Vector2.zero;
+		private InputAction inputMovement;
 		private void Update()
 		{
 
