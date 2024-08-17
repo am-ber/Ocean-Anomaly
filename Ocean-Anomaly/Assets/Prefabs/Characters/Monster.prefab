@@ -189,12 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829a51f55c5324dc2995cb21b14d5505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftX: -15
-  middleX: -1
-  rightX: 15
-  minimumY: 0
-  maximumY: 30
-  timeFactor: 0.5
+  timeFactor: 0.01
   target: {fileID: 8685978977455089858}
 --- !u!1001 &6423386187503677347
 PrefabInstance:
