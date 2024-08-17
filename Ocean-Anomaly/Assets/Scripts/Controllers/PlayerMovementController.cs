@@ -17,6 +17,10 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private Vector2 moveDirection = Vector2.zero;
 		private InputAction inputMovement;
+		private void Awake()
+		{
+			inputActions = new PlayerInputActions();
+		}
 		private void Update()
 		{
 
