@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ConstrainRotation: 1
-  m_SolveFromDefaultPose: 0
+  m_SolveFromDefaultPose: 1
   m_Weight: 1
   m_Chain:
     m_EffectorTransform: {fileID: 5037634420516660397}
@@ -194,7 +194,7 @@ MonoBehaviour:
   rightX: 15
   minimumY: 0
   maximumY: 30
-  timeFactor: 0.05
+  timeFactor: 0.5
   target: {fileID: 8685978977455089858}
 --- !u!1001 &6423386187503677347
 PrefabInstance:
