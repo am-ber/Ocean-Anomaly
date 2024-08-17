@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class MonsterMovement : MonoBehaviour
 {
-    public float leftX = -15.0F;
-    public float middleX = -1f;
-    public float rightX =  15.0F;
-    
-    public float minimumY = -30f;
-    public float maximumY = 0f;
     
     public float timeFactor = 0.5f;
     
@@ -19,7 +13,16 @@ public class MonsterMovement : MonoBehaviour
     
     float headDirectionPrevious;
     
-    Vector3 targetPosPrevious;
+    Vector3 tailLeft;
+    Vector3 tailMiddle;
+    Vector3 tailRight;
+    
+    void Start ()
+    {
+        tailLeft = new Vector3(-15f, 30f, 0f);
+        tailMiddle = new Vector3(-1f, 0f, 0f);
+        tailRight = new Vector3(15f, 30f, 0f);
+    }
 
     void Update ()
     {
@@ -30,7 +33,9 @@ public class MonsterMovement : MonoBehaviour
     void MoveTail ()
     {
         //Record the direction of the head
-        float headDirection = gameObject.transform.rotation.z;
+        float headDirection = 0f;
+        
+        headDirection = gameObject.transform.rotation.z;
         
         //Record the position of the IK target
         Vector3 targetPos = new Vector3(target.localPosition.x, target.localPosition.y, target.localPosition.z);
@@ -38,31 +43,26 @@ public class MonsterMovement : MonoBehaviour
         //If the direction of the head is greater than its previous direction, aniamte the IK target between its current position and its left position
         if (headDirection > headDirectionPrevious)
         {
-            target.position = new Vector3(Mathf.Lerp(targetPos.x, leftX, t), Mathf.Lerp(targetPos.y, maximumY, t), 0);
-            
             Debug.Log("1");
+            
+            target.position = Vector3.Lerp(targetPos, tailLeft, timeFactor);
         }
         //Otherwise, if the direction of the head is equal to its previous direction, animate the IK target between its current position and its middle position
         else if (headDirection == headDirectionPrevious)
         {
-           target.position = new Vector3(Mathf.Lerp(targetPos.x, middleX, t), Mathf.Lerp(targetPos.y, minimumY, t), 0);
-           
-           Debug.Log("2");
+            Debug.Log("2");
+            
+            target.position = Vector3.Lerp(targetPos, tailMiddle, timeFactor);
         }
         //Otherwise, if the direction of the head is less than its previous direction, animate the IK target between its current position and its right position
         else if (headDirection < headDirectionPrevious)
         {
-            target.position = new Vector3(Mathf.Lerp(targetPos.x, rightX, t), Mathf.Lerp(targetPos.y, maximumY, t), 0);
-            
             Debug.Log("3");
+            
+            target.position = Vector3.Lerp(targetPos, tailRight, timeFactor);
         }
-        
-        t = timeFactor * Time.deltaTime;
         
         //Record the the previous direction of the head
         headDirectionPrevious = gameObject.transform.rotation.z;
-        
-        //Create a Vector 3 to store the position of the IK Target
-        //targetPosPrevious = new Vector3(target.position.x, target.position.y, target.position.z);
     }
 }
