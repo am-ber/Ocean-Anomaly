@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace OceanAnomaly.Controllers
 {
-	public class PlayerMovementController : MonoBehaviour
+	public class PlayerMovementController : MonoBehaviour, Observer<PlayerInputController, PlayerInputData>
 	{
 		[SerializeField]
 		private float movementSpeed = 5f;
@@ -16,14 +16,6 @@ namespace OceanAnomaly.Controllers
 		[ReadOnly]
 		[SerializeField]
 		private Vector2 moveDirection = Vector2.zero;
-		private PlayerInputActions inputActions;
-		public LinkedList<PlayerInputData> inputBuffer;
-		[SerializeField]
-		private int inputBufferLimit = 20;
-		private void Awake()
-		{
-			inputActions = new PlayerInputActions();
-		}
 		private void Update()
 		{
 
@@ -32,26 +24,9 @@ namespace OceanAnomaly.Controllers
 		{
 
 		}
-		private void InputCaller(InputAction.CallbackContext context)
+		public void OnNotify(PlayerInputController caller, PlayerInputData input)
 		{
-			Debug.Log($"{context.action.name} : {context.control.name} [{context.action.ReadValueAsObject().GetType()}: " +
-				$"{context.action.ReadValueAsObject()}] ({context.duration.ToString("F3")})");
 
-		}
-		private void OnEnable()
-		{
-			foreach (var action in inputActions.Player.Get())
-			{
-				action.performed += InputCaller;
-				action.Enable();
-			}
-		}
-		private void OnDisable()
-		{
-			foreach (var action in inputActions.Player.Get())
-			{
-				action.Disable();
-			}
 		}
 	}
 }

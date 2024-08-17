@@ -6,6 +6,7 @@ using TMPro;
 [System.Serializable]
 public enum PlayerInputAction
 {
+	None = -1,
 	Up = '0',
 	Right = '1',
 	Down = '2',
@@ -16,27 +17,27 @@ public enum PlayerInputAction
 [System.Serializable]
 public struct PlayerInputData
 {
-	public PlayerInputAction action { get; }
-	public bool held { get; }
-	public double duration { get; }
-	public PlayerInputData(PlayerInputAction action, bool held,double duration)
+	public PlayerInputAction Action { get; }
+	public bool Held { get; }
+	public double Duration { get; }
+	public PlayerInputData(PlayerInputAction action, bool held, double duration)
 	{
-		this.action = action;
-		this.held = held;
-		this.duration = duration;
+		Action = action;
+		Held = held;
+		Duration = duration;
 	}
 }
 public class PlayerInputDataDisplay : MonoBehaviour
 {
-	public TextMeshProUGUI actionLetter;
-	public TextMeshProUGUI actionName;
-	public TextMeshProUGUI actionDuration;
-	public PlayerInputData data;
+	public TextMeshProUGUI ActionLetter;
+	public TextMeshProUGUI ActionName;
+	public TextMeshProUGUI ActionDuration;
+	public PlayerInputData Data;
 	public void Set(PlayerInputData data)
 	{
-		this.data = data;
-		actionLetter.text = "" + ((char)data.action);
-		actionName.text = "" + data.action;
-		actionDuration.text = "" + (data.duration == 0 ? "" : data.duration.ToString("F3"));
+		Data = data;
+		ActionLetter.text = "" + ((char)data.Action);
+		ActionName.text = "" + data.Action;
+		ActionDuration.text = "" + (data.Duration == 0 ? "" : data.Duration.ToString("F3"));
 	}
 }
