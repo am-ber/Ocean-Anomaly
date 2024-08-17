@@ -45,21 +45,21 @@ public class MonsterMovement : MonoBehaviour
         {
             Debug.Log("1");
             
-            target.position = Vector3.Lerp(targetPos, tailLeft, timeFactor);
+            target.localPosition = Vector3.Lerp(targetPos, tailLeft, timeFactor);
         }
         //Otherwise, if the direction of the head is equal to its previous direction, animate the IK target between its current position and its middle position
         else if (headDirection == headDirectionPrevious)
         {
             Debug.Log("2");
             
-            target.position = Vector3.Lerp(targetPos, tailMiddle, timeFactor);
+            target.localPosition = Vector3.Lerp(targetPos, tailMiddle, timeFactor);
         }
         //Otherwise, if the direction of the head is less than its previous direction, animate the IK target between its current position and its right position
         else if (headDirection < headDirectionPrevious)
         {
             Debug.Log("3");
             
-            target.position = Vector3.Lerp(targetPos, tailRight, timeFactor);
+            target.localPosition = Vector3.Lerp(targetPos, tailRight, timeFactor);
         }
         
         //Record the the previous direction of the head
