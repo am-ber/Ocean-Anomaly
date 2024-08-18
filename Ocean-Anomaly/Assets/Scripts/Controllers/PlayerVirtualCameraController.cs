@@ -9,6 +9,7 @@ namespace OceanAnomaly.Controllers
 {
 	public class PlayerVirtualCameraController : MonoBehaviour
 	{
+		[Header("Camera Target settings")]
 		public List<Transform> CameraTargets = new List<Transform>();
 		[SerializeField]
 		private CinemachineVirtualCamera virtualCamera;
@@ -18,6 +19,22 @@ namespace OceanAnomaly.Controllers
 		[ReadOnly]
 		[SerializeField]
 		private float greatestTargetDistance;
+		[Header("Lens Settings")]
+		[SerializeField]
+		private float lensScaleMultiplier = 1.25f;
+		[SerializeField]
+		private float lensConstraintsMin = 5f;
+		[SerializeField]
+		private float lensConstraintsMax = 50f;
+		[SerializeField]
+		private float lensLerpScale = 2f;
+		[ReadOnly]
+		[SerializeField]
+		private float lensTargetSize = 5f;
+		[ReadOnly]
+		[SerializeField]
+		private float lensCurrentSize = 5f;
+
 		private void Awake()
 		{
 			if (virtualCamera == null)
@@ -36,7 +53,10 @@ namespace OceanAnomaly.Controllers
 			Vector3[] targetPositions = new Vector3[CameraTargets.Count];
 			for (int i = 0; i < CameraTargets.Count; ++i)
 			{
-				targetPositions[i] = CameraTargets[i].position;
+				if (CameraTargets[i] != null)
+				{
+					targetPositions[i] = CameraTargets[i].position;
+				}
 			}
 			// Resolve the centroid and greatest distance
 			Vector3 centerPoint = GlobalTools.FindCentroid(targetPositions);
@@ -45,6 +65,12 @@ namespace OceanAnomaly.Controllers
 			greatestTargetDistance = GlobalTools.FindLargestDistanceFromCentroid(targetPositions, centerPoint);
 
 			virtualCamera.Follow = centralTarget;
+
+			lensTargetSize = greatestTargetDistance * lensScaleMultiplier;
+			lensCurrentSize = Mathf.Lerp(lensCurrentSize, lensTargetSize, lensLerpScale * Time.deltaTime);
+
+			// Set the lens size to the greatest distance multiplied by some amount
+			virtualCamera.m_Lens.OrthographicSize = Mathf.Clamp(lensCurrentSize, lensConstraintsMin, lensConstraintsMax);
 		}
 	}
 }

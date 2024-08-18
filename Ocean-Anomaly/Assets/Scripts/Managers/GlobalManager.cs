@@ -17,23 +17,13 @@ namespace OceanAnomaly
 		public Canvas bindPlayerScreen;
 		public PlayerInputManager playerInputManager;
 		public PlayerVirtualCameraController playerVirtualCamera;
+		public List<PlayerInput> players;
 		public GlobalManager()
 		{
 			if (instance == null)
 				instance = this;
 			else
 				Destroy(this);
-		}
-		/// <summary>
-		/// Figures the number of fixed frames from a given fixed time from the start of the game.
-		/// </summary>
-		/// <param name="fixedTime"></param>
-		/// <returns></returns>
-		public static long FixedFramesFrom(float fixedTime = -1)
-		{
-			if (fixedTime < 0)
-				fixedTime = Time.fixedTime;
-			return Mathf.RoundToInt(fixedTime / Time.fixedDeltaTime);
 		}
 		void Awake()
 		{
@@ -44,6 +34,8 @@ namespace OceanAnomaly
 		{
 			if (playerInputManager == null)
 				playerInputManager = GetComponent<PlayerInputManager>();
+
+			players = new List<PlayerInput>();
 
 			statsScreen.gameObject.SetActive(displayStats);
 		}
@@ -66,6 +58,7 @@ namespace OceanAnomaly
 			{
 				playerVirtualCamera.CameraTargets.Add(playerInput.transform);
 			}
+			players.Add(playerInput);
 		}
 		void deviceChange(InputDevice device, InputDeviceChange inputDeviceChange)
 		{
@@ -74,6 +67,17 @@ namespace OceanAnomaly
 		public static List<InputDevice> GetInputDevices()
 		{
 			return new List<InputDevice>(InputSystem.devices);
+		}
+		/// <summary>
+		/// Figures the number of fixed frames from a given fixed time from the start of the game.
+		/// </summary>
+		/// <param name="fixedTime"></param>
+		/// <returns></returns>
+		public long FixedFramesFrom(float fixedTime = -1)
+		{
+			if (fixedTime < 0)
+				fixedTime = Time.fixedTime;
+			return Mathf.RoundToInt(fixedTime / Time.fixedDeltaTime);
 		}
 	}
 }

@@ -35,9 +35,9 @@ namespace OceanAnomaly.Tools
 		/// <param name="mb"></param>
 		/// <param name="delay"></param>
 		/// <param name="action"></param>
-		public static void StartCoroutine(this MonoBehaviour mb, float delay, Action action)
+		public static void StartCoroutine(this MonoBehaviour mb, float delay, Action action, bool repeat = false)
 		{
-			mb.StartCoroutine(WaitForSeconds(delay, action));
+			mb.StartCoroutine(WaitForSeconds(delay, action, repeat));
 		}
 		/// <summary>
 		/// Needed for the coroutine delay function.
@@ -45,9 +45,9 @@ namespace OceanAnomaly.Tools
 		/// <param name="delay"></param>
 		/// <param name="action"></param>
 		/// <returns></returns>
-		private static IEnumerator WaitForSeconds(float delay, Action action)
+		private static IEnumerator WaitForSeconds(float delay, Action action, bool repeat = false)
 		{
-			while (true)
+			while (repeat)
 			{
 				yield return new WaitForSeconds(delay);
 				action();
@@ -124,6 +124,10 @@ namespace OceanAnomaly.Tools
 					distance = tempDistance;
 			}
 			return distance;
+		}
+		public static bool InRange(this float value, float min, float max)
+		{
+			return (value > min) && (value < max);
 		}
 	}
 }
