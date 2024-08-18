@@ -7,6 +7,7 @@ using OceanAnomaly.Tools;
 
 public class MonsterMovement : MonoBehaviour
 {
+/*
     [Header("Transforms")]
     [SerializeField]
     private Transform tailSolver;
@@ -52,8 +53,23 @@ public class MonsterMovement : MonoBehaviour
     
     void Update ()
     {
+        TailMatch();
+    
         //Curl the tail in response to the head's rotation
-        AnimateTail();
+        //AnimateTail();
+    }
+    
+    void TailMatch ()
+    {
+        headDirection = transform.rotation.z;
+        
+        float tiltAroundZ = headDirection * -1f;
+        
+        //Set the target rotation to tilt around the z axis
+        Quaternion target = Quaternion.Euler(transform.rotation.x, transform.rotation.y, tiltAroundZ);
+
+        //Dampen towards the target rotation
+        tailSolver.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5f);
     }
     
     void AnimateTail ()
@@ -91,6 +107,8 @@ public class MonsterMovement : MonoBehaviour
     {
         //Store the target rotation to curl the tail
         float tiltAroundZ = curlAngle * headIncline;
+        
+        Debug.Log("tiltAroundZ: " + tiltAroundZ);
 
         //Set the target rotation to tilt around the z axis
         Quaternion target = Quaternion.Euler(transform.rotation.x, transform.rotation.y, tiltAroundZ);
@@ -142,6 +160,8 @@ public class MonsterMovement : MonoBehaviour
             t = 0.0f;
         }
     }
+    
+*/
 /*
     public float timeFast = 0.05f;
     public float timeSlow = 0.01f;
@@ -272,5 +292,65 @@ public class MonsterMovement : MonoBehaviour
         headDirectionPrevious = gameObject.transform.eulerAngles.z;
     }
 */
+    
+    [Header("Time Properties")]
+    [SerializeField]
+    private float timeSlow = 0.01f;
+    [SerializeField]
+    private float timeFast = 0.05f;
+    [SerializeField]
+    [ReadOnly]
+    private float waitCount;
+    [SerializeField]
+    private float waitDuration = 2.5f;
+    
+    [Header("Movement Properties")]
+    public bool isSwaying;
+    [ReadOnly]
+    public float tiltDirection;
+    [SerializeField]
+    private float headAnglePrevious;
 
+    void Update ()
+    {
+        AnimateTail();
+    }
+    
+    void AnimateTail()
+    {
+        float headAngle = 0f;
+        
+        headAngle = gameObject.transform.eulerAngles.z;
+        
+        if (headAngle > headAnglePrevious)
+        {
+            tiltDirection = Mathf.Lerp(tiltDirection, -1f, timeFast);
+        
+            isSwaying = false;
+            tiltDirection = -1f;
+            waitCount = 0f;
+        }
+        else if (headAngle == headAnglePrevious)
+        {
+            waitCount += Time.deltaTime;
+
+            if (waitCount < waitDuration)
+            {
+                tiltDirection = Mathf.Lerp(tiltDirection, 0f, timeSlow);
+                
+                isSwaying = false;
+            }
+            else
+                isSwaying = true;
+        }
+        else if (headAngle < headAnglePrevious)
+        {
+            tiltDirection = Mathf.Lerp(tiltDirection, 1f, timeFast);
+            
+            isSwaying = false;
+            waitCount = 0f;
+        }
+            
+        headAnglePrevious = transform.eulerAngles.z;
+    }
 }
