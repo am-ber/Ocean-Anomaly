@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Backgroound
+    uniqueID: 1548914325
+    locked: 0
+  - name: Undershadows
+    uniqueID: 1688172173
+    locked: 0
+  - name: Platforms
+    uniqueID: 1747309357
+    locked: 0
+  - name: Overshadows
+    uniqueID: 977828321
+    locked: 0
