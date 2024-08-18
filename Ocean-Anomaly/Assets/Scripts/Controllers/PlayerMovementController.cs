@@ -53,17 +53,25 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private Vector3 dashFactor = Vector3.zero;
 		// Input System
+		[SerializeField]
+		private PlayerInput playerInput;
 		private InputAction inputMovement;
 		private InputAction inputDash;
 		private PlayerInputActions inputActions;
 		private void Awake()
 		{
-			inputActions = new PlayerInputActions();
+			if (playerInput == null)
+			{
+				playerInput = GetComponent<PlayerInput>();
+				
+				inputActions = new PlayerInputActions();
+			}
 			if (rigidbody == null)
 			{
 				rigidbody = GetComponent<Rigidbody2D>();
 			}
 		}
+		
 		private void OnEnable()
 		{
 			// Enable Movement
@@ -74,13 +82,15 @@ namespace OceanAnomaly.Controllers
 			inputDash.Enable();
 			inputDash.performed += (context) =>
 			{
-				if (canDash)
+				if (!canDash)
 				{
-					dashFactor += (new Vector3(moveDirection.x, moveDirection.y) * dashAmount);
-					dashed = true;
-					canDash = false;
+					return;
 				}
+				dashFactor += (new Vector3(moveDirection.x, moveDirection.y) * dashAmount);
+				dashed = true;
+				canDash = false;
 			};
+			Debug.Log("Movement Controls Enabled");
 		}
 		private void Update()
 		{
@@ -142,6 +152,7 @@ namespace OceanAnomaly.Controllers
 			// Disable input reading because this object is disabled
 			inputMovement.Disable();
 			inputDash.Disable();
+			Debug.Log("Movement Controls Disabled");
 		}
 	}
 }

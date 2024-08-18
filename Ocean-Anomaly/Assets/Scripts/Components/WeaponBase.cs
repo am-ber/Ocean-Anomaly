@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using OceanAnomaly.Controllers;
 using UnityEngine;
 
 namespace OceanAnomaly.Components
@@ -21,8 +19,16 @@ namespace OceanAnomaly.Components
 		public Sprite weaponIcon;
 		public Sprite weaponSprite;
 		[Header("Attack Variables")]
-		public Action attackAction;
+		public WeaponEvent weaponEvent;
 		public float attackTime = 1f;
 		public WeaponType weaponType = WeaponType.Empty;
+
+		public void TriggerWeaponEvent(PlayerAttackController attackController)
+		{
+			if (weaponEvent != null)
+			{
+				weaponEvent.RaiseEvent(attackController);
+			}
+		}
 	}
 }

@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.25, y: 3.25, z: 0}
+  m_LocalScale: {x: 4.5, y: 3.25, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4370796396575287842}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3502732188890882821}
   - component: {fileID: 8947192134079566710}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: AimingIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,6 +166,90 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
+  m_SpriteSortPoint: 0
+--- !u!1 &4056246034425589509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5884214782990229219}
+  - component: {fileID: 4569388308846953626}
+  m_Layer: 0
+  m_Name: RotationIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5884214782990229219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4056246034425589509}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.85, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4370796396575287842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4569388308846953626
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4056246034425589509}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Color: {r: 0.6862745, g: 1, b: 1, a: 0.5019608}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4438526878983760355
 GameObject:
@@ -364,8 +448,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7149283924370638443}
   - {fileID: 3502732188890882821}
+  - {fileID: 7149283924370638443}
+  - {fileID: 5884214782990229219}
   - {fileID: 7392724789326459417}
   - {fileID: 6376217431023122341}
   m_Father: {fileID: 4488306522576199602}
@@ -382,6 +467,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669314c12990d6b4ca5f3679d43bd839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimingIndicator: {fileID: 8947192134079566710}
+  aimingIndicatorFadeAmount: 0.05
+  aimingColor: {r: 0, g: 0, b: 0, a: 0}
+  aimingIndicatorCoroutineRunning: 0
+  attackIndicator: {fileID: 9179466556946982710}
+  attackIndicatorFadeAmount: 0.01
+  attackColor: {r: 0, g: 0, b: 0, a: 0}
+  attackIndicatorCoroutineRunning: 0
 --- !u!1 &8487284569981959888
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +602,7 @@ MonoBehaviour:
   dashed: 0
   dashTime: 0
   dashFactor: {x: 6e-45, y: 6e-45, z: 0}
+  playerInput: {fileID: 0}
 --- !u!114 &8979423727407720588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,8 +615,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559d1afee623d254cacdd17dfd830bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockCursor: 1
+  CurrentWeapon: {fileID: 0}
   movementController: {fileID: 303541727672636937}
   crosshair: {fileID: 9002514482435327241}
+  deltaPullActivation: 3
+  aimSpeed: 20
+  aimSmoothing: 0.2
+  isAiming: 0
+  aimDelta: {x: 0, y: 0}
+  previousAimDelta: {x: 0, y: 0}
+  smoothedAimDelta: {x: 0, y: 0}
+  aimVelocity: {x: 0, y: 0}
+  deltaPullAmount: 0
+  aimAngle: 0
+  targetAimAngle: 0
+  canAttack: 1
+  timeTillAttack: 0
 --- !u!114 &5820315656070033807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 11335693c91c58146b8a419df851c12b, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -547,9 +656,65 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a9e797ea-57cc-465b-a5bd-6c3e4a69c460
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cd477b67-11f6-4ec5-8db6-f3f4d06ceb55
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cbddd686-77f2-45ba-bb2a-4b3d9ad45d13
+    m_ActionName: Player/Fire[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0909e52f-957c-433f-b82a-354fa4c41034
+    m_ActionName: Player/Dash[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cb258d48-c3b0-4e0a-8d2c-b987b6495ec2
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8948e18-473f-4cee-af3b-874387eadf8d
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6f018df4-ed43-4b87-9928-f2f28d627ae9
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ddfab40d-8609-4761-8b48-14d183bb1c62
+    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 82d844ad-cbf6-4c35-b41f-81a34581df94
+    m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 13f4f971-c192-4d23-85be-9f1463333598
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f2e8c554-cf79-4120-b523-6a87c56efd54
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 412e36be-c03b-426d-918d-877330347799
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8b2d2ca7-98d8-4174-9478-799f42e46b97
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9344b0bd-9e5e-40f3-a112-e53e959120ea
+    m_ActionName: UI/TrackedDeviceOrientation
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -564,7 +729,7 @@ GameObject:
   - component: {fileID: 7149283924370638443}
   - component: {fileID: 9179466556946982710}
   m_Layer: 0
-  m_Name: Triangle
+  m_Name: AttackingIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
