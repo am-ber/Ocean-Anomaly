@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8418b0903dc7c694eaba473efc1a36e8, type: 3}
-  m_Name: MeleeSlash
+  m_Script: {fileID: 11500000, guid: 12e997b7cc75dce4b93ffb3bc461a62b, type: 3}
+  m_Name: HarpoonProjectile
   m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  travelSpeed: 10

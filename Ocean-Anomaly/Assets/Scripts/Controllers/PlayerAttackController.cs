@@ -1,5 +1,5 @@
 using OceanAnomaly.Attributes;
-using OceanAnomaly.Components;
+using OceanAnomaly.Components.Weapon;
 using OceanAnomaly.Managers;
 using OceanAnomaly.Tools;
 using System;
@@ -12,7 +12,7 @@ namespace OceanAnomaly.Controllers
 	{
 		[Header("Generic Variables")]
 		public bool lockCursor = true;
-		public WeaponBase CurrentWeapon;
+		public WeaponBaseScriptable CurrentWeapon;
 		[SerializeField]
 		private PlayerMovementController movementController;
 		[SerializeField]
@@ -129,9 +129,9 @@ namespace OceanAnomaly.Controllers
 				{
 					return;
 				}
-				if (CurrentWeapon.weaponEvent != null)
+				if (CurrentWeapon.weaponFunction != null)
 				{
-					this.StartCoroutine(0f, () => CurrentWeapon.TriggerWeaponEvent(this));
+					this.StartCoroutine(0f, () => { });
 				}
 				indicator.ResetAttackIndicator();
 				indicator.FadeAttackIndicator();
