@@ -66,5 +66,26 @@ MonoBehaviour:
     loop: 1
     audioMixer: {fileID: 658576532740365736, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
+  - name: Alarm
+    clip: {fileID: 8300000, guid: 6b551cd278d540a47bf6d1b27946dd2a, type: 3}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    audioMixer: {fileID: -2158231890857777948, guid: df352149fce2681468922cb66712c8eb, type: 2}
+    source: {fileID: 0}
+  - name: HarpoonFire
+    clip: {fileID: 8300000, guid: e55d13d6b12ae734eb9905724a2384c0, type: 3}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    audioMixer: {fileID: -2158231890857777948, guid: df352149fce2681468922cb66712c8eb, type: 2}
+    source: {fileID: 0}
+  - name: HarpoonImpact
+    clip: {fileID: 8300000, guid: 7fdb68e7baf157f45bd616588916895a, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    audioMixer: {fileID: -2158231890857777948, guid: df352149fce2681468922cb66712c8eb, type: 2}
+    source: {fileID: 0}
   normalVolume: {fileID: 24500006, guid: df352149fce2681468922cb66712c8eb, type: 2}
   musicLowPass: {fileID: 7483693540249699951, guid: df352149fce2681468922cb66712c8eb, type: 2}
