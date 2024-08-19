@@ -7,15 +7,23 @@ namespace OceanAnomaly.Managers
 {
 	public class AudioManager : MonoBehaviour
 	{
-
+		public static AudioManager Instance;
 		public Sound[] sounds;
 		public AudioMixerSnapshot normalVolume;
-		public AudioMixerSnapshot lowPass;
-
-		bool lowPassFilter = true;
+		public AudioMixerSnapshot musicLowPass;
 
 		void Awake()
 		{
+			if (Instance == null)
+			{
+				Instance = this;
+			} else
+			{
+				Destroy(gameObject);
+				return;
+			}
+
+			DontDestroyOnLoad(gameObject);
 			foreach (Sound s in sounds)
 			{
 				s.source = gameObject.AddComponent<AudioSource>();
@@ -31,6 +39,10 @@ namespace OceanAnomaly.Managers
 		public void Play(string name)
 		{
 			Sound s = Array.Find(sounds, sound => sound.name == name);
+			if (s == null)
+			{
+				Debug.Log($"Can't play {name}");
+			}
 			s.source.Play();
 		}
 
@@ -40,17 +52,9 @@ namespace OceanAnomaly.Managers
 			s.source.Stop();
 		}
 
-		public void toggleLowPass()
+		public void TransitionTo(AudioMixerSnapshot snapshot, float seconds = 1f)
 		{
-			if (lowPassFilter)
-			{
-				normalVolume.TransitionTo(5);
-			}
-			else
-			{
-				lowPass.TransitionTo(2);
-			}
-			lowPassFilter = !lowPassFilter;
+			snapshot.TransitionTo(seconds);
 		}
 	}
 }
