@@ -7,7 +7,7 @@ public class FindCrosshairs : MonoBehaviour
     [Header("Transforms")]
     [SerializeField]
     private Transform crosshair;
-
+    
     // Update is called once per frame
     void Update()
     {
