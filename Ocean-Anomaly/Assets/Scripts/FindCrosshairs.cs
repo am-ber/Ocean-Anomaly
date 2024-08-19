@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class FindCrosshairs : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Transforms")]
+    [SerializeField]
+    private Transform crosshair;
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = new Vector3(crosshair.position.x, crosshair.position.y, crosshair.position.z);
     }
 }
