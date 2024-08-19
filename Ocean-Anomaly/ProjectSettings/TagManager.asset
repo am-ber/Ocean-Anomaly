@@ -47,6 +47,15 @@ TagManager:
   - name: Undershadows
     uniqueID: 1688172173
     locked: 0
+  - name: Enemies
+    uniqueID: 2983767749
+    locked: 0
+  - name: Items
+    uniqueID: 1735175423
+    locked: 0
+  - name: Player
+    uniqueID: 3382207121
+    locked: 0
   - name: Platforms
     uniqueID: 1747309357
     locked: 0
