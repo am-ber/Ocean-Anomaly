@@ -94,7 +94,7 @@ ScriptedImporter:
     spritePosition: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Layer 2
+  - name: Claw 2
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -105,7 +105,7 @@ ScriptedImporter:
       y: 6730
       width: 0
       height: 0
-    spriteID: 30aa1691c0431406f94247f60014201b
+    spriteID: 36b74559c45ed4c61a5623ac280b6fcd
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -115,7 +115,154 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 1512, y: 6730}
     spritePosition: {x: 0, y: 8000}
-  - name: Layer 1
+  - name: Color
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6738
+      width: 0
+      height: 0
+    spriteID: b1aaca5d44aa640478fb420f3746773f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6738}
+    spritePosition: {x: 0, y: 8000}
+  - name: Layer 4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6746
+      width: 0
+      height: 0
+    spriteID: 6a539ce1ba7954b5c964cbd6b54c331b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6746}
+    spritePosition: {x: 0, y: 8000}
+  - name: Color
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6754
+      width: 0
+      height: 0
+    spriteID: 7a87fa32a70474582a79f3f05ca5f4e5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6754}
+    spritePosition: {x: 0, y: 8000}
+  - name: Arm 2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6762
+      width: 0
+      height: 0
+    spriteID: 83a541009c52e43bcbb815c5df0fbe0a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6762}
+    spritePosition: {x: 0, y: 8000}
+  - name: Color
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6770
+      width: 0
+      height: 0
+    spriteID: 044f62be13a0048978984b2203d30f46
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6770}
+    spritePosition: {x: 0, y: 8000}
+  - name: Arm 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6778
+      width: 0
+      height: 0
+    spriteID: 8905f30daacc34ff388af0d6986db38f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6778}
+    spritePosition: {x: 0, y: 8000}
+  - name: Color
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1512
+      y: 6786
+      width: 0
+      height: 0
+    spriteID: c3e068952f0e14ae68fb625e6ce520fb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1512, y: 6786}
+    spritePosition: {x: 0, y: 8000}
+  - name: Tentacle
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -193,7 +340,97 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Layer 2
+  - name: Claw
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 34525cc40f6d643f5a9c6078f45177f5
+    layerID: 8
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Claw 2
+    spriteName: Claw 2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 36b74559c45ed4c61a5623ac280b6fcd
+    layerID: 12
+    mosaicPosition: {x: 1512, y: 6730}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Color
+    spriteName: Color
+    isGroup: 0
+    parentIndex: 0
+    spriteID: b1aaca5d44aa640478fb420f3746773f
+    layerID: 15
+    mosaicPosition: {x: 1512, y: 6738}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Layer 4
+    spriteName: Layer 4
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 6a539ce1ba7954b5c964cbd6b54c331b
+    layerID: 13
+    mosaicPosition: {x: 1512, y: 6746}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Color
+    spriteName: Color
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 7a87fa32a70474582a79f3f05ca5f4e5
+    layerID: 14
+    mosaicPosition: {x: 1512, y: 6754}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Arm 2
+    spriteName: Arm 2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 83a541009c52e43bcbb815c5df0fbe0a
+    layerID: 10
+    mosaicPosition: {x: 1512, y: 6762}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Color
+    spriteName: Color
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 044f62be13a0048978984b2203d30f46
+    layerID: 11
+    mosaicPosition: {x: 1512, y: 6770}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Arm 1
+    spriteName: Arm 1
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 8905f30daacc34ff388af0d6986db38f
+    layerID: 7
+    mosaicPosition: {x: 1512, y: 6778}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Color
+    spriteName: Color
+    isGroup: 0
+    parentIndex: 0
+    spriteID: c3e068952f0e14ae68fb625e6ce520fb
+    layerID: 5
+    mosaicPosition: {x: 1512, y: 6786}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Forms
     spriteName: Layer 2
     isGroup: 0
     parentIndex: -1
@@ -201,10 +438,10 @@ ScriptedImporter:
     layerID: 3
     mosaicPosition: {x: 1512, y: 6730}
     flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Layer 1
-    spriteName: Layer 1
+    isImported: 0
+    isVisible: 0
+  - name: Tentacle
+    spriteName: Tentacle
     isGroup: 0
     parentIndex: -1
     spriteID: 1297c2205790e4f6bbec7b39d7942986
