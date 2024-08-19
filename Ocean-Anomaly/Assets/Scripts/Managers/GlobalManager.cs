@@ -19,6 +19,7 @@ namespace OceanAnomaly
 		public Canvas bindPlayerScreen;
 		public PlayerInputManager playerInputManager;
 		public PlayerVirtualCameraController playerVirtualCamera;
+		public EnemyFieldManager enemyFieldManager;
 		public AudioManager audioManager;
 		public List<PlayerInput> players;
 		void Awake()
@@ -67,6 +68,10 @@ namespace OceanAnomaly
 				playerVirtualCamera.CameraTargets.Add(playerInput.transform);
 			}
 			players.Add(playerInput);
+		}
+		public void OnEnemyJoin()
+		{
+
 		}
 		void deviceChange(InputDevice device, InputDeviceChange inputDeviceChange)
 		{
