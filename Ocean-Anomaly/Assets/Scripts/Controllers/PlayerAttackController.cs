@@ -18,6 +18,8 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private IndicatorController indicator;
 		public Transform AttackIndicator;
+		[SerializeField]
+		private CrosshairController crosshair;
 		private PlayerInputActions inputActions;
 		// Aiming
 		[Header("Aiming Variables")]
@@ -28,23 +30,6 @@ namespace OceanAnomaly.Controllers
 		private float aimSpeed = 10f;
 		[SerializeField]
 		private float aimSmoothing = 0.5f;
-		[ReadOnly]
-		public bool isAiming = false;
-		[ReadOnly]
-		[SerializeField]
-		private Vector2 aimDelta = Vector2.zero;
-		[ReadOnly]
-		[SerializeField]
-		private Vector2 previousAimDelta = Vector2.zero;
-		[ReadOnly]
-		[SerializeField]
-		private Vector2 smoothedAimDelta = Vector2.zero;
-		[ReadOnly]
-		[SerializeField]
-		private Vector2 aimVelocity = Vector2.zero;
-		[ReadOnly]
-		[SerializeField]
-		private float deltaPullAmount = 0f;
 		[ReadOnly]
 		public float aimAngle = 0f;
 		[ReadOnly]
@@ -101,23 +86,8 @@ namespace OceanAnomaly.Controllers
 		}
 		private void CheckForAiming()
 		{
-			aimDelta = inputAim.ReadValue<Vector2>();
-			deltaPullAmount = aimDelta.magnitude;
-			if (aimDelta.magnitude > deltaPullActivation)
-			{
-				previousAimDelta = aimDelta;
-				if (!isAiming)
-				{
-					isAiming = true;
-				}
-			}
-            else
-            {
-				isAiming = false;
-			}
-			// Smooth out the aiming delta for calculating the target angle to rotate to
-			smoothedAimDelta = Vector2.SmoothDamp(smoothedAimDelta, previousAimDelta, ref aimVelocity, aimSmoothing, aimSpeed, Time.deltaTime);
-			targetAimAngle = Mathf.Atan2(smoothedAimDelta.y, smoothedAimDelta.x) * Mathf.Rad2Deg;
+			Vector3 crosshairPosition = crosshair.transform.position - transform.position;
+			targetAimAngle = Mathf.Atan2(crosshairPosition.y, crosshairPosition.x) * Mathf.Rad2Deg;
 			// Calculate the rotation angle and then rotate the crosshair along its forward direction (Z axis)
 			aimAngle = Mathf.LerpAngle(aimAngle, targetAimAngle, aimSpeed * Time.deltaTime);
 			indicator.transform.rotation = Quaternion.AngleAxis(aimAngle - (90), Vector3.forward);

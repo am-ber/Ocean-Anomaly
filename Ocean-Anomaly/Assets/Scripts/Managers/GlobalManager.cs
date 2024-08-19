@@ -1,4 +1,6 @@
 using OceanAnomaly.Controllers;
+using OceanAnomaly.Managers;
+using OceanAnomaly.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,10 +15,11 @@ namespace OceanAnomaly
 		public static GlobalManager Instance;
 		public static DateTime LaunchTime;
 		public bool displayStats = false;
-		public Canvas statsScreen;
+		public StatsScreen statsScreen;
 		public Canvas bindPlayerScreen;
 		public PlayerInputManager playerInputManager;
 		public PlayerVirtualCameraController playerVirtualCamera;
+		public AudioManager audioManager;
 		public List<PlayerInput> players;
 		void Awake()
 		{
@@ -38,6 +41,10 @@ namespace OceanAnomaly
 
 			players = new List<PlayerInput>();
 
+			if (statsScreen == null)
+			{
+				statsScreen = GetComponentInChildren<StatsScreen>();
+			}
 			statsScreen.gameObject.SetActive(displayStats);
 		}
 		void Update()
