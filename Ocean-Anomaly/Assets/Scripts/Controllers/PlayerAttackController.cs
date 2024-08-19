@@ -17,6 +17,7 @@ namespace OceanAnomaly.Controllers
 		private PlayerMovementController movementController;
 		[SerializeField]
 		private IndicatorController indicator;
+		public Transform AttackIndicator;
 		private PlayerInputActions inputActions;
 		// Aiming
 		[Header("Aiming Variables")]
