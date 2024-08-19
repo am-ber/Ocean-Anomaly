@@ -129,5 +129,27 @@ namespace OceanAnomaly.Tools
 		{
 			return (value > min) && (value < max);
 		}
+		/// <summary>
+		/// Used to grab a random point within a certain radius. You can also give it a center point if you want.
+		/// </summary>
+		/// <param name="radiusMax"></param>
+		/// <param name="center"></param>
+		/// <returns></returns>
+		public static Vector3 GetRandomPointInRadius2D(float radiusMax, Vector3? center = null, float radiusMin = 0)
+		{
+			// Clean our arguments a bit
+			if (center == null)
+			{
+				center = new Vector3();
+			}
+			if (radiusMax <= 0.0f)
+			{
+				return center.Value;
+			}
+
+			Vector3 randomPoint = UnityEngine.Random.insideUnitCircle.normalized * UnityEngine.Random.Range(radiusMin, radiusMax);
+
+			return randomPoint + center.Value;
+		}
 	}
 }
