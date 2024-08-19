@@ -166,7 +166,7 @@ public class MonsterMovement : MonoBehaviour
     public float timeFast = 0.05f;
     public float timeSlow = 0.01f;
     
-    public float tailCurve = 165f
+    public float tailCurve = 165f;
     
     public float tailLeftX = -15f;
     public float tailMidX = -1f;
@@ -292,7 +292,6 @@ public class MonsterMovement : MonoBehaviour
         headDirectionPrevious = gameObject.transform.eulerAngles.z;
     }
 */
-    
     [Header("Time Properties")]
     [SerializeField]
     private float timeSlow = 0.01f;
@@ -327,7 +326,6 @@ public class MonsterMovement : MonoBehaviour
             tiltDirection = Mathf.Lerp(tiltDirection, -1f, timeFast);
         
             isSwaying = false;
-            tiltDirection = -1f;
             waitCount = 0f;
         }
         else if (headAngle == headAnglePrevious)
