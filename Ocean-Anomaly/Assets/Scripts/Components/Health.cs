@@ -66,11 +66,13 @@ namespace OceanAnomaly.Components
 		public UnityEvent changeStatusEffectEvent;
 		private IEnumerator updateHealthRoutine;
 		private bool updatingHealth = false;
+
 		private void Awake()
 		{
 			activeStatusEffects = new List<StatusEffect>();
 			currentHealth = startHealth;
 		}
+
 		/// <summary>
 		/// Used to add a status effect to the active status effects on this component.
 		/// </summary>
