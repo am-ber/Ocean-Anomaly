@@ -11,7 +11,7 @@ namespace OceanAnomaly.Components
         public AudioClip clip;
 
         [Range(0, 1)]
-        public float volume = 90;
+        public float volume = 0.9f;
         [Range(0.1f, 3)]
         public float pitch = 1;
         public bool loop = false;

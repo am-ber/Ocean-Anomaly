@@ -10,7 +10,7 @@ namespace OceanAnomaly
 {
 	public class GlobalManager : MonoBehaviour
 	{
-		public static GlobalManager instance;
+		public static GlobalManager Instance;
 		public static DateTime LaunchTime;
 		public bool displayStats = false;
 		public Canvas statsScreen;
@@ -18,15 +18,16 @@ namespace OceanAnomaly
 		public PlayerInputManager playerInputManager;
 		public PlayerVirtualCameraController playerVirtualCamera;
 		public List<PlayerInput> players;
-		public GlobalManager()
-		{
-			if (instance == null)
-				instance = this;
-			else
-				Destroy(this);
-		}
 		void Awake()
 		{
+			if (Instance == null)
+			{
+				Instance = this;
+			} else
+			{
+				Destroy(this);
+				return;
+			}
 			InputSystem.onDeviceChange += deviceChange;
 			LaunchTime = DateTime.Now;
 		}

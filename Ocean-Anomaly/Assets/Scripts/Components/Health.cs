@@ -46,6 +46,7 @@ namespace OceanAnomaly.Components
 		/// </summary>
 		Adsorption
 	}
+	[Serializable]
 	public class Health : MonoBehaviour
 	{
 		public float startHealth = 100;
