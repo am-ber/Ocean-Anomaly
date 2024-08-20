@@ -11,7 +11,7 @@ public class LimbAnimations : MonoBehaviour
     [Header("Transforms")]
     [SerializeField]
     private Transform player;
-    private Transform limbTarget
+    private Transform limbTarget;
 
     Animator anim;
     RuntimeAnimatorController runtimeAnimatorController;
