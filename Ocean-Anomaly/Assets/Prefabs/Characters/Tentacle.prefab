@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAttacking: 0
-  target: {fileID: 0}
+  player: {fileID: 0}
 --- !u!95 &5684070087280026611
 Animator:
   serializedVersion: 5
@@ -362,8 +362,16 @@ PrefabInstance:
       value: 0.6509804
       objectReference: {fileID: 0}
     - target: {fileID: 683650805199822136, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 683650805199822136, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
       propertyPath: m_SortingOrder
-      value: -1
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 683650805199822136, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1311199547
       objectReference: {fileID: 0}
     - target: {fileID: 1892778982348990733, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
       propertyPath: m_LocalRotation.w
