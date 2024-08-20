@@ -1,33 +1,54 @@
 using OceanAnomaly.Controllers;
 using OceanAnomaly.Managers;
+using OceanAnomaly.Tools;
 using OceanAnomaly.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
 namespace OceanAnomaly
 {
-	public class GlobalManager : MonoBehaviour
+	public enum GameState
+	{
+		GamePlay,
+		GamePlayPaused,
+		GamePlayMenuNoPause,
+		Cutscene,
+		MainMenu
+	}
+	public class GlobalManager : Subject<GameState>
 	{
 		public static GlobalManager Instance;
 		public static DateTime LaunchTime;
 		public bool displayStats = false;
+		[SerializeField]
+		private GameState currentGameState = GameState.GamePlay;
+		[Header("Required Objects")]
+		public PlayerInputManager playerInputManager;
 		public StatsScreen statsScreen;
 		[SerializeField]
 		private GameObject statsScreenPrefab;
+		[SerializeField]
 		public Canvas bindPlayerScreen;
-		public PlayerInputManager playerInputManager;
+		[SerializeField]
+		private GameObject bindPlayerScreenPrefab;
 		public PlayerVirtualCameraController playerVirtualCamera;
+		[SerializeField]
+		private GameObject playerVirtualCameraPrefab;
 		public EnemyFieldManager enemyFieldManager;
+		[SerializeField]
+		private GameObject enemyFieldPrefab;
 		public AudioManager audioManager;
 		[SerializeField]
 		private GameObject audioManagerPrefab;
 		public List<PlayerInput> players;
 		void Awake()
 		{
+			Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 			if (Instance == null)
 			{
 				Instance = this;
@@ -40,6 +61,15 @@ namespace OceanAnomaly
 
 			InputSystem.onDeviceChange += deviceChange;
 			LaunchTime = DateTime.Now;
+
+			if (enemyFieldManager ==  null)
+			{
+				enemyFieldManager = gameObject.RecursiveFindComponentLocal<EnemyFieldManager>(enemyFieldPrefab);
+			}
+			if (playerVirtualCamera == null)
+			{
+				playerVirtualCamera = gameObject.RecursiveFindComponentLocal<PlayerVirtualCameraController>(playerVirtualCameraPrefab);
+			}
 		}
 		void Start()
 		{
@@ -50,21 +80,20 @@ namespace OceanAnomaly
 
 			if (statsScreen == null)
 			{
-				statsScreen = GetComponentInChildren<StatsScreen>();
-				if (statsScreen == null)
-				{
-					Instantiate(statsScreenPrefab);
-				}
+				statsScreen = gameObject.RecursiveFindComponentLocal<StatsScreen>(statsScreenPrefab);
 			}
 			if (audioManager == null)
 			{
 				audioManager = AudioManager.Instance;
 				if (audioManager == null)
 				{
-					Instantiate(audioManagerPrefab);
+					audioManager = gameObject.RecursiveFindComponentLocal<AudioManager>(audioManagerPrefab);
 				}
 			}
+			
 			statsScreen.gameObject.SetActive(displayStats);
+			
+			SetGameState(currentGameState);
 		}
 		void Update()
 		{
@@ -75,6 +104,30 @@ namespace OceanAnomaly
 				{
 					statsScreen.gameObject.SetActive(displayStats);
 				}
+			}
+		}
+		public void SetGameState(GameState state)
+		{
+			// Call all observers that we just changed states
+			Notify(state);
+			// Also determine other things for now, but this will change to more stateful code
+			switch (state)
+			{
+				case GameState.GamePlay:
+					enemyFieldManager.gameObject.SetActive(true);
+					playerVirtualCamera.gameObject.SetActive(true);
+					break;
+				case GameState.GamePlayPaused:
+					playerInputManager.EnableJoining();
+					enemyFieldManager.gameObject.SetActive(true);
+					playerVirtualCamera.gameObject.SetActive(true);
+					break;
+				case GameState.Cutscene:
+				case GameState.MainMenu:
+					playerInputManager.DisableJoining();
+					enemyFieldManager.gameObject.SetActive(false);
+					playerVirtualCamera.gameObject.SetActive(false);
+					break;
 			}
 		}
 		public void OnPlayerJoined(PlayerInput playerInput)

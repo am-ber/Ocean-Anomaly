@@ -28,3 +28,29 @@ public class Subject<I1, I2> : MonoBehaviour
 		}
 	}
 }
+public class Subject<I> : MonoBehaviour
+{
+	List<Observer<I>> observers = new List<Observer<I>>();
+	public void AddObserver(Observer<I> observer)
+	{
+		observers.Add(observer);
+	}
+	public void RemoveObserver(Observer<I> observer)
+	{
+		observers.Remove(observer);
+	}
+	public void Notify(I input)
+	{
+		try
+		{
+			foreach (var observer in observers)
+			{
+				observer.OnNotify(input);
+			}
+		}
+		catch (Exception e)
+		{
+			Debug.Log($"Subject unable to notify observers because...\n {e.Message}");
+		}
+	}
+}

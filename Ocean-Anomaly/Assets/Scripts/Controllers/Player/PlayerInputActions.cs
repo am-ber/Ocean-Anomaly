@@ -64,6 +64,15 @@ namespace OceanAnomaly.Controllers
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd94b0f6-f150-4de2-b9ea-6a4420c43829"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -339,6 +348,17 @@ namespace OceanAnomaly.Controllers
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cf26525-f30c-46e3-94f9-2de119ff69b9"",
+                    ""path"": ""<Keyboard>/#(R)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CycleWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -930,6 +950,7 @@ namespace OceanAnomaly.Controllers
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+            m_Player_CycleWeapon = m_Player.FindAction("CycleWeapon", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1007,6 +1028,7 @@ namespace OceanAnomaly.Controllers
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Dash;
+        private readonly InputAction m_Player_CycleWeapon;
         public struct PlayerActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -1015,6 +1037,7 @@ namespace OceanAnomaly.Controllers
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Dash => m_Wrapper.m_Player_Dash;
+            public InputAction @CycleWeapon => m_Wrapper.m_Player_CycleWeapon;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1036,6 +1059,9 @@ namespace OceanAnomaly.Controllers
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @CycleWeapon.started += instance.OnCycleWeapon;
+                @CycleWeapon.performed += instance.OnCycleWeapon;
+                @CycleWeapon.canceled += instance.OnCycleWeapon;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1052,6 +1078,9 @@ namespace OceanAnomaly.Controllers
                 @Dash.started -= instance.OnDash;
                 @Dash.performed -= instance.OnDash;
                 @Dash.canceled -= instance.OnDash;
+                @CycleWeapon.started -= instance.OnCycleWeapon;
+                @CycleWeapon.performed -= instance.OnCycleWeapon;
+                @CycleWeapon.canceled -= instance.OnCycleWeapon;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1238,6 +1267,7 @@ namespace OceanAnomaly.Controllers
             void OnLook(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
+            void OnCycleWeapon(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

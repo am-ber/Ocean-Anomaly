@@ -12,6 +12,8 @@ namespace OceanAnomaly.Controllers
 	{
 		[Header("Generic Variables")]
 		public bool lockCursor = true;
+		public WeaponBaseScriptable HarpoonGun;
+		public WeaponBaseScriptable CannonGun;
 		public WeaponBaseScriptable CurrentWeapon;
 		[SerializeField]
 		private PlayerMovementController movementController;
@@ -37,6 +39,8 @@ namespace OceanAnomaly.Controllers
 		// Attacking
 		[Header("Attack Variables")]
 		private InputAction inputAttack;
+		[SerializeField]
+		private float accuracy = 0f;
 		[ReadOnly]
 		[SerializeField]
 		private bool canAttack = true;
@@ -55,6 +59,8 @@ namespace OceanAnomaly.Controllers
 			{
 				indicator = GetComponentInChildren<IndicatorController>();
 			}
+
+			CurrentWeapon = HarpoonGun;
 		}
 		private void OnEnable()
 		{
@@ -66,6 +72,7 @@ namespace OceanAnomaly.Controllers
 		private void Update()
 		{
 			CheckForAiming();
+
 			// If we can't attack it's likely because we need to subtract our TimeTillAttack
 			if (canAttack)
 			{
@@ -96,16 +103,36 @@ namespace OceanAnomaly.Controllers
 				{
 					return;
 				}
+				if (indicator != null)
+				{
+					indicator.Fired();
+				}
 				if (CurrentWeapon.weaponFunction != null)
 				{
-					this.StartCoroutine(0f, () => { });
+					CurrentWeapon.weaponFunction.FirePorjectile(
+						Instantiate(CurrentWeapon.weaponFunction.projectilePrefab, indicator.transform.position, indicator.transform.rotation),
+						aimAngle, accuracy, crosshair.transform.position);
 				}
-				indicator.ResetAttackIndicator();
-				indicator.FadeAttackIndicator();
+				AudioManager.Instance.Play(CurrentWeapon.fireSoundName);
 				canAttack = false;
 				// Using the global attack upgrade will only work if we constantly disable and 
 				// re-enabled the attack controller (which honestly, we probably should do)...
 				timeTillAttack = CurrentWeapon.attackTime * PlayerUpgradeManager.attackTime;
+			}
+		}
+		private void OnCycleWeapon()
+		{
+			Debug.Log("Changing Weapon");
+			SwitchWeapon();
+		}
+		private void SwitchWeapon()
+		{
+			if (CurrentWeapon.Equals(HarpoonGun))
+			{
+				CurrentWeapon = CannonGun;
+			} else
+			{
+				CurrentWeapon = HarpoonGun;
 			}
 		}
 		private void OnDisable()

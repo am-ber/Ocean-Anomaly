@@ -1,6 +1,7 @@
 using OceanAnomaly.Attributes;
 using OceanAnomaly.Managers;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,9 +10,11 @@ namespace OceanAnomaly.Controllers
 	public class PlayerMovementController : MonoBehaviour
 	{
 		[SerializeField]
-		private Rigidbody2D rigidbody;
+		private Rigidbody2D rigidBody;
 		// Movement code
 		[Header("Movement Settings")]
+		[SerializeField]
+		private float bodyRotateSpeed = 1.0f;
 		[SerializeField]
 		private float maxMoveSpeed = 8f;
 		[SerializeField]
@@ -63,13 +66,13 @@ namespace OceanAnomaly.Controllers
 			if (playerInput == null)
 			{
 				playerInput = GetComponent<PlayerInput>();
-				
-				inputActions = new PlayerInputActions();
 			}
-			if (rigidbody == null)
+			if (rigidBody == null)
 			{
-				rigidbody = GetComponent<Rigidbody2D>();
+				rigidBody = GetComponent<Rigidbody2D>();
 			}
+
+			inputActions = new PlayerInputActions();
 		}
 		
 		private void OnEnable()
@@ -117,7 +120,7 @@ namespace OceanAnomaly.Controllers
 			totalVelocity = velocity + dashFactor;
 			currentSpeed = totalVelocity.magnitude;
 
-			rigidbody.MovePosition(new Vector3(rigidbody.position.x, rigidbody.position.y) + totalVelocity * Time.fixedDeltaTime);
+			rigidBody.MovePosition(new Vector3(rigidBody.position.x, rigidBody.position.y) + totalVelocity * Time.fixedDeltaTime);
 		}
 		/// <summary>
 		/// Allows you to apply a force to the player.
@@ -153,6 +156,11 @@ namespace OceanAnomaly.Controllers
 			inputMovement.Disable();
 			inputDash.Disable();
 			Debug.Log("Movement Controls Disabled");
+		}
+		protected void rotateTo()
+		{
+			float step = bodyRotateSpeed * Time.deltaTime;
+
 		}
 	}
 }

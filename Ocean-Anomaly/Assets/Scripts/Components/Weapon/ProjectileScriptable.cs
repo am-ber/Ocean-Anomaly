@@ -1,6 +1,8 @@
 ﻿using Dreamteck.Splines;
 using OceanAnomaly.Controllers;
+using OceanAnomaly.Tools;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 namespace OceanAnomaly.Components.Weapon
 {
@@ -9,29 +11,39 @@ namespace OceanAnomaly.Components.Weapon
 	{
 		public Sprite sprite;
 		public float travelSpeed;
-		public Health projectileHealth;
+		public float maxSpeed;
+		public float damage;
 		[TagSelector]
 		public string projectileTag = "Untagged";
+		public string impactSoundName;
 		public LayerMask projectileLayer;
 		public GameObject projectilePrefab;
+		public GameObject impactPrefab;
 		private ProjectileBehavior behavior;
-		private void CheckForComponents()
+		private void CheckForComponents(GameObject givenObject)
 		{
 			// Set the projectile target to a ProjectileBehavior script that will eventually exist on the object
-			behavior = projectilePrefab.GetComponent<ProjectileBehavior>();
+			behavior = givenObject.GetComponent<ProjectileBehavior>();
 			if (behavior == null)
 			{
-				behavior = projectilePrefab.AddComponent<ProjectileBehavior>();
+				behavior = givenObject.AddComponent<ProjectileBehavior>();
 			}
+			// Apply layer and tags
+			givenObject.layer = GlobalTools.MaskToLayer(projectileLayer);
+			givenObject.tag = projectileTag;
 		}
-		/// <summary>
-		/// Will fire the projectile given along the <seealso cref="Spline"/> path to follow.
-		/// </summary>
-		/// <param name="projectileObject"></param>
-		/// <param name="pathToFollow"></param>
-		public void FirePorjectile(float direction, float accuracy, Vector3? targetPosition = null, Transform targetTransform = null)
+		public void FirePorjectile(GameObject givenObject, float direction, float accuracy, Vector3? targetPosition = null, Transform targetTransform = null)
 		{
-			CheckForComponents();
+			CheckForComponents(givenObject);
+			// Apply Projectile Settings
+			behavior.maxSpeed = maxSpeed;
+			behavior.travelSpeed = travelSpeed;
+			behavior.accuracy = accuracy;
+			behavior.damage = damage;
+			behavior.rotationSpeed = 2;
+			behavior.impactSoundName = impactSoundName;
+			behavior.impactPrefab = impactPrefab;
+			// Resolve which target to set for
 			if (targetPosition != null)
 			{
 				behavior.setTarget(targetPosition.Value, accuracy);
