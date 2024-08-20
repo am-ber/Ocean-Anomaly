@@ -93,6 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4620284949291892347}
+  - component: {fileID: 5413876397628514952}
   m_Layer: 7
   m_Name: Shell
   m_TagString: Untagged
@@ -117,6 +118,35 @@ Transform:
   - {fileID: 3358248812416862753}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5413876397628514952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040774113608423627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc61c3e33e74ae43b75d3bfa7fc95c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  maxHealth: 100
+  regenRate: 5
+  bleedRate: 2
+  poisonRate: 5
+  vulnerablePercentage: 0.1
+  resilientPercentage: 0.1
+  updateHealthRate: 1
+  noHealthEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  changeHealthEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  changeStatusEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7012313711567948360
 GameObject:
   m_ObjectHideFlags: 0
