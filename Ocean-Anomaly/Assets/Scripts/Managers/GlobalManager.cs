@@ -45,6 +45,7 @@ namespace OceanAnomaly
 		public List<PlayerInput> players;
 		void Awake()
 		{
+			Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 			if (Instance == null)
 			{
 				Instance = this;
@@ -86,8 +87,9 @@ namespace OceanAnomaly
 					audioManager = gameObject.RecursiveFindComponentLocal<AudioManager>(audioManagerPrefab);
 				}
 			}
+			
 			statsScreen.gameObject.SetActive(displayStats);
-
+			
 			SetGameState(currentGameState);
 		}
 		void Update()
@@ -106,7 +108,9 @@ namespace OceanAnomaly
 			switch (state)
 			{
 				case GameState.GamePlay:
-				case GameState.GamePlayMenuNoPause:
+					enemyFieldManager.gameObject.SetActive(true);
+					playerVirtualCamera.gameObject.SetActive(true);
+					break;
 				case GameState.GamePlayPaused:
 					playerInputManager.EnableJoining();
 					enemyFieldManager.gameObject.SetActive(true);
@@ -114,6 +118,7 @@ namespace OceanAnomaly
 					break;
 				case GameState.Cutscene:
 				case GameState.MainMenu:
+					audioManager.TransitionTo(audioManager.mainMenu);
 					playerInputManager.DisableJoining();
 					enemyFieldManager.gameObject.SetActive(false);
 					playerVirtualCamera.gameObject.SetActive(false);

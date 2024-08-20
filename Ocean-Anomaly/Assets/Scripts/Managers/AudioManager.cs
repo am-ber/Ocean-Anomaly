@@ -11,6 +11,8 @@ namespace OceanAnomaly.Managers
 		public Sound[] sounds;
 		public AudioMixerSnapshot normalVolume;
 		public AudioMixerSnapshot musicLowPass;
+		public AudioMixerSnapshot mainMenu;
+		public AudioMixerSnapshot lowIntensity;
 
 		void Awake()
 		{
@@ -36,7 +38,7 @@ namespace OceanAnomaly.Managers
 
 		public void Play(string name)
 		{
-			Sound s = Array.Find(sounds, sound => sound.name == name);
+			Sound s = FindSound(name);
 			if (s == null)
 			{
 				Debug.Log($"Can't play {name}");
@@ -46,13 +48,49 @@ namespace OceanAnomaly.Managers
 
 		public void Stop(string name)
 		{
-			Sound s = Array.Find(sounds, sound => sound.name == name);
+			Sound s = FindSound(name);
 			s.source.Stop();
 		}
-
+		public Sound FindSound(string name)
+		{
+			return Array.Find(sounds, sound => sound.name == name);
+		}
+		public bool IsSoundPlaying(string name)
+		{
+			Sound s = FindSound(name);
+			return s.source.isPlaying;
+		}
 		public void TransitionTo(AudioMixerSnapshot snapshot, float seconds = 1f)
 		{
 			snapshot.TransitionTo(seconds);
+		}
+		public void SetMainMusicPlaying(bool state = true)
+		{
+			foreach (var sound in sounds)
+			{
+				if (sound.musicTrack)
+				{
+					if (state)
+					{
+						sound.source.Play();
+					} else
+					{
+						sound.source.Stop();
+					}
+				}
+			}
+		}
+		public bool IsMusicPlaying()
+		{
+			foreach (var sound in sounds)
+			{
+				if (sound.musicTrack)
+				{
+					if (!sound.source.isPlaying)
+						return false;
+				}
+			}
+			return true;
 		}
 	}
 }

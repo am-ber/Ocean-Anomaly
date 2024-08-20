@@ -50,6 +50,7 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     loop: 1
+    musicTrack: 1
     audioMixer: {fileID: -5674506253865763383, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
   - name: BasslineTrack
@@ -57,6 +58,7 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     loop: 1
+    musicTrack: 1
     audioMixer: {fileID: -3298941826173591333, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
   - name: DrumTrack
@@ -64,6 +66,7 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     loop: 1
+    musicTrack: 1
     audioMixer: {fileID: 658576532740365736, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
   - name: Alarm
@@ -71,6 +74,7 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     loop: 0
+    musicTrack: 0
     audioMixer: {fileID: -2158231890857777948, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
   - name: HarpoonFire
@@ -78,6 +82,7 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     loop: 0
+    musicTrack: 0
     audioMixer: {fileID: -2158231890857777948, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
   - name: HarpoonImpact
@@ -85,7 +90,10 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     loop: 0
+    musicTrack: 0
     audioMixer: {fileID: -2158231890857777948, guid: df352149fce2681468922cb66712c8eb, type: 2}
     source: {fileID: 0}
   normalVolume: {fileID: 24500006, guid: df352149fce2681468922cb66712c8eb, type: 2}
   musicLowPass: {fileID: 7483693540249699951, guid: df352149fce2681468922cb66712c8eb, type: 2}
+  mainMenu: {fileID: -5673469179501008089, guid: df352149fce2681468922cb66712c8eb, type: 2}
+  lowIntensity: {fileID: -7282108815636148070, guid: df352149fce2681468922cb66712c8eb, type: 2}
