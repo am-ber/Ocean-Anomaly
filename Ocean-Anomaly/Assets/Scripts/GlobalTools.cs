@@ -146,6 +146,10 @@ namespace OceanAnomaly.Tools
 			{
 				return center.Value;
 			}
+			if (radiusMin >= radiusMax)
+			{
+				radiusMin = 0;
+			}
 
 			Vector3 randomPoint = UnityEngine.Random.insideUnitCircle.normalized * UnityEngine.Random.Range(radiusMin, radiusMax);
 

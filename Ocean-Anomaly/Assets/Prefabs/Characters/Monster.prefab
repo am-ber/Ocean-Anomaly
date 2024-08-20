@@ -905,8 +905,8 @@ GameObject:
   - component: {fileID: 9037357213182136588}
   - component: {fileID: 2651971943421237773}
   - component: {fileID: 4830487486629648683}
-  - component: {fileID: 7360171616452598098}
   - component: {fileID: 2817680687933324761}
+  - component: {fileID: 2705533711544046054}
   - component: {fileID: 2714946401604950073}
   m_Layer: 7
   m_Name: Monster
@@ -943,13 +943,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829a51f55c5324dc2995cb21b14d5505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSpeed: 10
+  accuracy: 0
+  speedUp: 0
+  rotationSpeed: 1
+  offset: 0
+  cullDistance: 1
+  log: 0
+  targetPosition: {x: 0, y: 0, z: 0}
+  projectileTarget: {fileID: 0}
+  travelSpeed: 0
   timeSlow: 0.01
   timeFast: 0.025
   waitCount: 0
   waitDuration: 2.5
   isSwaying: 0
+  tailAngleRangeAllowed: 0.1
   tiltDirection: 0
   headAnglePrevious: 0
+  headAngleDelta: 0
+  animationDelta: 0
+  headAngleMaxDelta: 2
+  moveBehavior: 0
+  atTargetPosition: 0
+  minimumTargetDistance: 3
+  distanceTillTarget: 0
 --- !u!114 &4830487486629648683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,29 +980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad77180747cd4f4181cddc88cdb498c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7360171616452598098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7888447583406977350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e7d008663c7f246a8d1ea505a39ecf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewRadius: 30
-  searchDelay: 0.1
-  viewAngle: 200
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
-  seeTarget: 0
-  visibleTargets: []
 --- !u!95 &2817680687933324761
 Animator:
   serializedVersion: 5
@@ -1006,6 +1001,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2705533711544046054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7888447583406977350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d9c6fa22af23f49b1a80e9f43a2287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 2651971943421237773}
+  currentState: 0
+  fieldManager: {fileID: 0}
+  splineFollower: {fileID: 2714946401604950073}
+  timeInState: 0
+  timeToLeaveState: 0
+  recievedDamage: 0
+  minTimeRoaming: 4
+  maxTimeRoaming: 10
+  roamSpeed: 2
+  reactionPercentage: 0.1
+  travelDirectlyToPlayer: 1
+  minTimeAttacking: 4
+  maxTimeAttacking: 10
 --- !u!114 &2714946401604950073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,8 +1078,8 @@ MonoBehaviour:
   animClipFrom: 0
   animClipTo: 1
   multithreaded: 0
-  buildOnAwake: 1
-  buildOnEnable: 0
+  buildOnAwake: 0
+  buildOnEnable: 1
   applyDirectionRotation: 1
   useTriggers: 0
   triggerGroup: 0

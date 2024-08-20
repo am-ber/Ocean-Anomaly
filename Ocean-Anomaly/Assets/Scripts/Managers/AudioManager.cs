@@ -14,16 +14,14 @@ namespace OceanAnomaly.Managers
 
 		void Awake()
 		{
-			if (Instance == null)
-			{
-				Instance = this;
-			} else
+			if (Instance != null)
 			{
 				Destroy(gameObject);
 				return;
 			}
-
+			Instance = this;
 			DontDestroyOnLoad(gameObject);
+
 			foreach (Sound s in sounds)
 			{
 				s.source = gameObject.AddComponent<AudioSource>();
