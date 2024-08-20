@@ -8,6 +8,10 @@ TagManager:
   - Monster
   - Shell Point
   - Blastomere
+  - Shell Limb
+  - Claw Limb
+  - Tentacle Limb
+  - SpecialEffect
   layers:
   - Default
   - TransparentFX

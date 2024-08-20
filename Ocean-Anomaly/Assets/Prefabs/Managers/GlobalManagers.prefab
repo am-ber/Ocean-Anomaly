@@ -50,11 +50,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayStats: 0
+  currentGameState: 0
+  playerInputManager: {fileID: 4730896970258514668}
   statsScreen: {fileID: 221730653276543046}
   statsScreenPrefab: {fileID: 3419614198778196835, guid: df3504a002762684bba1b057c3dc0a5b, type: 3}
-  currentGameState: 0
   bindPlayerScreen: {fileID: 8414076797801403074}
-  playerInputManager: {fileID: 4730896970258514668}
+  bindPlayerScreenPrefab: {fileID: 5928625675287338864, guid: 77873b8a9e047df4e84426b6f0b0cf73, type: 3}
   playerVirtualCamera: {fileID: 389150364787979953}
   playerVirtualCameraPrefab: {fileID: 3090889290719854291, guid: 644162c5ec5bf3a4eac1bf09363b18ae, type: 3}
   enemyFieldManager: {fileID: 2965319948405918395}

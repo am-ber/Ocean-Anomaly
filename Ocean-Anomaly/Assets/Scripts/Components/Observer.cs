@@ -5,5 +5,5 @@ public interface Observer<I1, I2>
 }
 public interface Observer<I>
 {
-    public void OnNotify(I caller);
+    public void OnNotify(I input);
 }

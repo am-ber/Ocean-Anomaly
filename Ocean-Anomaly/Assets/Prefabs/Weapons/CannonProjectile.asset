@@ -17,6 +17,7 @@ MonoBehaviour:
   maxSpeed: 60
   damage: 9
   projectileTag: Projectile
+  impactSoundName: CannonImpact
   projectileLayer:
     serializedVersion: 2
     m_Bits: 64

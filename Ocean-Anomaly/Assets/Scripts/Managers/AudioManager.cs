@@ -5,7 +5,7 @@ using OceanAnomaly.Components;
 
 namespace OceanAnomaly.Managers
 {
-	public class AudioManager : MonoBehaviour
+	public class AudioManager : MonoBehaviour, Observer<GameState>
 	{
 		public static AudioManager Instance;
 		public Sound[] sounds;
@@ -27,7 +27,6 @@ namespace OceanAnomaly.Managers
 			foreach (Sound s in sounds)
 			{
 				s.source = gameObject.AddComponent<AudioSource>();
-
 				s.source.clip = s.clip;
 				s.source.volume = s.volume;
 				s.source.pitch = s.pitch;
@@ -35,7 +34,12 @@ namespace OceanAnomaly.Managers
 				s.source.outputAudioMixerGroup = s.audioMixer;
 			}
 		}
+		private void Start()
+		{
+			GlobalManager.Instance.AddObserver(this);
 
+			SetMainMusicPlaying(true);
+		}
 		public void Play(string name)
 		{
 			Sound s = FindSound(name);
@@ -91,6 +95,23 @@ namespace OceanAnomaly.Managers
 				}
 			}
 			return true;
+		}
+
+		public void OnNotify(GameState state)
+		{
+			switch (state)
+			{
+				case GameState.GamePlay:
+					TransitionTo(lowIntensity);
+					break;
+				case GameState.Cutscene:
+				case GameState.GamePlayPaused:
+					TransitionTo(musicLowPass);
+					break;
+				case GameState.MainMenu:
+					TransitionTo(mainMenu);
+					break;
+			}
 		}
 	}
 }

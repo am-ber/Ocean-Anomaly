@@ -1,4 +1,5 @@
 using Cinemachine;
+using OceanAnomaly;
 using OceanAnomaly.Attributes;
 using OceanAnomaly.Managers;
 using System.Collections;
@@ -11,30 +12,16 @@ public class MainMenu : MonoBehaviour
 	public CinemachineVirtualCamera settingsMenuCamera;
 	public CinemachineVirtualCamera mainMenuCamera;
 	public string mainSceneName = string.Empty;
-	[ReadOnly]
-	[SerializeField]
-	private bool playedMainMusic = false;
+	private void Start()
+	{
+		GlobalManager.Instance.SetGameState(GameState.MainMenu);
+	}
 	public void StartGame()
 	{
 		Debug.Log("Started Game");
 		if (mainSceneName == string.Empty)
 		{
 			SceneManager.LoadScene(mainSceneName);
-		}
-	}
-	private void LateUpdate()
-	{
-		if (!playedMainMusic)
-		{
-			try
-			{
-				AudioManager.Instance.SetMainMusicPlaying(true);
-				playedMainMusic = true;
-			}
-			catch
-			{
-
-			}
 		}
 	}
 	public void SettingsMenu()

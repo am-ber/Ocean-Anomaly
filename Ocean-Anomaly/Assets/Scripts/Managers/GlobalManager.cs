@@ -20,19 +20,22 @@ namespace OceanAnomaly
 		Cutscene,
 		MainMenu
 	}
-	public class GlobalManager : MonoBehaviour
+	public class GlobalManager : Subject<GameState>
 	{
 		public static GlobalManager Instance;
 		public static DateTime LaunchTime;
 		public bool displayStats = false;
+		[SerializeField]
+		private GameState currentGameState = GameState.GamePlay;
+		[Header("Required Objects")]
+		public PlayerInputManager playerInputManager;
 		public StatsScreen statsScreen;
 		[SerializeField]
 		private GameObject statsScreenPrefab;
 		[SerializeField]
-		private GameState currentGameState = GameState.GamePlay;
-		[SerializeField]
 		public Canvas bindPlayerScreen;
-		public PlayerInputManager playerInputManager;
+		[SerializeField]
+		private GameObject bindPlayerScreenPrefab;
 		public PlayerVirtualCameraController playerVirtualCamera;
 		[SerializeField]
 		private GameObject playerVirtualCameraPrefab;
@@ -105,6 +108,9 @@ namespace OceanAnomaly
 		}
 		public void SetGameState(GameState state)
 		{
+			// Call all observers that we just changed states
+			Notify(state);
+			// Also determine other things for now, but this will change to more stateful code
 			switch (state)
 			{
 				case GameState.GamePlay:
@@ -118,7 +124,6 @@ namespace OceanAnomaly
 					break;
 				case GameState.Cutscene:
 				case GameState.MainMenu:
-					audioManager.TransitionTo(audioManager.mainMenu);
 					playerInputManager.DisableJoining();
 					enemyFieldManager.gameObject.SetActive(false);
 					playerVirtualCamera.gameObject.SetActive(false);

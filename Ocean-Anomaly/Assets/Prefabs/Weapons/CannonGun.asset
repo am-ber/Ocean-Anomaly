@@ -16,5 +16,6 @@ MonoBehaviour:
   description: It's a gun that shoots cannon balls out.
   weaponIcon: {fileID: 0}
   weaponSprite: {fileID: 0}
+  fireSoundName: CannonFire
   weaponFunction: {fileID: 11400000, guid: e40e3f947d41f664385ae5f81cee114b, type: 2}
   attackTime: 0.7

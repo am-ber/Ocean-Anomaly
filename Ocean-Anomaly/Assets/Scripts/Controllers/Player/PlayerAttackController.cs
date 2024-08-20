@@ -113,6 +113,7 @@ namespace OceanAnomaly.Controllers
 						Instantiate(CurrentWeapon.weaponFunction.projectilePrefab, indicator.transform.position, indicator.transform.rotation),
 						aimAngle, accuracy, crosshair.transform.position);
 				}
+				AudioManager.Instance.Play(CurrentWeapon.fireSoundName);
 				canAttack = false;
 				// Using the global attack upgrade will only work if we constantly disable and 
 				// re-enabled the attack controller (which honestly, we probably should do)...

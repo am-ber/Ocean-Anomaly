@@ -7,10 +7,21 @@ using UnityEngine;
 public class ProjectileBehavior : BasicMoveBehavior
 {
 	public float damage = 5;
-
+	public string impactSoundName = string.Empty;
+	public GameObject impactPrefab;
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		Debug.Log($"Hit: {collision.collider.name}");
+		Health colliderHealth = collision.gameObject.GetComponent<Health>();
+		if (colliderHealth != null)
+		{
+			colliderHealth.ModifyHealth(-damage);
+			if (impactPrefab != null)
+			{
+				Instantiate(impactPrefab, transform.position, Quaternion.Inverse(transform.rotation));
+			}
+		}
+		AudioManager.Instance.Play(impactSoundName);
+		Destroy(gameObject);
 	}
 	private void FixedUpdate()
 	{
