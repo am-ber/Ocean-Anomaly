@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Projectile
   - Monster
+  - Shell Point
+  - Blastomere
   layers:
   - Default
   - TransparentFX
