@@ -32,6 +32,8 @@ namespace OceanAnomaly
 				Destroy(this);
 				return;
 			}
+			DontDestroyOnLoad(gameObject);
+
 			InputSystem.onDeviceChange += deviceChange;
 			LaunchTime = DateTime.Now;
 		}
