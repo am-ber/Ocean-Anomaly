@@ -54,6 +54,12 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private float distanceTillTarget = 0f;
 
+		private GlobalManager globalManager;
+		private void Awake()
+		{
+			globalManager = GlobalManager.Instance;
+			globalManager.OnEnemyJoin(gameObject);
+		}
 		void Update()
 		{
 			AnimateTail();

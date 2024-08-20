@@ -7,12 +7,21 @@ namespace OceanAnomaly.Managers
 {
 	public class AudioManager : MonoBehaviour
 	{
+		public static AudioManager Instance;
 		public Sound[] sounds;
 		public AudioMixerSnapshot normalVolume;
 		public AudioMixerSnapshot musicLowPass;
 
 		void Awake()
 		{
+			if (Instance != null)
+			{
+				Destroy(gameObject);
+				return;
+			}
+			Instance = this;
+			DontDestroyOnLoad(gameObject);
+
 			foreach (Sound s in sounds)
 			{
 				s.source = gameObject.AddComponent<AudioSource>();

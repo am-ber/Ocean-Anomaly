@@ -16,11 +16,15 @@ namespace OceanAnomaly
 		public static DateTime LaunchTime;
 		public bool displayStats = false;
 		public StatsScreen statsScreen;
+		[SerializeField]
+		private GameObject statsScreenPrefab;
 		public Canvas bindPlayerScreen;
 		public PlayerInputManager playerInputManager;
 		public PlayerVirtualCameraController playerVirtualCamera;
 		public EnemyFieldManager enemyFieldManager;
 		public AudioManager audioManager;
+		[SerializeField]
+		private GameObject audioManagerPrefab;
 		public List<PlayerInput> players;
 		void Awake()
 		{
@@ -47,6 +51,18 @@ namespace OceanAnomaly
 			if (statsScreen == null)
 			{
 				statsScreen = GetComponentInChildren<StatsScreen>();
+				if (statsScreen == null)
+				{
+					Instantiate(statsScreenPrefab);
+				}
+			}
+			if (audioManager == null)
+			{
+				audioManager = AudioManager.Instance;
+				if (audioManager == null)
+				{
+					Instantiate(audioManagerPrefab);
+				}
 			}
 			statsScreen.gameObject.SetActive(displayStats);
 		}
@@ -55,13 +71,16 @@ namespace OceanAnomaly
 			if (Input.GetKeyDown(KeyCode.F1))
 			{
 				displayStats = !displayStats;
-				statsScreen.gameObject.SetActive(displayStats);
+				if (statsScreen != null)
+				{
+					statsScreen.gameObject.SetActive(displayStats);
+				}
 			}
 		}
 		public void OnPlayerJoined(PlayerInput playerInput)
 		{
 			Debug.Log($"Joined New Player ({playerInput.user.id})");
-			if (bindPlayerScreen.gameObject.activeSelf)
+			if (bindPlayerScreen != null & bindPlayerScreen.gameObject.activeSelf)
 			{
 				bindPlayerScreen.gameObject.SetActive(false);
 			}
@@ -71,9 +90,12 @@ namespace OceanAnomaly
 			}
 			players.Add(playerInput);
 		}
-		public void OnEnemyJoin()
+		public void OnEnemyJoin(GameObject enemyGameObject)
 		{
-
+			if (playerVirtualCamera != null)
+			{
+				playerVirtualCamera.CameraTargets.Add(enemyGameObject.transform);
+			}
 		}
 		void deviceChange(InputDevice device, InputDeviceChange inputDeviceChange)
 		{
