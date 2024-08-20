@@ -55,7 +55,7 @@ namespace OceanAnomaly.Controllers
 		private float distanceTillTarget = 0f;
 
 		private GlobalManager globalManager;
-		private void Awake()
+		private void Start()
 		{
 			globalManager = GlobalManager.Instance;
 			globalManager.OnEnemyJoin(gameObject);
