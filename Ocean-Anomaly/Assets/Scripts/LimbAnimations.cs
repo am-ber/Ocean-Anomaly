@@ -10,7 +10,8 @@ public class LimbAnimations : MonoBehaviour
     
     [Header("Transforms")]
     [SerializeField]
-    private Transform target;
+    private Transform player;
+    private Transform limbTarget
 
     Animator anim;
     RuntimeAnimatorController runtimeAnimatorController;
@@ -38,6 +39,6 @@ public class LimbAnimations : MonoBehaviour
     
     public void AttackPlayer()
     {
-        transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
+        limbTarget.position = new Vector3(player.position.x, player.position.y, player.position.z);
     }
 }
