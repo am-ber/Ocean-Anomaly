@@ -155,5 +155,30 @@ namespace OceanAnomaly.Tools
 
 			return randomPoint + center.Value;
 		}
+		/// <summary>
+		/// Recursively find a game object locally. If it doesn't exist it will make it if you give it a prefab object and repeat.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="gameObject"></param>
+		/// <param name="prefab"></param>
+		/// <returns></returns>
+		public static T RecursiveFindComponentLocal<T>(this GameObject gameObject, GameObject prefab = null) where T : Component
+		{
+			T component = gameObject.GetComponent<T>();
+			if (component != null)
+			{
+				return component;
+			}
+			component = gameObject.GetComponentInChildren<T>();
+			if (component != null)
+			{
+				return component;
+			}
+			if (prefab != null)
+			{
+				return GameObject.Instantiate(prefab).RecursiveFindComponentLocal<T>();
+			}
+			return component;
+		}
 	}
 }

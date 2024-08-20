@@ -3,3 +3,7 @@ public interface Observer<I1, I2>
 {
     public void OnNotify(I1 caller, I2 input);
 }
+public interface Observer<I>
+{
+    public void OnNotify(I caller);
+}
