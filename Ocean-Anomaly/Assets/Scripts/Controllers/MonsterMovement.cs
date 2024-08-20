@@ -24,16 +24,27 @@ namespace OceanAnomaly.Controllers
 		private float timeFast = 0.05f;
 		[SerializeField]
 		[ReadOnly]
-		private float waitCount;
+		private float waitCount = 0f;
 		[SerializeField]
 		private float waitDuration = 2.5f;
 
 		[Header("Movement Properties")]
-		public bool isSwaying;
-		[ReadOnly]
-		public float tiltDirection;
+		public bool isSwaying = false;
 		[SerializeField]
-		private float headAnglePrevious;
+		private float tailAngleRangeAllowed = 0.1f;
+		[ReadOnly]
+		public float tiltDirection = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private float headAnglePrevious = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private float headAngleDelta = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private float animationDelta = 0f;
+		[SerializeField]
+		private float headAngleMaxDelta = 2f;
 		public MovementBehavior moveBehavior;
 		[ReadOnly]
 		public bool atTargetPosition = false;
@@ -77,32 +88,32 @@ namespace OceanAnomaly.Controllers
 
 			headAngle = gameObject.transform.eulerAngles.z;
 
-			if (headAngle > headAnglePrevious)
-			{
-				tiltDirection = Mathf.Lerp(tiltDirection, -1f, timeFast);
-
-				isSwaying = false;
-				waitCount = 0f;
-			} else if (headAngle == headAnglePrevious)
+			if (GlobalTools.InRange(headAngle, headAnglePrevious - tailAngleRangeAllowed, headAnglePrevious + tailAngleRangeAllowed))
 			{
 				waitCount += Time.deltaTime;
-
 				if (waitCount < waitDuration)
 				{
 					tiltDirection = Mathf.Lerp(tiltDirection, 0f, timeSlow);
-
 					isSwaying = false;
 				} else
+				{
 					isSwaying = true;
-			} else if (headAngle < headAnglePrevious)
+				}
+			} else
 			{
-				tiltDirection = Mathf.Lerp(tiltDirection, 1f, timeFast);
-
+				// Resolve the distance from our previous angle to the current one
+				headAngleDelta = headAnglePrevious - headAngle;
+				// Find the mapped delta to the animation curve
+				animationDelta = GlobalTools.Map(
+					Mathf.Clamp(headAngleDelta, -headAngleMaxDelta, headAngleMaxDelta),
+					-headAngleMaxDelta, headAngleMaxDelta, -1, 1);
+				// Set the tilt direction
+				tiltDirection = Mathf.Lerp(tiltDirection, animationDelta, timeFast);
 				isSwaying = false;
 				waitCount = 0f;
 			}
 
-			headAnglePrevious = transform.eulerAngles.z;
+			headAnglePrevious = headAngle;
 		}
 	}
 }

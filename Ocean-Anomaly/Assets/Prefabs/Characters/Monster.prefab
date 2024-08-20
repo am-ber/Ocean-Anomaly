@@ -355,13 +355,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829a51f55c5324dc2995cb21b14d5505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSpeed: 10
+  accuracy: 0
+  speedUp: 0
+  rotationSpeed: 1
+  offset: 0
+  cullDistance: 1
+  log: 0
+  targetPosition: {x: 0, y: 0, z: 0}
+  projectileTarget: {fileID: 0}
+  travelSpeed: 0
   timeSlow: 0.01
   timeFast: 0.025
   waitCount: 0
   waitDuration: 2.5
   isSwaying: 0
+  tailAngleRangeAllowed: 0.1
   tiltDirection: 0
   headAnglePrevious: 0
+  headAngleDelta: 0
+  animationDelta: 0
+  headAngleMaxDelta: 2
+  moveBehavior: 0
+  atTargetPosition: 0
+  minimumTargetDistance: 3
+  distanceTillTarget: 0
 --- !u!114 &4830487486629648683
 MonoBehaviour:
   m_ObjectHideFlags: 0
