@@ -8,7 +8,7 @@ public class TentacleIKAttack : MonoBehaviour
     [SerializeField]
     private Transform target;
     
-    void AttackPlayer()
+    public void AttackPlayer()
     {
         transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
     }
