@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1699019030875153278}
+  - component: {fileID: 4540782388857257555}
+  - component: {fileID: 5684070087280026611}
   m_Layer: 0
   m_Name: Tentacle
   m_TagString: Untagged
@@ -32,6 +34,40 @@ Transform:
   - {fileID: 2435183591885830438}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4540782388857257555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038809100342784408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e378939699b72453b880c8a76b104c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAttacking: 0
+--- !u!95 &5684070087280026611
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038809100342784408}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de672f8f499374408b47a3022fd68953, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6699995200185786141
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,9 +429,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1613523028068539257}
-    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7715095129718587601}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
 --- !u!4 &314198674456369995 stripped
 Transform:
@@ -463,27 +496,6 @@ MonoBehaviour:
     showGizmo: 1
   - color: {r: 0, g: 1, b: 0, a: 1}
     showGizmo: 1
---- !u!95 &7715095129718587601
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3531837265418232133}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: de672f8f499374408b47a3022fd68953, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &3654284506820961642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 311580695235782034, guid: c160430ee19a24038a6d4ef53539e3bf, type: 3}
