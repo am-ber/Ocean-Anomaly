@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TentacleAnimations : MonoBehaviour
+public class LimbAnimations : MonoBehaviour
 {
-    [Header("Bool")]
+    [Header("Bools")]
     [SerializeField]
     private bool isAttacking;
+    
+    [Header("Transforms")]
+    [SerializeField]
+    private Transform target;
 
     Animator anim;
     RuntimeAnimatorController runtimeAnimatorController;
@@ -30,5 +34,10 @@ public class TentacleAnimations : MonoBehaviour
     void Update()
     {
         anim.SetBool(attackParamID, isAttacking);
+    }
+    
+    public void AttackPlayer()
+    {
+        transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
     }
 }
