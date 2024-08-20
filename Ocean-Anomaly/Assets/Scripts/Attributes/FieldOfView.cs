@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using OceanAnomaly.Tools;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,36 +7,36 @@ namespace OceanAnomaly.Attributes
 {
 	public class FieldOfView : MonoBehaviour
 	{
-
 		public float viewRadius = 15;
+		public float searchDelay = 0.1f;
 		[Range(0, 360)]
 		public float viewAngle = 0;
-
 		public LayerMask targetMask;
 		public LayerMask obstacleMask;
-
 		[ReadOnly]
 		public bool seeTarget = false;
-
+		private bool seeTargetOneTime = true;
 		[HideInInspector]
 		public List<Transform> visibleTargets = new List<Transform>();
 
-		private void Start()
+		private IEnumerator findTargetsCoroutine;
+
+		private void OnEnable()
 		{
-			StartCoroutine("FindTargetsWithDelay", 0.1f);
+			findTargetsCoroutine = FindTargetsWithDelay();
+			StartCoroutine(findTargetsCoroutine);
 		}
 
-		IEnumerator FindTargetsWithDelay(float delay)
+		IEnumerator FindTargetsWithDelay()
 		{
+			Debug.Log($"Looking for targets on layer: {LayerMask.LayerToName(GlobalTools.MaskToLayer(targetMask))}" +
+				$" and avoiding layer: {LayerMask.LayerToName(GlobalTools.MaskToLayer(obstacleMask))}");
 			while (true)
 			{
-				yield return new WaitForSeconds(delay);
+				yield return new WaitForSeconds(searchDelay);
 				FindVisibleTargets();
 			}
 		}
-
-		private bool seeTargetOneTime = true;
-
 		void FindVisibleTargets()
 		{
 			visibleTargets.Clear();
@@ -67,8 +68,12 @@ namespace OceanAnomaly.Attributes
 		public Vector3 directionFromAngle(float angleInDegrees, bool angleIsGlobal)
 		{
 			if (!angleIsGlobal)
-				angleInDegrees += transform.eulerAngles.y;
-			return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+				angleInDegrees += transform.eulerAngles.z;
+			return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
+		}
+		private void OnDisable()
+		{
+			StopCoroutine(findTargetsCoroutine);
 		}
 	}
 }

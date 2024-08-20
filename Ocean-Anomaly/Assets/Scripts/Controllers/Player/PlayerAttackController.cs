@@ -23,7 +23,6 @@ namespace OceanAnomaly.Controllers
 		private PlayerInputActions inputActions;
 		// Aiming
 		[Header("Aiming Variables")]
-		private InputAction inputAim;
 		[SerializeField]
 		private float deltaPullActivation = 3f;
 		[SerializeField]
@@ -59,9 +58,6 @@ namespace OceanAnomaly.Controllers
 		}
 		private void OnEnable()
 		{
-			// Looking needs to run in constant update because of the constant vector changes
-			inputAim = inputActions.Player.Look;
-			inputAim.Enable();
 			// This can have an instant OnFire() command
 			inputAttack = inputActions.Player.Fire;
 			inputAttack.Enable();
@@ -114,7 +110,6 @@ namespace OceanAnomaly.Controllers
 		}
 		private void OnDisable()
 		{
-			inputAim.Disable();
 			inputAttack.Disable();
 			Debug.Log("Attack Controls Disabled");
 		}
