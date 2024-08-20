@@ -80,7 +80,7 @@ namespace OceanAnomaly
 		public void OnPlayerJoined(PlayerInput playerInput)
 		{
 			Debug.Log($"Joined New Player ({playerInput.user.id})");
-			if (bindPlayerScreen != null & bindPlayerScreen.gameObject.activeSelf)
+			if (bindPlayerScreen != null && bindPlayerScreen.gameObject.activeSelf)
 			{
 				bindPlayerScreen.gameObject.SetActive(false);
 			}

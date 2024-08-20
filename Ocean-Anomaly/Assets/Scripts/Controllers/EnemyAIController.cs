@@ -58,7 +58,7 @@ namespace OceanAnomaly.Controllers
 		private float minTimeAttacking = 4f;
 		[SerializeField]
 		private float maxTimeAttacking = 10f;
-		private void Awake()
+		private void Start()
 		{
 			if (movement == null)
 			{
