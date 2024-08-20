@@ -11,7 +11,7 @@ namespace OceanAnomaly.Components.Weapon
 		public Sprite weaponIcon;
 		public Sprite weaponSprite;
 		[Header("Attack Variables")]
-		public BaseWeponFunctionScriptable weaponFunction;
+		public ProjectileScriptable weaponFunction;
 		public float attackTime = 1f;
 	}
 }

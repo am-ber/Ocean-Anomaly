@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943fd85fb857721499a6a449e0fe0083, type: 3}
   m_Name: HarpoonGun
   m_EditorClassIdentifier: 
-  name: Reef Cutter
-  description: It's a cool blade that looks like a machete.
+  name: Harpoon Gun
+  description: It's a gun that rapid fires harpoons.
   weaponIcon: {fileID: 0}
   weaponSprite: {fileID: 0}
   weaponFunction: {fileID: 11400000, guid: 3b0090a48a874374e8d3215f037cc989, type: 2}
-  attackTime: 1
+  attackTime: 0.3

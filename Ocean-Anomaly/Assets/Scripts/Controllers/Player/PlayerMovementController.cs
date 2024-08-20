@@ -1,6 +1,7 @@
 using OceanAnomaly.Attributes;
 using OceanAnomaly.Managers;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,13 +64,13 @@ namespace OceanAnomaly.Controllers
 			if (playerInput == null)
 			{
 				playerInput = GetComponent<PlayerInput>();
-				
-				inputActions = new PlayerInputActions();
 			}
 			if (rigidbody == null)
 			{
 				rigidbody = GetComponent<Rigidbody2D>();
 			}
+
+			inputActions = new PlayerInputActions();
 		}
 		
 		private void OnEnable()
@@ -153,6 +154,10 @@ namespace OceanAnomaly.Controllers
 			inputMovement.Disable();
 			inputDash.Disable();
 			Debug.Log("Movement Controls Disabled");
+		}
+		protected void rotateTo()
+		{
+			
 		}
 	}
 }

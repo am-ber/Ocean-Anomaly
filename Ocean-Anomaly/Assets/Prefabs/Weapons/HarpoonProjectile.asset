@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: HarpoonProjectile
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  travelSpeed: 10
-  projectileHealth: 0
+  travelSpeed: 70
+  maxSpeed: 70
+  damage: 4
   projectileTag: Projectile
   projectileLayer:
     serializedVersion: 2

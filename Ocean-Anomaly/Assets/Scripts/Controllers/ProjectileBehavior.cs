@@ -7,9 +7,10 @@ using UnityEngine;
 public class ProjectileBehavior : BasicMoveBehavior
 {
 	public float damage = 5;
-	void Update()
+
+	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		rotateTo();
+		Debug.Log($"Hit: {collision.collider.name}");
 	}
 	private void FixedUpdate()
 	{

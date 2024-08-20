@@ -9,14 +9,31 @@ public class IndicatorController : MonoBehaviour
 	[SerializeField]
 	private List<SpriteRenderer> attackIndicators;
 	[SerializeField]
-	private float attackIndicatorFadeAmount = 0.01f;
+	private float attackIndicatorFadeAmount = 0.03f;
 	[ReadOnly]
 	[SerializeField]
 	private bool attackIndicatorCoroutineRunning = false;
 	private IEnumerator attackIndicatorCoroutine;
+	private float alpha = 1f;
 	private void Start()
 	{
-		FadeAttackIndicator();
+	}
+	private void Update()
+	{
+		if (alpha > 0)
+		{
+			alpha -= attackIndicatorFadeAmount;
+			foreach (SpriteRenderer sprites in attackIndicators)
+			{
+				Color currentColor = sprites.color;
+				currentColor.a = alpha;
+				sprites.color = currentColor;
+			}
+		}
+	}
+	public void Fired()
+	{
+		alpha = 1f;
 	}
 	public void ResetAttackIndicator()
 	{
