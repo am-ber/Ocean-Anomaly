@@ -10,7 +10,7 @@ public class EnemyFieldManager : MonoBehaviour
 	[SerializeField]
 	private float pointGenerationRadius = 100f;
 	[SerializeField]
-	private float pointGenerationRate = 1.0f;
+	private float pointGenerationRadiusMin = 0f;
 	[SerializeField]
 	private int maxPoints = 10;
 	[SerializeField]
@@ -22,7 +22,7 @@ public class EnemyFieldManager : MonoBehaviour
 		{
 			splineComputer = GetComponent<SplineComputer>();
 		}
-		splineComputer.type = Spline.Type.CatmullRom;
+		splineComputer.type = Spline.Type.Bezier;
 		splineComputer.is2D = true;
 	}
 	private void OnDrawGizmos()
@@ -30,7 +30,31 @@ public class EnemyFieldManager : MonoBehaviour
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, pointGenerationRadius);
 	}
-	private void GenerateNewPoints()
+	public void SubscribeToSpline(SplineUser splineUser)
+	{
+		if (splineComputer == null)
+		{
+			return;
+		}
+		splineComputer.Subscribe(splineUser);
+	}
+	public Vector3 GetFieldStartPosition()
+	{
+		if (splineComputer == null)
+		{
+			return Vector3.zero;
+		}
+		return splineComputer.GetPoint(0).position;
+	}
+	public void UnsubscribeToSpline(SplineUser splineUser)
+	{
+		if (splineComputer == null)
+		{
+			return;
+		}
+		splineComputer.Unsubscribe(splineUser);
+	}
+	public void GenerateNewPoints()
 	{
 		// 4 is the minimum required control points in the spline computer from the documentation
 		SplinePoint[] splinePoints = new SplinePoint[UnityEngine.Random.Range(4, maxPoints + 1)];
