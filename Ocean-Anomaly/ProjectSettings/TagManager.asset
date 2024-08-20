@@ -43,7 +43,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Backgroound
+  - name: Background
     uniqueID: 1548914325
     locked: 0
   - name: Undershadows
