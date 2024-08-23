@@ -14,6 +14,7 @@ public class ProjectileBehavior : BasicMoveBehavior
 		Health colliderHealth = collision.gameObject.GetComponent<Health>();
 		if (colliderHealth != null)
 		{
+			Debug.Log($"Found Health, Dealing: {damage} damage.");
 			colliderHealth.ModifyHealth(-damage);
 			if (impactPrefab != null)
 			{

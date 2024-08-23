@@ -49,31 +49,38 @@ namespace OceanAnomaly.Components
 	[Serializable]
 	public class Health : MonoBehaviour
 	{
+		[Header("Standard Health Settings")]
 		public float startHealth = 100;
 		public float maxHealth = 100;
+		[ReadOnly]
+		[SerializeField]
+		private float currentHealth;
+		[Header("Status Effect Settings")]
 		public float regenRate = 5f;
 		public float bleedRate = 2f;
 		public float poisonRate = 5f;
 		public float vulnerablePercentage = 0.1f;
 		public float resilientPercentage = 0.1f;
+		[ReadOnly]
+		[SerializeField]
+		private bool updatingHealth = false;
 		/// <summary>
 		/// In seconds for the Coroutine to update.
 		/// </summary>
 		public float updateHealthRate = 1f;
 		public List<StatusEffect> activeStatusEffects { get; private set; }
-		public float currentHealth { get; private set; }
-		public UnityEvent noHealthEvent;
-		public UnityEvent changeHealthEvent;
-		public UnityEvent changeStatusEffectEvent;
 		private IEnumerator updateHealthRoutine;
-		private bool updatingHealth = false;
+		[Header("Health Related Events for Subscribers")]
+		[Space]
+		public UnityEvent noHealthEvent;
+		public UnityEvent<float> modifyHealthEvent;
+		public UnityEvent changeStatusEffectEvent;
 
 		private void Awake()
 		{
 			activeStatusEffects = new List<StatusEffect>();
 			currentHealth = startHealth;
 		}
-
 		/// <summary>
 		/// Used to add a status effect to the active status effects on this component.
 		/// </summary>
@@ -145,12 +152,7 @@ namespace OceanAnomaly.Components
 			{
 				return;
 			}
-			// We might do nothing 
-			if (changeHealthEvent != null)
-			{
-				changeHealthEvent.Invoke();
-			}
-
+			
 			float totalModifyAmount = amount;
 			// If we are loosing health, checking for Invulnerable should be at the end.
 			if (amount < 0)
@@ -186,11 +188,29 @@ namespace OceanAnomaly.Components
 			{
 				totalModifyAmount = Mathf.Abs(amount);
 			}
+			// Handle modifyingHealthEvent subscribers
+			if (modifyHealthEvent != null)
+			{
+				modifyHealthEvent.Invoke(totalModifyAmount);
+			}
+
 			currentHealth += totalModifyAmount;
 			// Basically if we added health and we aren't updating health, lets do that again.
+			// But only if we have a status effect that needs updating.
 			if (currentHealth > 0 & !updatingHealth)
 			{
-				StartUpdatingHealth();
+				bool hasUpdatingStatusEffect = false;
+				foreach (var effect in activeStatusEffects)
+				{
+					if (effect < 0)
+					{
+						hasUpdatingStatusEffect = true;
+					}
+				}
+				if (hasUpdatingStatusEffect)
+				{
+					StartUpdatingHealth();
+				}
 			}
 			// If we have no health we kinda just want to stop things for a bit.
 			if (currentHealth <= 0)
@@ -204,6 +224,14 @@ namespace OceanAnomaly.Components
 				}
 			}
 		}
+		/// <summary>
+		/// Returns the current health.
+		/// </summary>
+		/// <returns></returns>
+		public float GetCurrentHealth()
+		{
+			return currentHealth;
+		}
 		private void StartUpdatingHealth()
 		{
 			updateHealthRoutine = UpdateHealth();
@@ -212,7 +240,10 @@ namespace OceanAnomaly.Components
 		private void StopUpdatedHealth()
 		{
 			updatingHealth = false;
-			StopCoroutine(updateHealthRoutine);
+			if (updateHealthRoutine != null)
+			{
+				StopCoroutine(updateHealthRoutine);
+			}
 		}
 		private IEnumerator UpdateHealth()
 		{

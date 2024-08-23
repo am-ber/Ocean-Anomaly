@@ -12,6 +12,8 @@ TagManager:
   - Claw Limb
   - Tentacle Limb
   - SpecialEffect
+  - Body Part End Point
+  - Limb Point
   layers:
   - Default
   - TransparentFX
