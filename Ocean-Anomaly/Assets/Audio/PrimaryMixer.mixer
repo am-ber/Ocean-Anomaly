@@ -185,7 +185,7 @@ AudioMixerController:
   - {fileID: 7483693540249699951}
   - {fileID: -5673469179501008089}
   - {fileID: -7282108815636148070}
-  m_StartSnapshot: {fileID: 24500006}
+  m_StartSnapshot: {fileID: -5673469179501008089}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
@@ -206,7 +206,7 @@ AudioMixerController:
     - 8d804888b64cebf4bb186286015cc4f8
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: -7282108815636148070}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0

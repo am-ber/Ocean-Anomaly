@@ -335,7 +335,7 @@ Transform:
   m_GameObject: {fileID: 93223580}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2810,7 +2810,6 @@ MonoBehaviour:
   settingsMenuCamera: {fileID: 180439714}
   mainMenuCamera: {fileID: 349901681}
   mainSceneName: 
-  playedMainMusic: 0
 --- !u!1 &718381684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,15 +4862,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2561641780309475488, guid: 09db6ae4107e3534293b70cda31feb7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.238698
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2561641780309475488, guid: 09db6ae4107e3534293b70cda31feb7c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.97376597
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2561641780309475488, guid: 09db6ae4107e3534293b70cda31feb7c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.14891385
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2561641780309475488, guid: 09db6ae4107e3534293b70cda31feb7c, type: 3}
       propertyPath: m_LocalRotation.w
