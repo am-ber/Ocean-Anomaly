@@ -9,8 +9,10 @@ namespace OceanAnomaly.Components
 	{
 		[TagSelector]
 		public string AllowedLimbPointTag;
-		public Transform EndPointOffset;
-		public BodyPart NextBodyPart;
+		[field: SerializeField]
+		public Transform EndPointOffset {  get; private set; }
+		[field: SerializeField]
+		public BodyPart NextBodyPart {  get; private set; }
 		public BodyPart PreviousBodyPart;
 		public bool SnapToPrevious = true;
 		private void Update()

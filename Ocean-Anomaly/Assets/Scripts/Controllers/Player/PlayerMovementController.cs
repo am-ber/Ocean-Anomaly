@@ -11,6 +11,8 @@ namespace OceanAnomaly.Controllers
 	{
 		[SerializeField]
 		private Rigidbody2D rigidBody;
+		[SerializeField]
+		private Transform playerGraphics;
 		// Movement code
 		[Header("Movement Settings")]
 		[SerializeField]
@@ -99,6 +101,7 @@ namespace OceanAnomaly.Controllers
 		{
 			CheckInputs();
 			DashHandling();
+			RotateGfx();
 		}
 		private void FixedUpdate()
 		{
@@ -157,10 +160,14 @@ namespace OceanAnomaly.Controllers
 			inputDash.Disable();
 			Debug.Log("Movement Controls Disabled");
 		}
-		protected void rotateTo()
+		private void RotateGfx()
 		{
 			float step = bodyRotateSpeed * Time.deltaTime;
-
+			Vector3 velocityNormal = velocity.normalized;
+			if (playerGraphics != null)
+			{
+				playerGraphics.rotation = Quaternion.Euler(velocityNormal);
+			}
 		}
 	}
 }
