@@ -104,10 +104,7 @@ namespace OceanAnomaly.Components
 			}
 			activeStatusEffects.Add(effect);
 			// After we add the effect we should call whatever subscribers we have.
-			if (changeStatusEffectEvent != null)
-			{
-				changeStatusEffectEvent.Invoke();
-			}
+			changeStatusEffectEvent?.Invoke();
 			return true;
 		}
 		/// <summary>
@@ -135,10 +132,7 @@ namespace OceanAnomaly.Components
 			}
 
 			// After we remove the effect we should call whatever subscribers we have.
-			if (changeStatusEffectEvent != null)
-			{
-				changeStatusEffectEvent.Invoke();
-			}
+			changeStatusEffectEvent?.Invoke();
 			return removed;
 		}
 		/// <summary>
@@ -189,10 +183,7 @@ namespace OceanAnomaly.Components
 				totalModifyAmount = Mathf.Abs(amount);
 			}
 			// Handle modifyingHealthEvent subscribers
-			if (modifyHealthEvent != null)
-			{
-				modifyHealthEvent.Invoke(totalModifyAmount);
-			}
+			modifyHealthEvent?.Invoke(totalModifyAmount);
 
 			currentHealth += totalModifyAmount;
 			// Basically if we added health and we aren't updating health, lets do that again.
@@ -218,10 +209,7 @@ namespace OceanAnomaly.Components
 				currentHealth = 0;
 				activeStatusEffects.Clear();
 				StopUpdatedHealth();
-				if (noHealthEvent != null)
-				{
-					noHealthEvent.Invoke();
-				}
+				noHealthEvent.Invoke();
 			}
 		}
 		/// <summary>

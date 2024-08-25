@@ -12,8 +12,11 @@ namespace OceanAnomaly.Controllers
 	{
 		[Header("Generic Variables")]
 		public bool lockCursor = true;
+		[ExposedScriptableObject]
 		public WeaponBaseScriptable HarpoonGun;
+		[ExposedScriptableObject]
 		public WeaponBaseScriptable CannonGun;
+		[ExposedScriptableObject]
 		public WeaponBaseScriptable CurrentWeapon;
 		[SerializeField]
 		private PlayerMovementController movementController;
