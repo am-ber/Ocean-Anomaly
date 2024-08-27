@@ -7,3 +7,7 @@ public interface Observer<I>
 {
     public void OnNotify(I input);
 }
+public interface Observer
+{
+    public void OnNotify();
+}

@@ -6,9 +6,13 @@ using UnityEngine;
 
 public class ProjectileBehavior : BasicMoveBehavior
 {
-	public float damage = 5;
+	public uint damage = 5;
 	public string impactSoundName = string.Empty;
 	public GameObject impactPrefab;
+	[SerializeField]
+	private float destroyEffectTime = 1f;
+	[SerializeField]
+	private float torqueDeviationRange = 10;
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		Health colliderHealth = collision.gameObject.GetComponent<Health>();
@@ -27,5 +31,10 @@ public class ProjectileBehavior : BasicMoveBehavior
 	private void FixedUpdate()
 	{
 		FixedBasicMove();
+	}
+	private void OnDestroy()
+	{
+		GetComponent<Rigidbody2D>().AddTorque(Random.Range(-torqueDeviationRange, torqueDeviationRange));
+
 	}
 }

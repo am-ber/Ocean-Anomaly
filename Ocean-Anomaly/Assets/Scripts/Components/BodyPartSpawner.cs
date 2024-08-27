@@ -6,7 +6,7 @@ namespace OceanAnomaly.Components {
 	public class BodyPartSpawner : MonoBehaviour
 	{
 		[SerializeField]
-		private GameObject LimbPrefab;
+		private BodyPart LimbPrefab;
 		[SerializeField]
 		private List<Transform> LimbPoints;
 		[SerializeField]
@@ -21,16 +21,15 @@ namespace OceanAnomaly.Components {
 			{
 				if (limbTransform != null)
 				{
-					BodyPart bodyPartData = LimbPrefab.GetComponent<BodyPart>();
 					BodyPart previousPart = null;
 					for (int i = 0; i < limbLengthLimit; i++)
 					{
 						if (previousPart == null)
 						{
-							previousPart = Instantiate(LimbPrefab, limbTransform).GetComponent<BodyPart>();
+							previousPart = Instantiate(LimbPrefab, limbTransform);
 						} else
 						{
-							BodyPart newPart = Instantiate(LimbPrefab, previousPart.EndPointOffset.position, previousPart.EndPointOffset.rotation).GetComponent<BodyPart>();
+							BodyPart newPart = Instantiate(LimbPrefab, previousPart.EndPointOffset.position, previousPart.EndPointOffset.rotation);
 							newPart.SetPreviousBodyPart(previousPart);
 							previousPart = newPart;
 						}

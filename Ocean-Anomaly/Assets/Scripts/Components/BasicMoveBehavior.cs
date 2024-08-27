@@ -33,7 +33,7 @@ namespace OceanAnomaly.Components
 		}
 		protected void FixedBasicMove()
 		{
-			transform.position += transform.up * Time.deltaTime * (maxSpeed * PlayerUpgradeManager.projectileSpeed) * (speedUp > 0 ? log : 1);
+			transform.position += transform.up * Time.deltaTime * (maxSpeed * UpgradeManager.projectileSpeed) * (speedUp > 0 ? log : 1);
 			transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 			log += speedUp;
 		}

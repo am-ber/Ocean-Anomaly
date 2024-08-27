@@ -12,8 +12,11 @@ namespace OceanAnomaly.Controllers
 	{
 		[Header("Generic Variables")]
 		public bool lockCursor = true;
+		[ExposedScriptableObject]
 		public WeaponBaseScriptable HarpoonGun;
+		[ExposedScriptableObject]
 		public WeaponBaseScriptable CannonGun;
+		[ExposedScriptableObject]
 		public WeaponBaseScriptable CurrentWeapon;
 		[SerializeField]
 		private PlayerMovementController movementController;
@@ -117,7 +120,7 @@ namespace OceanAnomaly.Controllers
 				canAttack = false;
 				// Using the global attack upgrade will only work if we constantly disable and 
 				// re-enabled the attack controller (which honestly, we probably should do)...
-				timeTillAttack = CurrentWeapon.attackTime * PlayerUpgradeManager.attackTime;
+				timeTillAttack = CurrentWeapon.attackTime * UpgradeManager.attackTime;
 			}
 		}
 		private void OnCycleWeapon()

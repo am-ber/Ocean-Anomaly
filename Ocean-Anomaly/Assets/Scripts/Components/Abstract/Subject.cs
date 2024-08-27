@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class Subject<I1, I2> : MonoBehaviour
 {
@@ -46,6 +47,32 @@ public class Subject<I> : MonoBehaviour
 			foreach (var observer in observers)
 			{
 				observer.OnNotify(input);
+			}
+		}
+		catch (Exception e)
+		{
+			Debug.Log($"Subject unable to notify observers because...\n {e.Message}");
+		}
+	}
+}
+public class Subject : MonoBehaviour
+{
+	List<Observer> observers = new List<Observer>();
+	public void AddObserver(Observer observer)
+	{
+		observers.Add(observer);
+	}
+	public void RemoveObserver(Observer observer)
+	{
+		observers.Remove(observer);
+	}
+	public void Notify()
+	{
+		try
+		{
+			foreach (var observer in observers)
+			{
+				observer.OnNotify();
 			}
 		}
 		catch (Exception e)
