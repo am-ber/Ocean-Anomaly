@@ -113,8 +113,8 @@ namespace OceanAnomaly.Controllers
 			// Applies the current acceleration
 			velocity += acceleration;
 			// Applies clamping to the velocity based on current player speed upgrades
-			velocity = new Vector3(Mathf.Clamp(velocity.x, -(maxMoveSpeed * PlayerUpgradeManager.moveFactor), (maxMoveSpeed * PlayerUpgradeManager.moveFactor)),
-					Mathf.Clamp(velocity.y, -(maxMoveSpeed * PlayerUpgradeManager.moveFactor), (maxMoveSpeed * PlayerUpgradeManager.moveFactor)), 0);
+			velocity = new Vector3(Mathf.Clamp(velocity.x, -(maxMoveSpeed * UpgradeManager.moveFactor), (maxMoveSpeed * UpgradeManager.moveFactor)),
+					Mathf.Clamp(velocity.y, -(maxMoveSpeed * UpgradeManager.moveFactor), (maxMoveSpeed * UpgradeManager.moveFactor)), 0);
 			// Decelerates the current velocity of the player and resets the acceleration
 			velocity = (velocity * decelerationRate);
 			acceleration = new Vector3(0, 0, 0);
@@ -143,9 +143,9 @@ namespace OceanAnomaly.Controllers
 			if (!canDash)
 			{
 				dashTime += Time.deltaTime;
-				if (dashTime >= (dashCoolDown * PlayerUpgradeManager.dashTime) / 10)
+				if (dashTime >= (dashCoolDown * UpgradeManager.dashTime) / 10)
 					dashed = false;
-				if (dashTime >= (dashCoolDown * PlayerUpgradeManager.dashTime))
+				if (dashTime >= (dashCoolDown * UpgradeManager.dashTime))
 				{
 					canDash = true;
 					// Right here would be where to play the "Dash Ready" sound

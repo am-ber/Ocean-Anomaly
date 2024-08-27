@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ProjectileBehavior : BasicMoveBehavior
 {
-	public float damage = 5;
+	public uint damage = 5;
 	public string impactSoundName = string.Empty;
 	public GameObject impactPrefab;
 	[SerializeField]

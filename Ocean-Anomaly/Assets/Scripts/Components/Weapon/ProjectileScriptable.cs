@@ -12,7 +12,7 @@ namespace OceanAnomaly.Components.Weapon
 		public Sprite sprite;
 		public float travelSpeed;
 		public float maxSpeed;
-		public float damage;
+		public uint damage;
 		[TagSelector]
 		public string projectileTag = "Untagged";
 		public string impactSoundName;

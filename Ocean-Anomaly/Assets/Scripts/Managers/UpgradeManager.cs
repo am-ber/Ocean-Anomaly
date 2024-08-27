@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OceanAnomaly.Managers
 {
-	public static class PlayerUpgradeManager
+	public static class UpgradeManager
 	{
 		// Movement specific
 		public static float dashTime = 1;			// smaller for better
@@ -14,6 +14,8 @@ namespace OceanAnomaly.Managers
 		// Attack specific
 		public static float projectileSpeed = 1;	// larger for better
 		public static float attackTime = 1;			// smaller for better
-		public static float projectileAccuracy = 1;	// smaller for better
+		public static float projectileAccuracy = 1; // smaller for better
+
+		public static List<UpgradeScriptable> playerUpgrades = new List<UpgradeScriptable>();
 	}
 }
