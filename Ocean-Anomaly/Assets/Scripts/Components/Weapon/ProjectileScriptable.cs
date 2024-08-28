@@ -6,7 +6,7 @@ using UnityEngine.ProBuilder;
 
 namespace OceanAnomaly.Components.Weapon
 {
-	[CreateAssetMenu(fileName = "ProjectileType", menuName = "ScriptableObjects/WeaponFuntion/Projectile")]
+	[CreateAssetMenu(fileName = "ProjectileType", menuName = "Scriptable Objects/WeaponFuntion/Projectile")]
 	public class ProjectileScriptable : BaseWeponFunctionScriptable
 	{
 		public Sprite sprite;
