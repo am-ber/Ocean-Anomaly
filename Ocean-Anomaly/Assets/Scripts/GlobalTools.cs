@@ -180,5 +180,14 @@ namespace OceanAnomaly.Tools
 			}
 			return component;
 		}
+		/// <summary>
+		/// Used to return a new Vector3 with a Z of 0.
+		/// </summary>
+		/// <param name="vector"></param>
+		/// <returns></returns>
+		public static Vector3 ToVector3(this Vector2 vector)
+		{
+			return new Vector3(vector.x, vector.y);
+		}
 	}
 }
