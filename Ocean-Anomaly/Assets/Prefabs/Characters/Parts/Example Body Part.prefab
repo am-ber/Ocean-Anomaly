@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6046444150580678228}
   - component: {fileID: 106802230488986493}
   - component: {fileID: 591185096903920586}
-  - component: {fileID: -2448751337076894486}
   m_Layer: 7
   m_Name: Example Body Part
   m_TagString: Monster
@@ -146,7 +145,19 @@ MonoBehaviour:
         m_CallState: 2
   modifyHealthEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 106802230488986493}
+        m_TargetAssemblyTypeName: OceanAnomaly.Components.BodyPart, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   changeStatusEffectEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -168,10 +179,13 @@ MonoBehaviour:
   PreviousBodyPart: {fileID: 0}
   SnapToPrevious: 1
   LimbIndex: 0
-  destructionGFXPrefab: {fileID: 8055848885476931499, guid: cf69586576d04f447ad250e20d9e5071, type: 3}
   OnDetatching:
     m_PersistentCalls:
       m_Calls: []
+  onHealColor: {r: 0.16958906, g: 11.984315, b: 0.16958906, a: 1}
+  onHitColor: {r: 11.984314, g: 0.16958906, b: 0.16958906, a: 1}
+  graphicsRenderer: {fileID: 986168400564177546}
+  destructionGFXPrefab: {fileID: 8055848885476931499, guid: cf69586576d04f447ad250e20d9e5071, type: 3}
 --- !u!114 &591185096903920586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,18 +199,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeTillDeath: 1
---- !u!114 &-2448751337076894486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3547364725121281258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4196239404854372706
 GameObject:
   m_ObjectHideFlags: 0

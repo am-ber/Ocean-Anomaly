@@ -51,7 +51,6 @@ namespace OceanAnomaly.Components
 				boneRenderer = GetComponent<BoneRenderer>();
 				boneRenderer.transforms = new Transform[limbLengthLimit * LimbPoints.Count];
 			}
-			SetRigComponents(false);
 			// Create the list of limbPoint, limb collections
 			limbCollections = new List<LimbData>();
 			foreach (Transform limbPoint in LimbPoints)
@@ -63,7 +62,6 @@ namespace OceanAnomaly.Components
 				limbTargetIK.transform.parent = limbIkRig.transform;
 				// Add the ChainIKConstraint component to it
 				ChainIKConstraint limbIk = limbIkRig.AddComponent<ChainIKConstraint>();
-				limbIk.enabled = false;
 				// Add this struct to the list
 				limbCollections.Add(new LimbData(limbPoint, new List<BodyPart>(), limbTargetIK.transform, limbIk));
 			}
@@ -87,9 +85,11 @@ namespace OceanAnomaly.Components
 						// Set the previous part to the one we just created
 						if (previousPart == null)
 						{
+							// aka our first iteration
 							previousPart = Instantiate(LimbPrefab, limbData.LimbPoint);
 						} else
 						{
+							// all subsequent iterations
 							BodyPart newPart = Instantiate(LimbPrefab, previousPart.EndPointOffset.position, previousPart.EndPointOffset.rotation);
 							newPart.SetPreviousBodyPart(previousPart);
 							previousPart = newPart;
@@ -116,7 +116,6 @@ namespace OceanAnomaly.Components
 						limbData.LimbIk.data.tipRotationWeight = 1;
 						limbData.LimbIk.data.maxIterations = 15;
 						limbData.LimbIk.data.tolerance = 0.0001f;
-						limbData.LimbIk.enabled = true;
 					}
 					if (boneRenderer != null)
 					{
@@ -125,7 +124,6 @@ namespace OceanAnomaly.Components
 				}
 				currentIndex++;
 			}
-			SetRigComponents(true);
 		}
 		public void OnLimbDetatch()
 		{
