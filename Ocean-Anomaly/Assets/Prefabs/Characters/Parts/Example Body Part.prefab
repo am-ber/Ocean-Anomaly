@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6046444150580678228}
   - component: {fileID: 106802230488986493}
   - component: {fileID: 591185096903920586}
+  - component: {fileID: -2448751337076894486}
   m_Layer: 7
   m_Name: Example Body Part
   m_TagString: Monster
@@ -161,12 +162,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a27243d22b2cd4fb6c506ebe46e079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  AllowedLimbPointTag: 
-  EndPointOffset: {fileID: 9195975218757577822}
-  NextBodyPart: {fileID: 0}
+  endpointTag: Body Part End Point
+  <EndPointOffset>k__BackingField: {fileID: 9195975218757577822}
+  <NextBodyPart>k__BackingField: {fileID: 0}
   PreviousBodyPart: {fileID: 0}
   SnapToPrevious: 1
+  LimbIndex: 0
+  destructionGFXPrefab: {fileID: 8055848885476931499, guid: cf69586576d04f447ad250e20d9e5071, type: 3}
+  OnDetatching:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &591185096903920586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +185,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeTillDeath: 1
+--- !u!114 &-2448751337076894486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547364725121281258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4196239404854372706
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +240,7 @@ GameObject:
   - component: {fileID: 986168400564177546}
   m_Layer: 7
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Monster GFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -181,13 +181,31 @@ namespace OceanAnomaly.Tools
 			return component;
 		}
 		/// <summary>
-		/// Used to return a new Vector3 with a Z of 0.
+		/// Used to return a new Vector3 with this Vector2's X and Y but a Z of 0.
 		/// </summary>
 		/// <param name="vector"></param>
 		/// <returns></returns>
 		public static Vector3 ToVector3(this Vector2 vector)
 		{
 			return new Vector3(vector.x, vector.y);
+		}
+		/// <summary>
+		/// Used to find the first child by a tag. Will be obviously null if you don't got a child with that tag or component.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="component"></param>
+		/// <param name="tag"></param>
+		/// <returns></returns>
+		public static T FindChildByTag<T>(this T component, string tag) where T : Component
+		{
+			foreach (T foundComp in component.GetComponentsInChildren<T>())
+			{
+				if (foundComp.tag == tag)
+				{
+					return foundComp;
+				}
+			}
+			return null;
 		}
 	}
 }
