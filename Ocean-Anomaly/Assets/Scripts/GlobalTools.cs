@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 namespace OceanAnomaly.Tools
 {
@@ -162,22 +163,35 @@ namespace OceanAnomaly.Tools
 		/// <param name="gameObject"></param>
 		/// <param name="prefab"></param>
 		/// <returns></returns>
-		public static T RecursiveFindComponentLocal<T>(this GameObject gameObject, GameObject prefab = null) where T : Component
+		public static T RecursiveFindComponentLocal<T>(this GameObject gameObject, GameObject prefab = null, bool createComponentLocally = false, bool createChildComponentLocally = false) where T : Component
 		{
+			// Checks locally for the component
 			T component = gameObject.GetComponent<T>();
 			if (component != null)
 			{
 				return component;
 			}
+			// Checks the children for the component
 			component = gameObject.GetComponentInChildren<T>();
 			if (component != null)
 			{
 				return component;
 			}
+			// Should we make a new GameObject that hopefully has that component?
 			if (prefab != null)
 			{
 				return GameObject.Instantiate(prefab).RecursiveFindComponentLocal<T>();
 			}
+			// Should we add a new instance of the component to this GameObject?
+			if (createComponentLocally)
+			{
+				return gameObject.AddComponent<T>();
+			}
+			if (createChildComponentLocally)
+			{
+				return new GameObject($"{gameObject.name} {typeof(T).Name}").AddComponent<T>();
+			}
+			// If none of these then we might as well return null, but returning a mutated null seems cool ;)
 			return component;
 		}
 		/// <summary>

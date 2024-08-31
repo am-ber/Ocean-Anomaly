@@ -2,55 +2,61 @@ using OceanAnomaly.Attributes;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
+using OceanAnomaly.Tools;
 
 namespace OceanAnomaly.Components
 {
     public class SpriteEffects : MonoBehaviour
     {
-		public float FadeAmountPerFrame = 0.75f;
-		public Color flashColor = Color.red;
-		public float flashSpeed = 1.5f;
 		[SerializeField]
-		private SpriteRenderer spriteRenderer;
-		[ReadOnly]
+		private float fadeSpeed = 1.0f;
+		[Range(0f, 1f)]
 		[SerializeField]
-		private Color currentColor;
-		private void Start()
+		private float fadeEndAlpha = 0f;
+		[ColorUsage(true, true)]
+		[SerializeField]
+		private Color flashColor = Color.red;
+		[SerializeField]
+		private float flashSpeed = 0.1f;
+		[SerializeField]
+		private SpriteRenderer graphicsRenderer;
+		[SerializeField]
+		private GameObject spawnableGFXPrefab;
+		private void Awake()
 		{
-			if (spriteRenderer != null)
+			Initialize();
+		}
+		private void OnValidate()
+		{
+			Initialize();
+		}
+		private void Initialize()
+		{
+			if (graphicsRenderer == null)
 			{
-				currentColor = spriteRenderer.color;
+				graphicsRenderer = gameObject.RecursiveFindComponentLocal<SpriteRenderer>();
 			}
 		}
-		public async void FadeSprite()
+		public void FadeSprite()
 		{
-			float alpha = 1.0f;
-			while (alpha > 0)
-			{
-				currentColor.a = alpha;
-				if (spriteRenderer != null)
-					spriteRenderer.color = currentColor;
-				alpha -= FadeAmountPerFrame * Time.deltaTime;
-				await Task.Yield();
-			}
+			graphicsRenderer.DOFade(fadeEndAlpha, fadeSpeed);
 		}
-		public async void FlashSpriteColor()
+		public void FlashSpriteColor()
 		{
-			float time = 0;
-			while (time < 1)
+			Color previousColor = graphicsRenderer.color;
+			graphicsRenderer.DOColor(flashColor, flashSpeed).OnComplete(() => graphicsRenderer.DOColor(previousColor, flashSpeed));
+		}
+		public void SpawnGFX()
+		{
+			// If the scene is currently not loaded then lets back out instead of trying to create new stuff
+			if (!gameObject.scene.isLoaded)
 			{
-				if (spriteRenderer != null)
-					spriteRenderer.color = Color.Lerp(currentColor, flashColor, time);
-				time += (flashSpeed * Time.deltaTime);
-				await Task.Yield();
+				return;
 			}
-			time = 1;
-			while (time > 0)
+			if (spawnableGFXPrefab != null)
 			{
-				if (spriteRenderer != null)
-					spriteRenderer.color = Color.Lerp(currentColor, flashColor, time);
-				time -= (flashSpeed * Time.deltaTime);
-				await Task.Yield();
+				Instantiate(spawnableGFXPrefab, transform.position, transform.rotation);
 			}
 		}
 	}
