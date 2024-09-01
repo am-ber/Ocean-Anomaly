@@ -12,7 +12,7 @@ namespace OceanAnomaly.Components.Weapon
 		public Vector2 iconPositionOffset = Vector2.zero;
 		public float iconAngleOffset = 0f;
 		public Sprite weaponSprite;
-		public string fireSoundName;
+		public SoundScriptable fireSound;
 		[Header("Attack Variables")]
 		public ProjectileScriptable weaponFunction;
 		public float attackTime = 1f;

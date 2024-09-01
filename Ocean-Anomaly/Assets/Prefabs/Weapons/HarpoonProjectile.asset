@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e997b7cc75dce4b93ffb3bc461a62b, type: 3}
   m_Name: HarpoonProjectile
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 9c71ef138dc83499091df262af78c576, type: 3}
   travelSpeed: 70
   maxSpeed: 70
   damage: 4

@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using OceanAnomaly.Components;
 
 namespace OceanAnomaly.Tools
 {

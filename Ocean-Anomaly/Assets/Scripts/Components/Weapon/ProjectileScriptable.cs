@@ -15,10 +15,11 @@ namespace OceanAnomaly.Components.Weapon
 		public uint damage;
 		[TagSelector]
 		public string projectileTag = "Untagged";
-		public string impactSoundName;
 		public LayerMask projectileLayer;
 		public GameObject projectilePrefab;
 		public GameObject impactPrefab;
+		[ExposedScriptableObject]
+		public SoundScriptable impactSound;
 		private ProjectileBehavior behavior;
 		private void CheckForComponents(GameObject givenObject)
 		{
@@ -41,7 +42,7 @@ namespace OceanAnomaly.Components.Weapon
 			behavior.accuracy = accuracy;
 			behavior.damage = damage;
 			behavior.rotationSpeed = 2;
-			behavior.impactSoundName = impactSoundName;
+			behavior.impactSound = impactSound;
 			behavior.impactPrefab = impactPrefab;
 			// Resolve which target to set for
 			if (targetPosition != null)

@@ -86,7 +86,7 @@ public class EnemyFieldManager : MonoBehaviour
 		SplinePoint[] splinePoints = new SplinePoint[currentPoints];
 		for (int i = 0; i < splinePoints.Length; i++)
 		{
-			Vector3 pointPosition = GlobalTools.GetRandomPointInRadius2D(pointGenerationRadius, transform.position);
+			Vector3 pointPosition = GlobalTools.GetRandomPointInRadius2D(pointGenerationRadius, transform.position, pointGenerationRadiusMin);
 			splinePoints[i] = new SplinePoint(pointPosition);
 		}
 		splineComputer.SetPoints(splinePoints);

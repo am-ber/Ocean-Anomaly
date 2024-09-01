@@ -188,28 +188,6 @@ namespace OceanAnomaly.Controllers
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8"",
-                    ""path"": ""<XRController>/{Primary2DAxis}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ea4d645-4504-4529-b061-ab81934c3752"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
@@ -221,11 +199,22 @@ namespace OceanAnomaly.Controllers
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3e5f5442-8668-4b27-a940-df99bad7e831"",
-                    ""path"": ""<Joystick>/{Hatswitch}"",
+                    ""id"": ""00a66fbd-cd14-4209-a31d-29ba43afb942"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9af51455-eb0d-4a1e-92f0-3e6aa0f8a052"",
+                    ""path"": ""<Pen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -254,33 +243,11 @@ namespace OceanAnomaly.Controllers
                 },
                 {
                     ""name"": """",
-                    ""id"": ""886e731e-7071-4ae4-95c0-e61739dad6fd"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""id"": ""d4edf46a-fc8b-470a-93c4-99e265f01b51"",
+                    ""path"": ""<Pen>/tip"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Touch"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ee3d0cd2-254e-47a7-a8cb-bc94d9658c54"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8255d333-5683-4943-a58a-ccb207ff1dce"",
-                    ""path"": ""<XRController>/{PrimaryAction}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -298,30 +265,8 @@ namespace OceanAnomaly.Controllers
                 },
                 {
                     ""name"": """",
-                    ""id"": ""dd5b4e46-4e58-4222-a241-95e4f5619876"",
-                    ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""43483e22-9006-4857-af64-7793ccbe3938"",
-                    ""path"": ""<DualShockGamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1fbccedc-b649-4e6e-b0b5-c7c4f8b25418"",
-                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
+                    ""id"": ""7c7d3c73-2428-4029-825a-c62dc1a2a5fe"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -332,7 +277,7 @@ namespace OceanAnomaly.Controllers
                 {
                     ""name"": """",
                     ""id"": ""8cf26525-f30c-46e3-94f9-2de119ff69b9"",
-                    ""path"": ""<Keyboard>/#(R)"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -414,24 +359,6 @@ namespace OceanAnomaly.Controllers
                     ""type"": ""PassThrough"",
                     ""id"": ""412e36be-c03b-426d-918d-877330347799"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TrackedDevicePosition"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""8b2d2ca7-98d8-4174-9478-799f42e46b97"",
-                    ""expectedControlType"": ""Vector3"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TrackedDeviceOrientation"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""9344b0bd-9e5e-40f3-a112-e53e959120ea"",
-                    ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -549,61 +476,6 @@ namespace OceanAnomaly.Controllers
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Joystick"",
-                    ""id"": ""e25d9774-381c-4a61-b47c-7b6b299ad9f9"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""3db53b26-6601-41be-9887-63ac74e79d19"",
-                    ""path"": ""<Joystick>/stick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""0cb3e13e-3d90-4178-8ae6-d9c5501d653f"",
-                    ""path"": ""<Joystick>/stick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""0392d399-f6dd-4c82-8062-c1e9c0d34835"",
-                    ""path"": ""<Joystick>/stick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""942a66d9-d42f-43d6-8d70-ecb4ba5363bc"",
-                    ""path"": ""<Joystick>/stick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""Keyboard"",
                     ""id"": ""ff527021-f211-4c02-933e-5976594c46ed"",
                     ""path"": ""2DVector"",
@@ -708,7 +580,7 @@ namespace OceanAnomaly.Controllers
                     ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -719,7 +591,7 @@ namespace OceanAnomaly.Controllers
                     ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -748,17 +620,6 @@ namespace OceanAnomaly.Controllers
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5693e57a-238a-46ed-b5ae-e64e6e574302"",
-                    ""path"": ""<Touchscreen>/touch*/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Touch"",
-                    ""action"": ""Point"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4faf7dc9-b979-4210-aa8c-e808e1ef89f5"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -775,28 +636,6 @@ namespace OceanAnomaly.Controllers
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""47c2a644-3ebc-4dae-a106-589b7ca75b59"",
-                    ""path"": ""<Touchscreen>/touch*/press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Touch"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bb9e6b34-44bf-4381-ac63-5aa15d19f677"",
-                    ""path"": ""<XRController>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -833,28 +672,6 @@ namespace OceanAnomaly.Controllers
                     ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7236c0d9-6ca3-47cf-a6ee-a97f5b59ea77"",
-                    ""path"": ""<XRController>/devicePosition"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""TrackedDevicePosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""23e01e3a-f935-4948-8d8b-9bcac77714fb"",
-                    ""path"": ""<XRController>/deviceRotation"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""TrackedDeviceOrientation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -886,39 +703,6 @@ namespace OceanAnomaly.Controllers
                     ""isOR"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Touch"",
-            ""bindingGroup"": ""Touch"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Touchscreen>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Joystick"",
-            ""bindingGroup"": ""Joystick"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Joystick>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""XR"",
-            ""bindingGroup"": ""XR"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<XRController>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
         }
     ]
 }");
@@ -939,8 +723,6 @@ namespace OceanAnomaly.Controllers
             m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
             m_UI_MiddleClick = m_UI.FindAction("MiddleClick", throwIfNotFound: true);
             m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
-            m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
-            m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -1088,8 +870,6 @@ namespace OceanAnomaly.Controllers
         private readonly InputAction m_UI_ScrollWheel;
         private readonly InputAction m_UI_MiddleClick;
         private readonly InputAction m_UI_RightClick;
-        private readonly InputAction m_UI_TrackedDevicePosition;
-        private readonly InputAction m_UI_TrackedDeviceOrientation;
         public struct UIActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -1102,8 +882,6 @@ namespace OceanAnomaly.Controllers
             public InputAction @ScrollWheel => m_Wrapper.m_UI_ScrollWheel;
             public InputAction @MiddleClick => m_Wrapper.m_UI_MiddleClick;
             public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
-            public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
-            public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1137,12 +915,6 @@ namespace OceanAnomaly.Controllers
                 @RightClick.started += instance.OnRightClick;
                 @RightClick.performed += instance.OnRightClick;
                 @RightClick.canceled += instance.OnRightClick;
-                @TrackedDevicePosition.started += instance.OnTrackedDevicePosition;
-                @TrackedDevicePosition.performed += instance.OnTrackedDevicePosition;
-                @TrackedDevicePosition.canceled += instance.OnTrackedDevicePosition;
-                @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
-                @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
-                @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -1171,12 +943,6 @@ namespace OceanAnomaly.Controllers
                 @RightClick.started -= instance.OnRightClick;
                 @RightClick.performed -= instance.OnRightClick;
                 @RightClick.canceled -= instance.OnRightClick;
-                @TrackedDevicePosition.started -= instance.OnTrackedDevicePosition;
-                @TrackedDevicePosition.performed -= instance.OnTrackedDevicePosition;
-                @TrackedDevicePosition.canceled -= instance.OnTrackedDevicePosition;
-                @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
-                @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
-                @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -1212,33 +978,6 @@ namespace OceanAnomaly.Controllers
                 return asset.controlSchemes[m_GamepadSchemeIndex];
             }
         }
-        private int m_TouchSchemeIndex = -1;
-        public InputControlScheme TouchScheme
-        {
-            get
-            {
-                if (m_TouchSchemeIndex == -1) m_TouchSchemeIndex = asset.FindControlSchemeIndex("Touch");
-                return asset.controlSchemes[m_TouchSchemeIndex];
-            }
-        }
-        private int m_JoystickSchemeIndex = -1;
-        public InputControlScheme JoystickScheme
-        {
-            get
-            {
-                if (m_JoystickSchemeIndex == -1) m_JoystickSchemeIndex = asset.FindControlSchemeIndex("Joystick");
-                return asset.controlSchemes[m_JoystickSchemeIndex];
-            }
-        }
-        private int m_XRSchemeIndex = -1;
-        public InputControlScheme XRScheme
-        {
-            get
-            {
-                if (m_XRSchemeIndex == -1) m_XRSchemeIndex = asset.FindControlSchemeIndex("XR");
-                return asset.controlSchemes[m_XRSchemeIndex];
-            }
-        }
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -1257,8 +996,6 @@ namespace OceanAnomaly.Controllers
             void OnScrollWheel(InputAction.CallbackContext context);
             void OnMiddleClick(InputAction.CallbackContext context);
             void OnRightClick(InputAction.CallbackContext context);
-            void OnTrackedDevicePosition(InputAction.CallbackContext context);
-            void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         }
     }
 }

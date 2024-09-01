@@ -42,6 +42,7 @@ namespace OceanAnomaly.Controllers
 		// Attacking
 		[Header("Attack Variables")]
 		private InputAction inputAttack;
+		private InputAction inputCycleWeapons;
 		[SerializeField]
 		private float accuracy = 0f;
 		[ReadOnly]
@@ -53,6 +54,9 @@ namespace OceanAnomaly.Controllers
 		private void Awake()
 		{
 			inputActions = new PlayerInputActions();
+			inputAttack = inputActions.Player.Fire;
+			inputCycleWeapons = inputActions.Player.CycleWeapon;
+			inputCycleWeapons.performed += SwitchWeapon;
 
 			if (movementController == null)
 			{
@@ -67,9 +71,8 @@ namespace OceanAnomaly.Controllers
 		}
 		private void OnEnable()
 		{
-			// This can have an instant OnFire() command
-			inputAttack = inputActions.Player.Fire;
 			inputAttack.Enable();
+			inputCycleWeapons.Enable();
 			Debug.Log("Attack Controls Enabled");
 		}
 		private void Update()
@@ -116,19 +119,18 @@ namespace OceanAnomaly.Controllers
 						Instantiate(CurrentWeapon.weaponFunction.projectilePrefab, indicator.transform.position, indicator.transform.rotation),
 						aimAngle, accuracy, crosshair.transform.position);
 				}
-				AudioManager.Instance.Play(CurrentWeapon.fireSoundName);
+				// Play our sound if we have it
+				if (CurrentWeapon.fireSound != null)
+				{
+					CurrentWeapon.fireSound.Play(gameObject);
+				}
 				canAttack = false;
 				// Using the global attack upgrade will only work if we constantly disable and 
 				// re-enabled the attack controller (which honestly, we probably should do)...
 				timeTillAttack = CurrentWeapon.attackTime * UpgradeManager.attackTime;
 			}
 		}
-		private void OnCycleWeapon()
-		{
-			Debug.Log("Changing Weapon");
-			SwitchWeapon();
-		}
-		private void SwitchWeapon()
+		private void SwitchWeapon(InputAction.CallbackContext context)
 		{
 			if (CurrentWeapon.Equals(HarpoonGun))
 			{
@@ -141,6 +143,7 @@ namespace OceanAnomaly.Controllers
 		private void OnDisable()
 		{
 			inputAttack.Disable();
+			inputCycleWeapons.Disable();
 			Debug.Log("Attack Controls Disabled");
 		}
 	}

@@ -28,24 +28,17 @@ namespace OceanAnomaly
 		[SerializeField]
 		private GameState currentGameState = GameState.GamePlay;
 		[Header("Required Objects")]
-		public PlayerInputManager playerInputManager;
 		public StatsScreen statsScreen;
 		[SerializeField]
 		private GameObject statsScreenPrefab;
-		[SerializeField]
-		public Canvas bindPlayerScreen;
-		[SerializeField]
-		private GameObject bindPlayerScreenPrefab;
 		public PlayerVirtualCameraController playerVirtualCamera;
 		[SerializeField]
 		private GameObject playerVirtualCameraPrefab;
 		public EnemyFieldManager enemyFieldManager;
 		[SerializeField]
 		private GameObject enemyFieldPrefab;
-		public AudioManager audioManager;
-		[SerializeField]
-		private GameObject audioManagerPrefab;
-		public List<PlayerInput> players;
+		public AudioManagerScriptable musicManager;
+		public AudioManagerScriptable soundManager;
 		void Awake()
 		{
 			Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -73,30 +66,18 @@ namespace OceanAnomaly
 		}
 		void Start()
 		{
-			if (playerInputManager == null)
-				playerInputManager = GetComponent<PlayerInputManager>();
-
-			players = new List<PlayerInput>();
-
 			if (statsScreen == null)
 			{
 				statsScreen = gameObject.RecursiveFindComponentLocal<StatsScreen>(statsScreenPrefab);
 			}
-			if (audioManager == null)
-			{
-				audioManager = AudioManager.Instance;
-				if (audioManager == null)
-				{
-					audioManager = gameObject.RecursiveFindComponentLocal<AudioManager>(audioManagerPrefab);
-				}
-			}
 			
 			statsScreen.gameObject.SetActive(displayStats);
-			
+			PlayMainMusic();
 			SetGameState(currentGameState);
 		}
 		void Update()
 		{
+			// This will always be an option to press
 			if (Input.GetKeyDown(KeyCode.F1))
 			{
 				displayStats = !displayStats;
@@ -105,6 +86,10 @@ namespace OceanAnomaly
 					statsScreen.gameObject.SetActive(displayStats);
 				}
 			}
+		}
+		public void PlayMainMusic()
+		{
+			musicManager.PlayAll(gameObject);
 		}
 		public void SetGameState(GameState state)
 		{
@@ -116,32 +101,27 @@ namespace OceanAnomaly
 				case GameState.GamePlay:
 					enemyFieldManager.gameObject.SetActive(true);
 					playerVirtualCamera.gameObject.SetActive(true);
+					musicManager.TransitionTo(musicManager.lowIntensity);
 					break;
 				case GameState.GamePlayPaused:
-					playerInputManager.EnableJoining();
 					enemyFieldManager.gameObject.SetActive(true);
 					playerVirtualCamera.gameObject.SetActive(true);
+					musicManager.TransitionTo(musicManager.musicLowPass);
 					break;
 				case GameState.Cutscene:
 				case GameState.MainMenu:
-					playerInputManager.DisableJoining();
 					enemyFieldManager.gameObject.SetActive(false);
 					playerVirtualCamera.gameObject.SetActive(false);
+					musicManager.TransitionTo(musicManager.musicLowPass);
 					break;
 			}
 		}
-		public void OnPlayerJoined(PlayerInput playerInput)
+		public void OnPlayerJoin(GameObject playerInput)
 		{
-			Debug.Log($"Joined New Player ({playerInput.user.id})");
-			if (bindPlayerScreen != null && bindPlayerScreen.gameObject.activeSelf)
-			{
-				bindPlayerScreen.gameObject.SetActive(false);
-			}
 			if (playerVirtualCamera != null)
 			{
 				playerVirtualCamera.CameraTargets.Add(playerInput.transform);
 			}
-			players.Add(playerInput);
 		}
 		public void OnEnemyJoin(GameObject enemyGameObject)
 		{
