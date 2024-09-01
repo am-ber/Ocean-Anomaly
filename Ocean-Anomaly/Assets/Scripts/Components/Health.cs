@@ -184,7 +184,7 @@ namespace OceanAnomaly.Components
 			}
 			// Handle modifyingHealthEvent subscribers
 			modifyHealthEvent?.Invoke(totalModifyAmount);
-
+			// Modify the current health value
 			currentHealth += totalModifyAmount;
 			// Basically if we added health and we aren't updating health, lets do that again.
 			// But only if we have a status effect that needs updating.
@@ -209,7 +209,7 @@ namespace OceanAnomaly.Components
 				currentHealth = 0;
 				activeStatusEffects.Clear();
 				StopUpdatedHealth();
-				noHealthEvent.Invoke();
+				noHealthEvent?.Invoke();
 			}
 		}
 		/// <summary>

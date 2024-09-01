@@ -222,5 +222,9 @@ namespace OceanAnomaly.Tools
 			}
 			return null;
 		}
+		public static Vector3 RoundVector(this Vector3 vector, int decimals = 0)
+		{
+			return new Vector3((float) Math.Round(vector.x, decimals), (float) Math.Round(vector.y, decimals), (float) Math.Round(vector.z, decimals));
+		}
 	}
 }

@@ -32,6 +32,11 @@ namespace OceanAnomaly.Components
 		[ReadOnly]
 		[SerializeField]
 		private List<Limb> limbs;
+		[ReadOnly]
+		public bool limbDestroyed = false;
+		[ReadOnly]
+		[SerializeField]
+		private float limbTotalHealth = 0f;
 		private void Awake()
 		{
 			Initialize();
@@ -110,9 +115,16 @@ namespace OceanAnomaly.Components
 				}
 				// Apply additional body part settings
 				previousPart.OnDetatching.AddListener(OnLimbDetatch);
+				// Add health listeners if health exists
+				previousPart.LimbHealth?.modifyHealthEvent.AddListener((value) =>
+				{
+					limbTotalHealth += value;
+				});
 				// Add each new limb to the list of limbs to keep track of them
 				limbs.Add(previousPart);
 			}
+			// Calculate initial limbTotalHealth
+			limbTotalHealth = GetLimbTotalHealth();
 			// Set the TargetIK, Root, and Tip
 			SetTargetIk();
 			// Lastely build the rig with the new bones
@@ -124,6 +136,8 @@ namespace OceanAnomaly.Components
 			rigBuilder.enabled = false;
 			// Remove the detatchedLimb from our list
 			limbs.Remove(detatchedLimb);
+			// Recalculate limbTotalHealth because there's some inaccuracies
+			limbTotalHealth = GetLimbTotalHealth();
 			// Reset the limbTransforms in the list
 			ResetLimbTransforms();
 			// Reset our IK Constraint Root and Tip
@@ -132,11 +146,26 @@ namespace OceanAnomaly.Components
 		}
 		private void SetTargetIk()
 		{
+			// If we have no more limbs then lets break out of here
+			if (limbs.Count <= 0)
+			{
+				limbDestroyed = true;
+				return;
+			}
 			// Set the IK target position to the root end point
 			limbTargetIk.position = limbs[limbs.Count - 1].EndPointOffset.position;
+			limbIkConstraint.data.tip = limbs[limbs.Count - 1].EndPointOffset;
 			// Set the root and tip of the chain to the first and last limb found in limbs
 			limbIkConstraint.data.root = limbs[0].transform;
-			limbIkConstraint.data.tip = limbs[limbs.Count - 1].EndPointOffset;
+		}
+		public float GetLimbTotalHealth()
+		{
+			float totalHealth = 0;
+			foreach (Limb limb in limbs)
+			{
+				totalHealth += limb.LimbHealth.GetCurrentHealth();
+			}
+			return totalHealth;
 		}
 		private void ResetLimbTransforms()
 		{
