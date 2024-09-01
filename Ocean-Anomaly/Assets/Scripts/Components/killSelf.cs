@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace OceanAnomaly.Components
 {
@@ -6,8 +7,12 @@ namespace OceanAnomaly.Components
     {
         public float TimeTillDeath = 0.5f;
         private float time = 0;
-
-        void Update()
+        public UnityEvent KillActive;
+		private void OnEnable()
+		{
+			KillActive?.Invoke();
+		}
+		void Update()
         {
             time += Time.deltaTime;
             if (time >= TimeTillDeath)

@@ -18,6 +18,6 @@ MonoBehaviour:
   iconPositionOffset: {x: 0, y: 0}
   iconAngleOffset: 0
   weaponSprite: {fileID: 0}
-  fireSoundName: CannonFire
+  fireSound: {fileID: 11400000, guid: 547b874af5561e24b983051e7aa18b9d, type: 2}
   weaponFunction: {fileID: 11400000, guid: e40e3f947d41f664385ae5f81cee114b, type: 2}
   attackTime: 0.7

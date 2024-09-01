@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c7b50a07c1b4647a241980f4ca052c, type: 3}
+  m_Name: SoundManager
+  m_EditorClassIdentifier: 
+  soundScriptables:
+  - {fileID: 11400000, guid: 7a49463e40b433a4f8a091f790f64840, type: 2}
+  - {fileID: 11400000, guid: 547b874af5561e24b983051e7aa18b9d, type: 2}
+  - {fileID: 11400000, guid: b7dc59497d114ad44870dbad6615ec2c, type: 2}
+  - {fileID: 11400000, guid: 34c4bd75f5c7a6f418e2721d3c88f774, type: 2}
+  - {fileID: 11400000, guid: 2f43a7d8fb5ee8544815288d2f4cf036, type: 2}
+  normalVolume: {fileID: 24500006, guid: df352149fce2681468922cb66712c8eb, type: 2}
+  musicLowPass: {fileID: 7483693540249699951, guid: df352149fce2681468922cb66712c8eb, type: 2}
+  mainMenu: {fileID: -5673469179501008089, guid: df352149fce2681468922cb66712c8eb, type: 2}
+  lowIntensity: {fileID: -7282108815636148070, guid: df352149fce2681468922cb66712c8eb, type: 2}

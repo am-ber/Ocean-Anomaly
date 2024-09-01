@@ -7,10 +7,8 @@ using UnityEngine;
 public class ProjectileBehavior : BasicMoveBehavior
 {
 	public uint damage = 5;
-	public string impactSoundName = string.Empty;
+	public SoundScriptable impactSound;
 	public GameObject impactPrefab;
-	[SerializeField]
-	private float destroyEffectTime = 1f;
 	[SerializeField]
 	private float torqueDeviationRange = 10;
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -18,23 +16,21 @@ public class ProjectileBehavior : BasicMoveBehavior
 		Health colliderHealth = collision.gameObject.GetComponent<Health>();
 		if (colliderHealth != null)
 		{
-			Debug.Log($"Found Health, Dealing: {damage} damage.");
 			colliderHealth.ModifyHealth(-damage);
 			if (impactPrefab != null)
 			{
 				Instantiate(impactPrefab, transform.position, Quaternion.Inverse(transform.rotation));
 			}
 		}
-		AudioManager.Instance.Play(impactSoundName);
+		// Play sound code
+		if (impactSound != null && GlobalManager.Instance != null)
+		{
+			impactSound.Play();
+		}
 		Destroy(gameObject);
 	}
 	private void FixedUpdate()
 	{
 		FixedBasicMove();
-	}
-	private void OnDestroy()
-	{
-		GetComponent<Rigidbody2D>().AddTorque(Random.Range(-torqueDeviationRange, torqueDeviationRange));
-
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+using OceanAnomaly.Components;
 
 namespace OceanAnomaly.Tools
 {
@@ -162,32 +164,63 @@ namespace OceanAnomaly.Tools
 		/// <param name="gameObject"></param>
 		/// <param name="prefab"></param>
 		/// <returns></returns>
-		public static T RecursiveFindComponentLocal<T>(this GameObject gameObject, GameObject prefab = null) where T : Component
+		public static T RecursiveFindComponentLocal<T>(this GameObject gameObject, GameObject prefab = null, bool createComponentLocally = false, bool createChildComponentLocally = false) where T : Component
 		{
+			// Checks locally for the component
 			T component = gameObject.GetComponent<T>();
 			if (component != null)
 			{
 				return component;
 			}
+			// Checks the children for the component
 			component = gameObject.GetComponentInChildren<T>();
 			if (component != null)
 			{
 				return component;
 			}
+			// Should we make a new GameObject that hopefully has that component?
 			if (prefab != null)
 			{
 				return GameObject.Instantiate(prefab).RecursiveFindComponentLocal<T>();
 			}
+			// Should we add a new instance of the component to this GameObject?
+			if (createComponentLocally)
+			{
+				return gameObject.AddComponent<T>();
+			}
+			if (createChildComponentLocally)
+			{
+				return new GameObject($"{gameObject.name} {typeof(T).Name}").AddComponent<T>();
+			}
+			// If none of these then we might as well return null, but returning a mutated null seems cool ;)
 			return component;
 		}
 		/// <summary>
-		/// Used to return a new Vector3 with a Z of 0.
+		/// Used to return a new Vector3 with this Vector2's X and Y but a Z of 0.
 		/// </summary>
 		/// <param name="vector"></param>
 		/// <returns></returns>
 		public static Vector3 ToVector3(this Vector2 vector)
 		{
 			return new Vector3(vector.x, vector.y);
+		}
+		/// <summary>
+		/// Used to find the first child by a tag. Will be obviously null if you don't got a child with that tag or component.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="component"></param>
+		/// <param name="tag"></param>
+		/// <returns></returns>
+		public static T FindChildByTag<T>(this T component, string tag) where T : Component
+		{
+			foreach (T foundComp in component.GetComponentsInChildren<T>())
+			{
+				if (foundComp.tag == tag)
+				{
+					return foundComp;
+				}
+			}
+			return null;
 		}
 	}
 }

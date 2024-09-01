@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e997b7cc75dce4b93ffb3bc461a62b, type: 3}
   m_Name: HarpoonProjectile
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 9c71ef138dc83499091df262af78c576, type: 3}
   travelSpeed: 70
   maxSpeed: 70
   damage: 4
   projectileTag: Projectile
-  impactSoundName: HarpoonImpact
   projectileLayer:
     serializedVersion: 2
     m_Bits: 64
   projectilePrefab: {fileID: 7550852738779566912, guid: 46befe9a35da34c16b12543637ebca24, type: 3}
   impactPrefab: {fileID: 2804686566598585118, guid: 8bace258ff1f8454b8c3bce2f34abddf, type: 3}
+  impactSound: {fileID: 11400000, guid: 2f43a7d8fb5ee8544815288d2f4cf036, type: 2}

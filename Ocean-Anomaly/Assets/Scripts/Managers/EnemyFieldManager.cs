@@ -13,23 +13,41 @@ public class EnemyFieldManager : MonoBehaviour
 	private float pointGenerationRadiusMin = 0f;
 	[SerializeField]
 	private int maxPoints = 10;
+	[ReadOnly]
+	[SerializeField]
+	private int currentPoints = 0;
 	[SerializeField]
 	private SplineComputer splineComputer;
 
 	private void Start()
 	{
-		if (splineComputer == null)
-		{
-			splineComputer = GetComponent<SplineComputer>();
-		}
-		splineComputer.type = Spline.Type.Bezier;
-		splineComputer.is2D = true;
+		Initialize();
+	}
+	private void OnValidate()
+	{
+		Initialize();
 	}
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, pointGenerationRadius);
 	}
+	private void Initialize()
+	{
+		if (splineComputer == null)
+		{
+			splineComputer = GetComponent<SplineComputer>();
+		}
+		splineComputer.type = Spline.Type.CatmullRom;
+		splineComputer.knotParametrization = 1f;
+		splineComputer.is2D = true;
+
+		GenerateNewPoints();
+	}
+	/// <summary>
+	/// Used to properly add a user to the field spline.
+	/// </summary>
+	/// <param name="splineUser"></param>
 	public void SubscribeToSpline(SplineUser splineUser)
 	{
 		if (splineComputer == null)
@@ -38,6 +56,10 @@ public class EnemyFieldManager : MonoBehaviour
 		}
 		splineComputer.Subscribe(splineUser);
 	}
+	/// <summary>
+	/// Used to get the current starting position of the field spline.
+	/// </summary>
+	/// <returns></returns>
 	public Vector3 GetFieldStartPosition()
 	{
 		if (splineComputer == null)
@@ -54,13 +76,17 @@ public class EnemyFieldManager : MonoBehaviour
 		}
 		splineComputer.Unsubscribe(splineUser);
 	}
+	/// <summary>
+	/// Used to generate new points randomly in a circle with the radius of <seealso cref="pointGenerationRadius"/>.
+	/// </summary>
 	public void GenerateNewPoints()
 	{
 		// 4 is the minimum required control points in the spline computer from the documentation
-		SplinePoint[] splinePoints = new SplinePoint[UnityEngine.Random.Range(4, maxPoints + 1)];
+		currentPoints = UnityEngine.Random.Range(4, maxPoints + 1);
+		SplinePoint[] splinePoints = new SplinePoint[currentPoints];
 		for (int i = 0; i < splinePoints.Length; i++)
 		{
-			Vector3 pointPosition = GlobalTools.GetRandomPointInRadius2D(pointGenerationRadius, transform.position);
+			Vector3 pointPosition = GlobalTools.GetRandomPointInRadius2D(pointGenerationRadius, transform.position, pointGenerationRadiusMin);
 			splinePoints[i] = new SplinePoint(pointPosition);
 		}
 		splineComputer.SetPoints(splinePoints);
