@@ -11,13 +11,16 @@ namespace OceanAnomaly.Controllers
 	public class PlayerMovementController : MonoBehaviour
 	{
 		[SerializeField]
-		private CharacterController characterController;
+		private Rigidbody2D rigidBody;
 		[SerializeField]
 		private Transform playerGraphics;
 		// Movement code
 		[Header("Movement Settings")]
 		[SerializeField]
-		private float bodyRotateSpeed = 1.0f;
+		private float bodyRotateSpeed = 5.0f;
+		[SerializeField]
+		[Range(-360, 360)]
+		private float bodyAngleOffset = -90f;
 		[SerializeField]
 		private float maxMoveSpeed = 8f;
 		[SerializeField]
@@ -52,9 +55,9 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private float dashAmount = 30f;
 		[SerializeField]
-		private float dashCoolDown = 3;
+		private float dashCoolDown = 3f;
 		[SerializeField]
-		private float dashReductionAmount = 0.2f;
+		private float dashLength = 1f;
 		[Header("Dash Debugging")]
 		[ReadOnly]
 		[SerializeField]
@@ -66,16 +69,19 @@ namespace OceanAnomaly.Controllers
 		private float dashTime = 0;
 		[ReadOnly]
 		[SerializeField]
-		private Vector3 dashFactor = Vector3.zero;
+		private float dashFactor = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private float dashMultiplier = 0f;
 		// Input System
 		private PlayerInputActions inputActions;
 		private InputAction inputMovement;
 		private InputAction inputDash;
 		private void Awake()
 		{
-			if (characterController == null)
+			if (rigidBody == null)
 			{
-				characterController = GetComponent<CharacterController>();
+				rigidBody = GetComponent<Rigidbody2D>();
 			}
 			InitializeInputActions();
 		}
@@ -84,16 +90,16 @@ namespace OceanAnomaly.Controllers
 			inputActions = new PlayerInputActions();
 			inputMovement = inputActions.Player.Move;
 			inputDash = inputActions.Player.Dash;
-			inputDash.performed += (context) =>
+			inputDash.performed += DashPerformed;
+		}
+		private void DashPerformed(InputAction.CallbackContext context)
+		{
+			if (!canDash)
 			{
-				if (!canDash)
-				{
-					return;
-				}
-				dashFactor += (new Vector3(moveDirection.x, moveDirection.y) * dashAmount);
-				dashed = true;
-				canDash = false;
-			};
+				return;
+			}
+			dashed = true;
+			canDash = false;
 		}
 		
 		private void OnEnable()
@@ -113,25 +119,30 @@ namespace OceanAnomaly.Controllers
 			HandleMovement();
 			RotateGfx();
 		}
+		private void FixedUpdate()
+		{
+			// Apply it to the controller
+			rigidBody.velocity = totalVelocity;
+		}
 		private void CheckInputs()
 		{
-			moveDirection = inputMovement.ReadValue<Vector2>();
+			moveDirection = inputMovement.ReadValue<Vector2>().normalized;
 			// Apply our acceleration adjustments based on our movement direction
 			if (moveDirection.magnitude > 0)
 			{
-				acceleration += (new Vector3(moveDirection.x, moveDirection.y) * accelerationRate);
+				acceleration += (moveDirection.ToVector3() * accelerationRate);
 			}
 		}
 		private void DashHandling()
 		{
-			dashFactor -= (dashFactor * dashReductionAmount).RoundVector((int) roundingDecimalLimit);
+			// If we can't dash then lets start counting up till we can again
 			if (!canDash)
 			{
 				dashTime += Time.deltaTime;
-				if (dashTime >= (dashCoolDown * UpgradeManager.dashTime) / 10)
-					dashed = false;
+				// If our time is greater than the coolDown
 				if (dashTime >= (dashCoolDown * UpgradeManager.dashTime))
 				{
+					dashed = false;
 					canDash = true;
 					// Right here would be where to play the "Dash Ready" sound
 					dashTime = 0;
@@ -143,38 +154,30 @@ namespace OceanAnomaly.Controllers
 			// Applies the current acceleration
 			velocity += acceleration;
 			acceleration = new Vector3(0, 0, 0);
+			// As our dash time increases we will decrease our dashAmount multiplier
+			dashFactor = GlobalTools.Map(dashTime, 0, (dashCoolDown * UpgradeManager.dashTime), dashAmount, 0);
+			dashMultiplier = dashed && (dashTime <= dashLength) ? (moveDirection.magnitude * dashFactor) : 0;
 			// Applies clamping to the velocity based on current player speed upgrades
-			float maximumMovement = ((maxMoveSpeed + ((dashTime > 0) ? dashAmount : 0)) * UpgradeManager.moveFactor);
-			velocity = new Vector3(Mathf.Clamp(velocity.x, -maximumMovement, maximumMovement),
-									Mathf.Clamp(velocity.y, -maximumMovement, maximumMovement), 0);
+			float maximumMovement = (maxMoveSpeed * UpgradeManager.moveFactor) + dashMultiplier;
+			velocity = Vector3.ClampMagnitude(velocity, maximumMovement);
 			
 			// Record the current speed
-			totalVelocity = (velocity + dashFactor).RoundVector((int) roundingDecimalLimit);
+			totalVelocity = velocity.RoundVector((int) roundingDecimalLimit);
 			currentSpeed = (float) Math.Round(totalVelocity.magnitude, (int) roundingDecimalLimit);
-
-			characterController.Move(totalVelocity * Time.deltaTime);
 			// Decelerates the current velocity of the player and resets the acceleration
-			velocity -= (velocity * decelerationRate).RoundVector((int) roundingDecimalLimit);
+			velocity -= (velocity * decelerationRate).RoundVector((int)roundingDecimalLimit);
 		}
 		private void RotateGfx()
 		{
-			float step = bodyRotateSpeed * Time.deltaTime;
 			// Figure the angle of rotation from the vector
 			Vector3 velocityNormal = velocity.normalized;
-			directionAngle = Mathf.LerpAngle(directionAngle, Mathf.Atan2(velocityNormal.x, velocityNormal.y), step);
+			float targetAngle = Mathf.Atan2(velocityNormal.y, velocityNormal.x) * Mathf.Rad2Deg;
+			directionAngle = Mathf.LerpAngle(directionAngle, targetAngle + bodyAngleOffset, bodyRotateSpeed * Time.deltaTime);
 			// If we have our graphics component referenced, lets set that rotation
 			if (playerGraphics != null)
 			{
 				playerGraphics.rotation = Quaternion.Euler(0f, 0f, directionAngle);
 			}
-		}
-		/// <summary>
-		/// Allows you to apply a force to the player.
-		/// </summary>
-		/// <param name="force"></param>
-		public void applyForce(Vector3 force)
-		{
-			acceleration += force;
 		}
 		private void OnDisable()
 		{
