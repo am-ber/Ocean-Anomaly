@@ -77,7 +77,7 @@ namespace OceanAnomaly.Controllers
 		}
 		private void Update()
 		{
-			CheckForAiming();
+			CheckForCrosshairAiming();
 
 			// If we can't attack it's likely because we need to subtract our TimeTillAttack
 			if (canAttack)
@@ -93,7 +93,7 @@ namespace OceanAnomaly.Controllers
 				}
 			}
 		}
-		private void CheckForAiming()
+		private void CheckForCrosshairAiming()
 		{
 			Vector3 crosshairPosition = crosshair.transform.position - transform.position;
 			targetAimAngle = Mathf.Atan2(crosshairPosition.y, crosshairPosition.x) * Mathf.Rad2Deg;

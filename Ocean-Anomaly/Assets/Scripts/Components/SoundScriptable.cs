@@ -3,6 +3,7 @@ using OceanAnomaly.Attributes;
 using OceanAnomaly.Components;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -24,6 +25,9 @@ namespace OceanAnomaly.Components
 		public AudioMixerGroup audioMixer;
 		[field: SerializeField]
 		public float soundTrueLength {  get; private set; }
+		[ReadOnly]
+		[SerializeField]
+		private AudioSource previewSource;
 		private void OnValidate()
 		{
 			Initialize();

@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using OceanAnomaly.Components;
@@ -221,6 +222,25 @@ namespace OceanAnomaly.Tools
 				}
 			}
 			return null;
+		}
+		/// <summary>
+		/// Used to find ALL the childeren by a tag. Will be obviously null if you don't got a child with that tag or component.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="component"></param>
+		/// <param name="tag"></param>
+		/// <returns></returns>
+		public static T[] FindChilderenByTag<T>(this T component, string tag) where T : Component
+		{
+			List<T> foundChilderen = new List<T>();
+			foreach (T foundComponent in component.GetComponentsInChildren<T>())
+			{
+                if (foundComponent.tag == tag)
+                {
+                    foundChilderen.Add(foundComponent);
+                }
+            }
+			return foundChilderen.ToArray();
 		}
 		public static Vector3 RoundVector(this Vector3 vector, int decimals = 0)
 		{

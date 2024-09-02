@@ -1,3 +1,4 @@
+using OceanAnomaly.Attributes;
 using OceanAnomaly.Controllers;
 using OceanAnomaly.Managers;
 using OceanAnomaly.Tools;
@@ -39,6 +40,8 @@ namespace OceanAnomaly
 		private GameObject enemyFieldPrefab;
 		public AudioManagerScriptable musicManager;
 		public AudioManagerScriptable soundManager;
+		[ReadOnly]
+		public PlayerInput playerObject;
 		void Awake()
 		{
 			Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -116,8 +119,10 @@ namespace OceanAnomaly
 					break;
 			}
 		}
-		public void OnPlayerJoin(GameObject playerInput)
+		public void OnPlayerJoined(PlayerInput playerInput)
 		{
+			playerObject = playerInput;
+
 			if (playerVirtualCamera != null)
 			{
 				playerVirtualCamera.CameraTargets.Add(playerInput.transform);
