@@ -196,13 +196,13 @@ namespace OceanAnomaly.Tools
 			return component;
 		}
 		/// <summary>
-		/// Used to return a new Vector3 with this Vector2's X and Y but a Z of 0.
+		/// Used to return a new Vector3 with this Vector2's X and Y but a Z of 0 by default.
 		/// </summary>
 		/// <param name="vector"></param>
 		/// <returns></returns>
-		public static Vector3 ToVector3(this Vector2 vector)
+		public static Vector3 ToVector3(this Vector2 vector, float z = 0f)
 		{
-			return new Vector3(vector.x, vector.y);
+			return new Vector3(vector.x, vector.y, z);
 		}
 		/// <summary>
 		/// Used to find the first child by a tag. Will be obviously null if you don't got a child with that tag or component.
@@ -221,6 +221,10 @@ namespace OceanAnomaly.Tools
 				}
 			}
 			return null;
+		}
+		public static Vector3 RoundVector(this Vector3 vector, int decimals = 0)
+		{
+			return new Vector3((float) Math.Round(vector.x, decimals), (float) Math.Round(vector.y, decimals), (float) Math.Round(vector.z, decimals));
 		}
 	}
 }

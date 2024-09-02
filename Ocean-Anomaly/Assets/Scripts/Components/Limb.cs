@@ -18,6 +18,7 @@ namespace OceanAnomaly.Components
 		public Limb NextBodyPart {  get; private set; }
 		[field: SerializeField]
 		public Limb PreviousBodyPart { get; private set; }
+		public Health LimbHealth;
 		[ReadOnly]
 		public int LimbIndex = 0;
 		public UnityEvent<Limb> OnDetatching;
@@ -35,6 +36,10 @@ namespace OceanAnomaly.Components
 			if (EndPointOffset == null)
 			{
 				EndPointOffset = transform.FindChildByTag(endpointTag);
+			}
+			if (LimbHealth == null)
+			{
+				LimbHealth = gameObject.RecursiveFindComponentLocal<Health>();
 			}
 		}
 		public void SnapToPrevious()
