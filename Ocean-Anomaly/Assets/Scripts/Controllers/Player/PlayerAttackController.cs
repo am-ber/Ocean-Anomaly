@@ -93,6 +93,10 @@ namespace OceanAnomaly.Controllers
 				}
 			}
 		}
+		private void CheckForAiming()
+		{
+			indicator?.Aiming();
+		}
 		private void CheckForCrosshairAiming()
 		{
 			Vector3 crosshairPosition = crosshair.transform.position - transform.position;
@@ -109,10 +113,9 @@ namespace OceanAnomaly.Controllers
 				{
 					return;
 				}
-				if (indicator != null)
-				{
-					indicator.Fired();
-				}
+				// Call fired
+				indicator?.Fired();
+				
 				if (CurrentWeapon.weaponFunction != null)
 				{
 					CurrentWeapon.weaponFunction.FirePorjectile(
