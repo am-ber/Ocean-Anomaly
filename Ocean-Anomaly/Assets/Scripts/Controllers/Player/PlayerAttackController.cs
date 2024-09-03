@@ -39,10 +39,14 @@ namespace OceanAnomaly.Controllers
 		[ReadOnly]
 		[SerializeField]
 		private float targetAimAngle = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private Vector2 lookDirection = Vector2.zero;
 		// Attacking
 		[Header("Attack Variables")]
 		private InputAction inputAttack;
 		private InputAction inputCycleWeapons;
+		private InputAction inputLook;
 		[SerializeField]
 		private float accuracy = 0f;
 		[ReadOnly]
@@ -51,13 +55,17 @@ namespace OceanAnomaly.Controllers
 		[ReadOnly]
 		[SerializeField]
 		private float timeTillAttack = 0;
+		[ReadOnly]
+		[SerializeField]
+		private bool isKeyboardAndMouse = true;
 		private void Awake()
 		{
+			// Setup input actions
 			inputActions = new PlayerInputActions();
 			inputAttack = inputActions.Player.Fire;
 			inputCycleWeapons = inputActions.Player.CycleWeapon;
-			inputCycleWeapons.performed += SwitchWeapon;
-
+			inputLook = inputActions.Player.Look;
+			// Find components that may be missing
 			if (movementController == null)
 			{
 				movementController = GetComponent<PlayerMovementController>();
@@ -66,19 +74,30 @@ namespace OceanAnomaly.Controllers
 			{
 				indicator = GetComponentInChildren<IndicatorController>();
 			}
-
+			// Hard coded for now of setting the CurrentWeapon
 			CurrentWeapon = HarpoonGun;
+		}
+		private void Start()
+		{
+			GlobalManager.Instance?.OnInputActionChange.AddListener(OnInputChange);
 		}
 		private void OnEnable()
 		{
+			inputCycleWeapons.performed += SwitchWeapon;
 			inputAttack.Enable();
 			inputCycleWeapons.Enable();
+			inputLook.Enable();
 			Debug.Log("Attack Controls Enabled");
 		}
 		private void Update()
 		{
-			CheckForCrosshairAiming();
-
+			if (isKeyboardAndMouse)
+			{
+				CheckForCrosshairAiming();
+			} else
+			{
+				CheckForAiming();
+			}
 			// If we can't attack it's likely because we need to subtract our TimeTillAttack
 			if (canAttack)
 			{
@@ -95,10 +114,22 @@ namespace OceanAnomaly.Controllers
 		}
 		private void CheckForAiming()
 		{
-			indicator?.Aiming();
+			// If our crosshair isn't disabled, lets do that and then come back to Check for the input delta
+			if (!crosshair.SoftDisabled)
+			{
+				crosshair.SoftDisabled = true;
+				return;
+			}
+			lookDirection = inputLook.ReadValue<Vector2>().normalized;
+			
 		}
 		private void CheckForCrosshairAiming()
 		{
+			if (crosshair.SoftDisabled)
+			{
+				crosshair.SoftDisabled = false;
+				return;
+			}
 			Vector3 crosshairPosition = crosshair.transform.position - transform.position;
 			targetAimAngle = Mathf.Atan2(crosshairPosition.y, crosshairPosition.x) * Mathf.Rad2Deg;
 			// Calculate the rotation angle and then rotate the crosshair along its forward direction (Z axis)
@@ -147,7 +178,13 @@ namespace OceanAnomaly.Controllers
 		{
 			inputAttack.Disable();
 			inputCycleWeapons.Disable();
+			inputLook.Disable();
+			inputCycleWeapons.performed -= SwitchWeapon;
 			Debug.Log("Attack Controls Disabled");
+		}
+		private void OnInputChange(InputDevice device)
+		{
+			isKeyboardAndMouse = device.name.Equals("Keyboard") || device.name.Equals("Mouse");
 		}
 	}
 }

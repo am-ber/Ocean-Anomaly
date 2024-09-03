@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
@@ -42,6 +43,7 @@ namespace OceanAnomaly
 		public AudioManagerScriptable soundManager;
 		[ReadOnly]
 		public PlayerInput playerObject;
+		public UnityEvent<InputDevice> OnInputActionChange;
 		void Awake()
 		{
 			Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -54,7 +56,8 @@ namespace OceanAnomaly
 				return;
 			}
 			DontDestroyOnLoad(gameObject);
-
+			// Input system main listeners
+			InputSystem.onActionChange += InputActionChange;
 			InputSystem.onDeviceChange += deviceChange;
 			LaunchTime = DateTime.Now;
 
@@ -118,6 +121,20 @@ namespace OceanAnomaly
 					musicManager.TransitionTo(musicManager.musicLowPass);
 					break;
 			}
+		}
+		private void InputActionChange(object obj, InputActionChange change)
+		{
+			if (!typeof(InputAction).IsAssignableFrom(obj.GetType()))
+			{
+				return;
+			}
+			InputAction receivedInputAction = (InputAction)obj;
+			if (receivedInputAction.activeControl == null)
+			{
+				return;
+			}
+			InputDevice lastDevice = receivedInputAction.activeControl.device;
+			OnInputActionChange.Invoke(lastDevice);
 		}
 		public void OnPlayerJoined(PlayerInput playerInput)
 		{
