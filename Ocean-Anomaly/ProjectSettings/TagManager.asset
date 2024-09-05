@@ -15,6 +15,7 @@ TagManager:
   - Body Part End Point
   - Limb Point
   - Monster GFX
+  - Body Point
   layers:
   - Default
   - TransparentFX

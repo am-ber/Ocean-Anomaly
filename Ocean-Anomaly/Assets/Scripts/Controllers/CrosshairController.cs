@@ -12,6 +12,17 @@ namespace OceanAnomaly.Controllers
 		public float minRingSize = 1;
 		public float maxRingSize = 2;
 		public float reduceFactor = 0.2f;
+		[SerializeField]
+		private bool softDisabled = false;
+		public bool SoftDisabled
+		{
+			get { return softDisabled; }
+			set
+			{
+				softDisabled = value;
+				crosshairRing.SetActive(!softDisabled);
+			}
+		}
 		[ReadOnly]
 		[SerializeField]
 		private float scaleValue = 1;
@@ -24,9 +35,12 @@ namespace OceanAnomaly.Controllers
 		// Unity update function
 		void Update()
 		{
-			// Get positions and convert to 2d
-			Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 worldPoint2d = new Vector2(worldPoint.x, worldPoint.y);
+			if (softDisabled)
+			{
+				return;
+			}
+			// Get mouse position in 2D only
+			Vector2 worldPoint2d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 			// Set position to mouse position
 			transform.position = worldPoint2d;

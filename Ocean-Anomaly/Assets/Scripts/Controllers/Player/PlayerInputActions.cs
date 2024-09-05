@@ -48,6 +48,15 @@ namespace OceanAnomaly.Controllers
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""a6696795-8121-4701-b223-fe1785941757"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""cbddd686-77f2-45ba-bb2a-4b3d9ad45d13"",
@@ -192,29 +201,7 @@ namespace OceanAnomaly.Controllers
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""00a66fbd-cd14-4209-a31d-29ba43afb942"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9af51455-eb0d-4a1e-92f0-3e6aa0f8a052"",
-                    ""path"": ""<Pen>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -282,6 +269,28 @@ namespace OceanAnomaly.Controllers
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""CycleWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00a66fbd-cd14-4209-a31d-29ba43afb942"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9af51455-eb0d-4a1e-92f0-3e6aa0f8a052"",
+                    ""path"": ""<Pen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -710,6 +719,7 @@ namespace OceanAnomaly.Controllers
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+            m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
             m_Player_CycleWeapon = m_Player.FindAction("CycleWeapon", throwIfNotFound: true);
@@ -786,6 +796,7 @@ namespace OceanAnomaly.Controllers
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
+        private readonly InputAction m_Player_Aim;
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Dash;
         private readonly InputAction m_Player_CycleWeapon;
@@ -795,6 +806,7 @@ namespace OceanAnomaly.Controllers
             public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
+            public InputAction @Aim => m_Wrapper.m_Player_Aim;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Dash => m_Wrapper.m_Player_Dash;
             public InputAction @CycleWeapon => m_Wrapper.m_Player_CycleWeapon;
@@ -813,6 +825,9 @@ namespace OceanAnomaly.Controllers
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
@@ -832,6 +847,9 @@ namespace OceanAnomaly.Controllers
                 @Look.started -= instance.OnLook;
                 @Look.performed -= instance.OnLook;
                 @Look.canceled -= instance.OnLook;
+                @Aim.started -= instance.OnAim;
+                @Aim.performed -= instance.OnAim;
+                @Aim.canceled -= instance.OnAim;
                 @Fire.started -= instance.OnFire;
                 @Fire.performed -= instance.OnFire;
                 @Fire.canceled -= instance.OnFire;
@@ -982,6 +1000,7 @@ namespace OceanAnomaly.Controllers
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
+            void OnAim(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
             void OnCycleWeapon(InputAction.CallbackContext context);

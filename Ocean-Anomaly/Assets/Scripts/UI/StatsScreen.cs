@@ -19,6 +19,7 @@ namespace OceanAnomaly.UI
 		public TextMeshProUGUI updateCountText;
 		public TextMeshProUGUI fixedUpdateCountText;
 		public TextMeshProUGUI deltaTimeText;
+		public TextMeshProUGUI activeDeviceText;
 		public TextMeshProUGUI devicesListText;
 		public TextMeshProUGUI timeRunningText;
 		[SerializeField]
@@ -94,6 +95,13 @@ namespace OceanAnomaly.UI
 				Color sender = Color.Lerp(c1, c2, i);
 				yield return sender;
 				callBack(sender);
+			}
+		}
+		public void OnLastDeviceUsed(InputDevice device)
+		{
+			if (activeDeviceText != null)
+			{
+				activeDeviceText.text = $"Active Device:\n{device.displayName}";
 			}
 		}
 		private string buildDeviceList(List<InputDevice> devices)

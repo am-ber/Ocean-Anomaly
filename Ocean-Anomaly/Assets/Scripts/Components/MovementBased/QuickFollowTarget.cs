@@ -15,6 +15,6 @@ public class QuickFollowTarget : MonoBehaviour {
 			return;
 		// Takes the adjusted position and lerps to the target
 		Vector3 adjustedPosition = followTarget.position + offset;
-		transform.position = transform.position = Vector3.Lerp(transform.position, adjustedPosition, followSpeed); ;
+		transform.position = transform.position = Vector3.Lerp(transform.position, adjustedPosition, followSpeed);
 	}
 }
