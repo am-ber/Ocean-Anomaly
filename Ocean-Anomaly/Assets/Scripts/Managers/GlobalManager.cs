@@ -6,7 +6,7 @@ using OceanAnomaly.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEngine.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -22,28 +22,47 @@ namespace OceanAnomaly
 		Cutscene,
 		MainMenu
 	}
+	public enum GraphicsMode
+	{
+		Low,
+		Medium,
+		High
+	}
 	public class GlobalManager : Subject<GameState>
 	{
 		public static GlobalManager Instance;
 		public static DateTime LaunchTime;
-		public bool displayStats = false;
 		[SerializeField]
 		private GameState currentGameState = GameState.GamePlay;
-		[Header("Required Objects")]
+		[Header("Stats Screen Settings")]
+		public bool displayStats = false;
 		public StatsScreen statsScreen;
 		[SerializeField]
 		private GameObject statsScreenPrefab;
+		[SerializeField]
+		private bool disablePostProcessingForStats = true;
+		[Header("Camera Settings")]
 		public PlayerVirtualCameraController playerVirtualCamera;
 		[SerializeField]
 		private GameObject playerVirtualCameraPrefab;
+		[Header("Enemy Manager Settings")]
 		public EnemyFieldManager enemyFieldManager;
 		[SerializeField]
 		private GameObject enemyFieldPrefab;
+		[Header("Audio Settings")]
 		public AudioManagerScriptable musicManager;
 		public AudioManagerScriptable soundManager;
+		[Header("Graphical Settings")]
+		public GraphicsMode currentGraphics = GraphicsMode.High;
+		public Volume postProcessingVolume;
+		public VolumeProfile highProfile;
+		public VolumeProfile mediumProfile;
+		public VolumeProfile lowProfile;
+		[Header("Input Action Settings")]
+		public UnityEvent<InputDevice> OnInputActionChange;
+		[Header("Debug Settings")]
 		[ReadOnly]
 		public PlayerInput playerObject;
-		public UnityEvent<InputDevice> OnInputActionChange;
 		void Awake()
 		{
 			Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -69,6 +88,10 @@ namespace OceanAnomaly
 			{
 				playerVirtualCamera = gameObject.RecursiveFindComponentLocal<PlayerVirtualCameraController>(playerVirtualCameraPrefab);
 			}
+			if (postProcessingVolume == null)
+			{
+				postProcessingVolume = gameObject.RecursiveFindComponentLocal<Volume>();
+			}
 		}
 		void Start()
 		{
@@ -90,6 +113,11 @@ namespace OceanAnomaly
 				if (statsScreen != null)
 				{
 					statsScreen.gameObject.SetActive(displayStats);
+					// If we want to make the stats easier to see
+					if (disablePostProcessingForStats)
+					{
+						postProcessingVolume.enabled = !displayStats;
+					}
 				}
 			}
 		}

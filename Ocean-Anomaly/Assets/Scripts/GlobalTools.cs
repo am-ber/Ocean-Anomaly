@@ -199,11 +199,21 @@ namespace OceanAnomaly.Tools
 		/// <summary>
 		/// Used to return a new Vector3 with this Vector2's X and Y but a Z of 0 by default.
 		/// </summary>
-		/// <param name="vector"></param>
+		/// <param name="vector">The Vector2!</param>
+		/// <param name="z">Any z value you wish to put in the Vector3.</param>
 		/// <returns></returns>
 		public static Vector3 ToVector3(this Vector2 vector, float z = 0f)
 		{
 			return new Vector3(vector.x, vector.y, z);
+		}
+		/// <summary>
+		/// Used to return a new Vector2 with this Vector3's X and Y.
+		/// </summary>
+		/// <param name="vector">The Vector3!</param>
+		/// <returns></returns>
+		public static Vector2 ToVector2(this Vector3 vector)
+		{
+			return new Vector2(vector.x, vector.y);
 		}
 		/// <summary>
 		/// Used to find the first child by a tag. Will be obviously null if you don't got a child with that tag or component.

@@ -39,9 +39,8 @@ namespace OceanAnomaly.Controllers
 			{
 				return;
 			}
-			// Get positions and convert to 2d
-			Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 worldPoint2d = new Vector2(worldPoint.x, worldPoint.y);
+			// Get mouse position in 2D only
+			Vector2 worldPoint2d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 			// Set position to mouse position
 			transform.position = worldPoint2d;

@@ -30,7 +30,7 @@ public class SettingsMenu : MonoBehaviour
 		{
 			volume = -80;
 		}
-		mainAudioMixer.SetFloat("SetSoundEffectsVolume", volume);
+		mainAudioMixer.SetFloat("SoundEffectsVolume", volume);
 	}
 	public void SetQuality(int qualityIndex)
 	{

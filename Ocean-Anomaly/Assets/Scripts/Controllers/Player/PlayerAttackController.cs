@@ -29,8 +29,6 @@ namespace OceanAnomaly.Controllers
 		// Aiming
 		[Header("Aiming Variables")]
 		[SerializeField]
-		private float deltaPullActivation = 3f;
-		[SerializeField]
 		private float aimSpeed = 10f;
 		[SerializeField]
 		private float aimSmoothing = 0.5f;
@@ -98,6 +96,8 @@ namespace OceanAnomaly.Controllers
 			{
 				CheckForAiming();
 			}
+			// Indicator rotation
+			indicator.transform.rotation = Quaternion.AngleAxis(aimAngle - (90), Vector3.forward);
 			// If we can't attack it's likely because we need to subtract our TimeTillAttack
 			if (canAttack)
 			{
@@ -121,7 +121,12 @@ namespace OceanAnomaly.Controllers
 				return;
 			}
 			lookDirection = inputLook.ReadValue<Vector2>().normalized;
-			
+			if (lookDirection.magnitude > 0)
+			{
+				targetAimAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
+			}
+			// Calculate the rotation angle and then rotate the crosshair along its forward direction (Z axis)
+			aimAngle = Mathf.LerpAngle(aimAngle, targetAimAngle, aimSpeed * Time.deltaTime);
 		}
 		private void CheckForCrosshairAiming()
 		{
@@ -134,7 +139,6 @@ namespace OceanAnomaly.Controllers
 			targetAimAngle = Mathf.Atan2(crosshairPosition.y, crosshairPosition.x) * Mathf.Rad2Deg;
 			// Calculate the rotation angle and then rotate the crosshair along its forward direction (Z axis)
 			aimAngle = Mathf.LerpAngle(aimAngle, targetAimAngle, aimSpeed * Time.deltaTime);
-			indicator.transform.rotation = Quaternion.AngleAxis(aimAngle - (90), Vector3.forward);
 		}
 		private void CheckForAttacking()
 		{

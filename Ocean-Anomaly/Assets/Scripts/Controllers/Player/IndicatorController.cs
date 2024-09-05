@@ -29,7 +29,7 @@ public class IndicatorController : MonoBehaviour
 	private float aimingAlpha = 1f;
 	[ReadOnly]
 	[SerializeField]
-	private bool recentlyAimed = false;
+	private bool recentlyAimed = true;
 	private void Update()
 	{
 		if (attackAlpha > 0f)

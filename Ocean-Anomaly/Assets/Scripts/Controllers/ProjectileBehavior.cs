@@ -9,8 +9,6 @@ public class ProjectileBehavior : BasicMoveBehavior
 	public uint damage = 5;
 	public SoundScriptable impactSound;
 	public GameObject impactPrefab;
-	[SerializeField]
-	private float torqueDeviationRange = 10;
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		Health colliderHealth = collision.gameObject.GetComponent<Health>();

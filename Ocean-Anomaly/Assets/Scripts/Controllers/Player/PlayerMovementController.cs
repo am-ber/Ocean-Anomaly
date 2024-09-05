@@ -53,6 +53,8 @@ namespace OceanAnomaly.Controllers
 		// Dashing code
 		[Header("Dash Settings")]
 		[SerializeField]
+		private GameObject dashSpawnEffectsPrefab;
+		[SerializeField]
 		private float dashAmount = 30f;
 		[SerializeField]
 		private float dashCoolDown = 3f;
@@ -146,6 +148,10 @@ namespace OceanAnomaly.Controllers
 					canDash = true;
 					// Right here would be where to play the "Dash Ready" sound
 					dashTime = 0;
+				}
+				if (dashSpawnEffectsPrefab != null)
+				{
+
 				}
 			}
 		}
