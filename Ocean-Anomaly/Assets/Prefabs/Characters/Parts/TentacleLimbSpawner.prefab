@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3824004177193789601}
   - component: {fileID: 5744525567618365990}
   m_Layer: 0
-  m_Name: LimbSpawner
+  m_Name: TentacleLimbSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,10 +46,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 1927466720383174586, guid: 362c1d277084c834cad100117aeb87d2, type: 3}
   limbLengthLimit: 10
+  limbEndpointTag: Body Part End Point
   rigBuilder: {fileID: 0}
+  limbIkRig: {fileID: 0}
+  startWeightIkConstraint: 0
   limbIkConstraint: {fileID: 0}
   limbTargetIk: {fileID: 0}
-  limbRig: {fileID: 0}
-  boneRenderer: {fileID: 0}
-  animatorComponent: {fileID: 0}
+  limbDampedRig: {fileID: 0}
+  startWeightDampedConstraint: 1
+  dampRotation: 0.2
+  dampPosition: 0
+  limbSource: {fileID: 0}
+  limbDampedConstraints: []
   limbs: []
+  limbDestroyed: 0
+  limbTotalHealth: 0

@@ -159,7 +159,7 @@ namespace OceanAnomaly.Controllers
 				}
 
 			}
-			if (dashSpawnEffectsPrefab != null && dashed)
+			if ((dashSpawnEffectsPrefab != null) && (dashMultiplier > 0))
 			{
 				// If we travel our max delta away from the previous spot then lets spawn new particles
 				dashPositionDelta = (dashEffectPreviousPosition - transform.position).magnitude;

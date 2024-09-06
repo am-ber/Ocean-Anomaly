@@ -252,6 +252,31 @@ namespace OceanAnomaly.Tools
             }
 			return foundChilderen.ToArray();
 		}
+		/// <summary>
+		/// Used to grab a component that exisists in a child, if it doesn't exist there then we will create it.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="monoBehaviour"></param>
+		/// <param name="newChildName"></param>
+		/// <returns></returns>
+		public static T GetOrMakeComponentInChilderen<T>(this MonoBehaviour monoBehaviour, string newChildName = null) where T : Component
+		{
+			// Search for it in the children
+			T foundComponent = monoBehaviour.gameObject.GetComponentInChildren<T>();
+			// If we can't find it lets make it
+			if (foundComponent == null)
+			{
+				// If a name isn't given lets set the name
+				if (newChildName == null)
+				{
+					newChildName = $"{monoBehaviour.name} {typeof(T).Name}";
+				}
+				foundComponent = new GameObject(newChildName).AddComponent<T>();
+				// Set the parent to the monoBehaviour that called this
+				foundComponent.transform.parent = monoBehaviour.transform;
+			}
+			return foundComponent;
+		}
 		public static Vector3 RoundVector(this Vector3 vector, int decimals = 0)
 		{
 			return new Vector3((float) Math.Round(vector.x, decimals), (float) Math.Round(vector.y, decimals), (float) Math.Round(vector.z, decimals));
