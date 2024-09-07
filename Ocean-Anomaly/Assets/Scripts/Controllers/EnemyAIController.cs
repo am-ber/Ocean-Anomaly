@@ -89,6 +89,25 @@ namespace OceanAnomaly.Controllers
 		{
 			recievedDamage = true;
 		}
+		public void ChangeEnemyState(BehaviorState newState)
+		{
+			currentState = newState;
+			switch (newState)
+			{
+				default:
+					currentStateAction = null;
+					break;
+				case BehaviorState.Roaming:
+					currentStateAction = RoamingState;
+					break;
+				case BehaviorState.Hunting:
+					currentStateAction = HuntingState;
+					break;
+				case BehaviorState.Attacking:
+					currentStateAction = AttackingState;
+					break;
+			}
+		}
 		private void RoamingState()
 		{
 			// Check if we recieved damage and determine if we feel like changing states because of that.
@@ -99,7 +118,7 @@ namespace OceanAnomaly.Controllers
 				{
 					justEnteredRoamState = true;
 					fieldManager.UnsubscribeToSpline(splineFollower);
-					// Change state callback code
+					ChangeEnemyState(BehaviorState.Hunting);
 					return;
 				}
 			}
