@@ -5,10 +5,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.U2D.IK;
+using DG.Tweening;
+using System.Threading.Tasks;
 
 namespace OceanAnomaly.Components
 {
+	public enum LimbAnimationState
+	{
+		IKConstraint,
+		DampedConstraint,
+		Manual
+	}
 	public class TentecaleLimbSpawner : MonoBehaviour
 	{
 		// These Fields need references in the inspector
@@ -20,6 +27,9 @@ namespace OceanAnomaly.Components
 		[TagSelector]
 		[SerializeField]
 		private string limbEndpointTag = "";
+		[field: SerializeField]
+		public LimbAnimationState currentAnimationState { get; private set; }
+		public float animationTransitionSpeed = 0.01f;
 		// These fields are optional as new GameObjects will be Instantiated correctly
 		// Only fill these out if you know what you're doing!
 		[Header("Optional Fields")]
@@ -30,7 +40,7 @@ namespace OceanAnomaly.Components
 		private Rig limbIkRig;
 		[Range(0f, 1f)]
 		[SerializeField]
-		private float startWeightIkConstraint = 0f;
+		private float startWeightIkConstraint = 1f;
 		[SerializeField]
 		private ChainIKConstraint limbIkConstraint;
 		[SerializeField]
@@ -63,9 +73,14 @@ namespace OceanAnomaly.Components
 		[SerializeField]
 		private float limbTotalHealth = 0f;
 		private object limbDetachLock = new object();
+		private object rigAnimationLock = new object();
 		private void Awake()
 		{
 			Initialize();
+		}
+		private void OnValidate()
+		{
+			SetAnimationState(currentAnimationState);
 		}
 		private void Initialize()
 		{
@@ -85,13 +100,13 @@ namespace OceanAnomaly.Components
 			if (limbIkRig == null)
 			{
 				limbIkRig = new GameObject($"{gameObject.name} IK Rig").AddComponent<Rig>();
-				limbIkRig.transform.parent = transform;
+				limbIkRig.transform.SetParent(transform);
 			}
 			// Check for the Rig component in our childeren
 			if (limbDampedRig == null)
 			{
 				limbDampedRig = new GameObject($"{gameObject.name} Damped Rig").AddComponent<Rig>();
-				limbDampedRig.transform.parent = transform;
+				limbDampedRig.transform.SetParent(transform, false);
 			}
 			// Set the default weights of the Rigs
 			limbIkRig.weight = startWeightIkConstraint;
@@ -113,16 +128,18 @@ namespace OceanAnomaly.Components
 			if (limbTargetIk == null)
 			{
 				limbTargetIk = new GameObject($"{gameObject.name} IK Target").transform;
-				limbTargetIk.transform.parent = limbIkConstraint.transform;
+				limbTargetIk.transform.SetParent(limbIkConstraint.transform, false);
 			}
 			// Lets make a parent object for all the limbs we create
 			if (limbSource == null)
 			{
 				limbSource = new GameObject($"Limb Source").transform;
-				limbSource.transform.parent = transform;
+				limbSource.transform.SetParent(transform, false);
 			}
 			// Set the target in the constraint to the limbTargetIk game object
 			limbIkConstraint.data.target = limbTargetIk;
+			// Set the current animation state
+			SetAnimationState(LimbAnimationState.DampedConstraint, startWeightDampedConstraint, 0f);
 		}
 		private void Start()
 		{
@@ -165,7 +182,35 @@ namespace OceanAnomaly.Components
 		}
 		private void Update()
 		{
-			
+
+		}
+		public void SetAnimationState(LimbAnimationState animationState, float newStateWeight = 1f, float previousStateWeight = 0f)
+		{
+			currentAnimationState = animationState;
+			// We turn off the rig we aren't using first before adding the next one in
+			switch (animationState)
+			{
+				case LimbAnimationState.IKConstraint:
+					SetRigWeight(limbDampedRig, previousStateWeight);
+					SetRigWeight(limbIkRig, newStateWeight);
+					break;
+				case LimbAnimationState.DampedConstraint:
+					SetRigWeight(limbIkRig, previousStateWeight);
+					SetRigWeight(limbDampedRig, newStateWeight);
+					break;
+				case LimbAnimationState.Manual:
+					SetRigWeight(limbIkRig, previousStateWeight);
+					SetRigWeight(limbDampedRig, previousStateWeight);
+					break;
+			}
+		}
+		private void SetRigWeight(Rig rig, float weight)
+		{
+			if (rig == null)
+			{
+				return;
+			}
+			rig.weight = weight;
 		}
 		private void OnLimbDetatchEntry(Limb detachedLimb)
 		{

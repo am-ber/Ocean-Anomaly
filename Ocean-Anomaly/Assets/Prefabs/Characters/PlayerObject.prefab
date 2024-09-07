@@ -1341,7 +1341,6 @@ MonoBehaviour:
   AttackIndicator: {fileID: 7149283924370638443}
   crosshair: {fileID: 6877934429352971571}
   aimSpeed: 20
-  aimSmoothing: 0.2
   aimAngle: 0
   targetAimAngle: 0
   lookDirection: {x: 0, y: 0}
