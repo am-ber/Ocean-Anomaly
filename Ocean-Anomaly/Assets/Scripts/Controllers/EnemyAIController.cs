@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace OceanAnomaly.Controllers
 {
@@ -17,7 +18,7 @@ namespace OceanAnomaly.Controllers
 	public class EnemyAIController : MonoBehaviour
 	{
 		[SerializeField]
-		private MonsterMovement movement;
+		private EnemyMovementController movementController;
 		[SerializeField]
 		public BehaviorState currentState = BehaviorState.None;
 		[SerializeField]
@@ -44,38 +45,59 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private float maxTimeRoaming = 10f;
 		[SerializeField]
-		private float roamSpeed = 3f;
+		private MovementData roamingMovement = new MovementData()
+		{ MaxSpeed = 3f, MinSpeed = 1f, SteerStrength = 2f, WanderStrength = 0.5f };
 		[SerializeField]
 		private float reactionPercentage = 0.1f; // The closer to 1.0f (100%) the more aggressive to attacks the enemy will be.
-		private bool justEnteredRoamState = true;
 		
 		[Header("Hunting Settings")]
-		[ReadOnly]
 		[SerializeField]
-		private bool travelDirectlyToPlayer = true; // Keep this checked until we have more random monster behavior
+		private float huntWanderStrength = 0.1f;
+		[SerializeField]
+		private MovementData huntingMovement = new MovementData()
+		{ MaxSpeed = 5f, MinSpeed = 3f, SteerStrength = 3f, WanderStrength = 0.2f };
 		[Header("Attacking Settings")]
 		[SerializeField]
 		private float minTimeAttacking = 4f;
 		[SerializeField]
 		private float maxTimeAttacking = 10f;
+		[SerializeField]
+		private MovementData attackMovement = new MovementData()
+		{ MaxSpeed = 2f, MinSpeed = 0.5f, SteerStrength = 5f, WanderStrength = 0.05f };
+		[ReadOnly]
+		[SerializeField]
+		// This will be calculated by checking all possible limbs we have to attack with and their individual reach if the monster were to orient towards the player with that limb
+		private float maximumReachDistance = 0f;
+		private void OnValidate()
+		{
+			Initialize();
+		}
 		private void Start()
 		{
-			if (movement == null)
+			Initialize();
+		}
+		private void Initialize()
+		{
+			if (movementController == null)
 			{
-				movement = GetComponent<MonsterMovement>();
+				movementController = GetComponent<EnemyMovementController>();
 			}
 			if (fieldManager == null)
 			{
-				fieldManager = GlobalManager.Instance.enemyFieldManager;
+				if (GlobalManager.Instance != null)
+				{
+					fieldManager = GlobalManager.Instance.enemyFieldManager;
+				}
 			}
 			if (splineFollower == null)
 			{
 				splineFollower = GetComponent<SplineFollower>();
 			}
-		}
-		private void OnEnable()
-		{
-			splineFollower.followSpeed = roamSpeed;
+			if (splineFollower != null)
+			{
+				splineFollower.followSpeed = roamingMovement.MaxSpeed;
+			}
+			ChangeEnemyState(currentState);
 		}
 		private void Update()
 		{
@@ -98,14 +120,41 @@ namespace OceanAnomaly.Controllers
 					currentStateAction = null;
 					break;
 				case BehaviorState.Roaming:
+					RoamingStateEnter();
 					currentStateAction = RoamingState;
 					break;
 				case BehaviorState.Hunting:
+					HuntingStateEnter();
 					currentStateAction = HuntingState;
 					break;
 				case BehaviorState.Attacking:
+					AttackingStateEnter();
 					currentStateAction = AttackingState;
 					break;
+			}
+		}
+		private void RoamingStateEnter()
+		{
+			if (fieldManager != null)
+			{
+				fieldManager.GenerateNewPoints();
+				movementController.SetTargetPosition(fieldManager.GetFieldStart());
+			}
+			if (movementController != null)
+			{
+				movementController.UpdateMovement(roamingMovement);
+				movementController.SetMovementBehavior(MovementBehavior.WanderFollow);
+				movementController.OnTargetReach.AddListener(OnTargetReachedRoaming);
+			}
+		}
+		public void OnTargetReachedRoaming(Transform target)
+		{
+			print($"{name} reached {target.name}");
+			movementController.OnTargetReach.RemoveListener(OnTargetReachedRoaming);
+			// If the field manager exists
+			if (fieldManager != null)
+			{
+				fieldManager.SubscribeToSpline(splineFollower);
 			}
 		}
 		private void RoamingState()
@@ -116,27 +165,41 @@ namespace OceanAnomaly.Controllers
 				recievedDamage = false;
 				if (WillReactToAttack(reactionPercentage))
 				{
-					justEnteredRoamState = true;
-					fieldManager.UnsubscribeToSpline(splineFollower);
+					if (fieldManager != null)
+					{
+						fieldManager.UnsubscribeToSpline(splineFollower);
+					}
 					ChangeEnemyState(BehaviorState.Hunting);
 					return;
 				}
 			}
 			// We now need to make sure we navigate to the start point of the Spline we generate in EnemyFieldManager.
-			// Lets make sure we don't repeatedly generate new points to traverse.
-			if (justEnteredRoamState)
+			
+		}
+		private void HuntingStateEnter()
+		{
+			if (movementController != null)
 			{
-				fieldManager.GenerateNewPoints();
-				justEnteredRoamState = false;
+				movementController.UpdateMovement(huntingMovement);
 			}
-
 		}
 		private void HuntingState()
 		{
 
 		}
+		private void AttackingStateEnter()
+		{
+			if (movementController != null)
+			{
+				movementController.UpdateMovement(attackMovement);
+			}
+		}
 		private void AttackingState()
 		{
+			if (movementController != null)
+			{
+				
+			}
 
 		}
 		private bool WillReactToAttack(float percentage = 1f)

@@ -18,7 +18,8 @@ public class EnemyFieldManager : MonoBehaviour
 	private int currentPoints = 0;
 	[SerializeField]
 	private SplineComputer splineComputer;
-
+	[SerializeField]
+	private GameObject fieldStart;
 	private void Start()
 	{
 		Initialize();
@@ -54,6 +55,7 @@ public class EnemyFieldManager : MonoBehaviour
 		{
 			return;
 		}
+		splineUser.spline = splineComputer;
 		splineComputer.Subscribe(splineUser);
 	}
 	/// <summary>
@@ -62,11 +64,19 @@ public class EnemyFieldManager : MonoBehaviour
 	/// <returns></returns>
 	public Vector3 GetFieldStartPosition()
 	{
-		if (splineComputer == null)
+		if (fieldStart == null)
 		{
 			return Vector3.zero;
 		}
-		return splineComputer.GetPoint(0).position;
+		return fieldStart.transform.position;
+	}
+	public Transform GetFieldStart()
+	{
+		if (fieldStart == null)
+		{
+			return null;
+		}
+		return fieldStart.transform;
 	}
 	public void UnsubscribeToSpline(SplineUser splineUser)
 	{
@@ -91,5 +101,12 @@ public class EnemyFieldManager : MonoBehaviour
 		}
 		splineComputer.SetPoints(splinePoints);
 		splineComputer.Close();
+
+		if (fieldStart == null)
+		{
+			fieldStart = new GameObject("FieldStartObject");
+			fieldStart.transform.parent = transform;
+		}
+		fieldStart.transform.position = splinePoints[0].position;
 	}
 }
