@@ -23,8 +23,6 @@ namespace OceanAnomaly.Controllers
 		public BehaviorState currentState = BehaviorState.None;
 		[SerializeField]
 		private EnemyFieldManager fieldManager;
-		[SerializeField]
-		private SplineFollower splineFollower;
 		[ReadOnly]
 		[SerializeField]
 		private double timeInState = 0f;
@@ -89,14 +87,6 @@ namespace OceanAnomaly.Controllers
 					fieldManager = GlobalManager.Instance.enemyFieldManager;
 				}
 			}
-			if (splineFollower == null)
-			{
-				splineFollower = GetComponent<SplineFollower>();
-			}
-			if (splineFollower != null)
-			{
-				splineFollower.followSpeed = roamingMovement.MaxSpeed;
-			}
 			ChangeEnemyState(currentState);
 		}
 		private void Update()
@@ -150,12 +140,8 @@ namespace OceanAnomaly.Controllers
 		public void OnTargetReachedRoaming(Transform target)
 		{
 			print($"{name} reached {target.name}");
+			movementController.SetMovementBehavior(MovementBehavior.OnTrack);
 			movementController.OnTargetReach.RemoveListener(OnTargetReachedRoaming);
-			// If the field manager exists
-			if (fieldManager != null)
-			{
-				fieldManager.SubscribeToSpline(splineFollower);
-			}
 		}
 		private void RoamingState()
 		{
@@ -165,10 +151,6 @@ namespace OceanAnomaly.Controllers
 				recievedDamage = false;
 				if (WillReactToAttack(reactionPercentage))
 				{
-					if (fieldManager != null)
-					{
-						fieldManager.UnsubscribeToSpline(splineFollower);
-					}
 					ChangeEnemyState(BehaviorState.Hunting);
 					return;
 				}

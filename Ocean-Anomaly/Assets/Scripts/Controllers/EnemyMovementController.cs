@@ -1,3 +1,4 @@
+using Dreamteck.Splines;
 using OceanAnomaly.Attributes;
 using OceanAnomaly.Tools;
 using System;
@@ -17,6 +18,7 @@ namespace OceanAnomaly.Controllers
 		public float WanderStrength;
 		public bool RemoveTargetAfterReach;
 	}
+	[RequireComponent(typeof(SplineFollower))]
 	public class EnemyMovementController : MonoBehaviour
 	{
 		[Header("Current Movement Data")]
@@ -37,6 +39,10 @@ namespace OceanAnomaly.Controllers
 		private float targetReachDistance = 1f;
 		[SerializeField]
 		private MovementBehavior currentMovementBehavior;
+		[SerializeField]
+		private EnemyFieldManager fieldManager;
+		[SerializeField]
+		private SplineFollower splineFollower;
 		[SerializeField]
 		private Transform headPosition;
 		[SerializeField]
@@ -67,6 +73,22 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private Transform target;
 		private Action currentMovementAction;
+		private void Start()
+		{
+			if (splineFollower == null)
+			{
+				splineFollower = GetComponent<SplineFollower>();
+				splineFollower.wrapMode = SplineFollower.Wrap.Loop;
+				splineFollower.motion.rotationOffset = new Vector3(0, 0, 180);
+			}
+			if (fieldManager == null)
+			{
+				if (GlobalManager.Instance != null)
+				{
+					fieldManager = GlobalManager.Instance.enemyFieldManager;
+				}
+			}
+		}
 		private void Update()
 		{
 			if (currentMovementAction != null)
@@ -122,9 +144,28 @@ namespace OceanAnomaly.Controllers
 				case MovementBehavior.WanderFollow:
 					currentMovementAction = WanderMovement;
 					break;
+				case MovementBehavior.OnTrack:
+					currentMovementAction = null;
+					OnTrackMovement();
+					break;
 				default:
 					currentMovementAction = null;
 					break;
+			}
+		}
+		private void OnTrackMovement()
+		{
+			if (fieldManager != null)
+			{
+				fieldManager.SubscribeToSpline(splineFollower);
+			}
+			splineFollower.followSpeed = currentMaxSpeed;
+		}
+		private void OnTrackMovementLeave()
+		{
+			if (fieldManager != null)
+			{
+				fieldManager.UnsubscribeToSpline(splineFollower);
 			}
 		}
 		private void WanderMovement()
