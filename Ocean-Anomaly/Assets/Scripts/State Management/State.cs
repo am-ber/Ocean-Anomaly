@@ -1,23 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public abstract class State
 {
-	private State previousState;
-	public bool enabled = false;
-	public abstract void Initialize();
+	public bool Enabled = false;
 	public abstract void Update();
-	public virtual void OnEnter(State previousState)
+	public virtual void OnEnter()
 	{
-		this.previousState = previousState;
-		enabled = true;
-	}
-	public State GetPrevious()
-	{
-		return previousState;
+		Enabled = true;
 	}
 	public virtual void OnExit()
 	{
-		enabled = false;
+		Enabled = false;
 	}
 }

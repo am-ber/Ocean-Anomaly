@@ -24,10 +24,6 @@ public class EnemyFieldManager : MonoBehaviour
 	{
 		Initialize();
 	}
-	private void OnValidate()
-	{
-		Initialize();
-	}
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
@@ -45,18 +41,9 @@ public class EnemyFieldManager : MonoBehaviour
 
 		GenerateNewPoints();
 	}
-	/// <summary>
-	/// Used to properly add a user to the field spline.
-	/// </summary>
-	/// <param name="splineUser"></param>
-	public void SubscribeToSpline(SplineUser splineUser)
+	public SplineComputer GetSplineComputer()
 	{
-		if (splineComputer == null)
-		{
-			return;
-		}
-		splineUser.spline = splineComputer;
-		splineComputer.Subscribe(splineUser);
+		return splineComputer;
 	}
 	/// <summary>
 	/// Used to get the current starting position of the field spline.
@@ -77,14 +64,6 @@ public class EnemyFieldManager : MonoBehaviour
 			return null;
 		}
 		return fieldStart.transform;
-	}
-	public void UnsubscribeToSpline(SplineUser splineUser)
-	{
-		if (splineComputer == null)
-		{
-			return;
-		}
-		splineComputer.Unsubscribe(splineUser);
 	}
 	/// <summary>
 	/// Used to generate new points randomly in a circle with the radius of <seealso cref="pointGenerationRadius"/>.

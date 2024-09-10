@@ -43,33 +43,20 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private float maxTimeRoaming = 10f;
 		[SerializeField]
-		private MovementData roamingMovement = new MovementData()
-		{ MaxSpeed = 3f, MinSpeed = 1f, SteerStrength = 2f, WanderStrength = 0.5f };
-		[SerializeField]
 		private float reactionPercentage = 0.1f; // The closer to 1.0f (100%) the more aggressive to attacks the enemy will be.
-		
+
 		[Header("Hunting Settings")]
 		[SerializeField]
 		private float huntWanderStrength = 0.1f;
-		[SerializeField]
-		private MovementData huntingMovement = new MovementData()
-		{ MaxSpeed = 5f, MinSpeed = 3f, SteerStrength = 3f, WanderStrength = 0.2f };
 		[Header("Attacking Settings")]
 		[SerializeField]
 		private float minTimeAttacking = 4f;
 		[SerializeField]
 		private float maxTimeAttacking = 10f;
-		[SerializeField]
-		private MovementData attackMovement = new MovementData()
-		{ MaxSpeed = 2f, MinSpeed = 0.5f, SteerStrength = 5f, WanderStrength = 0.05f };
 		[ReadOnly]
 		[SerializeField]
 		// This will be calculated by checking all possible limbs we have to attack with and their individual reach if the monster were to orient towards the player with that limb
 		private float maximumReachDistance = 0f;
-		private void OnValidate()
-		{
-			Initialize();
-		}
 		private void Start()
 		{
 			Initialize();
@@ -80,6 +67,10 @@ namespace OceanAnomaly.Controllers
 			{
 				movementController = GetComponent<EnemyMovementController>();
 			}
+			movementController.OnInitialized.AddListener(() =>
+			{
+				ChangeEnemyState(currentState);
+			});
 			if (fieldManager == null)
 			{
 				if (GlobalManager.Instance != null)
@@ -87,7 +78,6 @@ namespace OceanAnomaly.Controllers
 					fieldManager = GlobalManager.Instance.enemyFieldManager;
 				}
 			}
-			ChangeEnemyState(currentState);
 		}
 		private void Update()
 		{
@@ -114,34 +104,34 @@ namespace OceanAnomaly.Controllers
 					currentStateAction = RoamingState;
 					break;
 				case BehaviorState.Hunting:
-					HuntingStateEnter();
 					currentStateAction = HuntingState;
 					break;
 				case BehaviorState.Attacking:
-					AttackingStateEnter();
 					currentStateAction = AttackingState;
 					break;
 			}
 		}
 		private void RoamingStateEnter()
 		{
+			if (movementController == null)
+			{
+				return;
+			}
+			// We need the MovementController
+			movementController.ChangeMovementState(movementController.wanderState);
+			movementController.GetMovementState().OnTargetReach.AddListener(OnTargetReachedRoaming);
+			// But sometimes we might not have the fieldManager for some reason?
 			if (fieldManager != null)
 			{
 				fieldManager.GenerateNewPoints();
-				movementController.SetTargetPosition(fieldManager.GetFieldStart());
-			}
-			if (movementController != null)
-			{
-				movementController.UpdateMovement(roamingMovement);
-				movementController.SetMovementBehavior(MovementBehavior.WanderFollow);
-				movementController.OnTargetReach.AddListener(OnTargetReachedRoaming);
+				movementController.GetMovementState().SetTarget(fieldManager.GetFieldStart());
 			}
 		}
 		public void OnTargetReachedRoaming(Transform target)
 		{
 			print($"{name} reached {target.name}");
-			movementController.SetMovementBehavior(MovementBehavior.OnTrack);
-			movementController.OnTargetReach.RemoveListener(OnTargetReachedRoaming);
+			movementController.ChangeMovementState(movementController.trackState);
+			movementController.GetMovementState().OnTargetReach.RemoveListener(OnTargetReachedRoaming);
 		}
 		private void RoamingState()
 		{
@@ -156,31 +146,17 @@ namespace OceanAnomaly.Controllers
 				}
 			}
 			// We now need to make sure we navigate to the start point of the Spline we generate in EnemyFieldManager.
-			
-		}
-		private void HuntingStateEnter()
-		{
-			if (movementController != null)
-			{
-				movementController.UpdateMovement(huntingMovement);
-			}
+
 		}
 		private void HuntingState()
 		{
 
 		}
-		private void AttackingStateEnter()
-		{
-			if (movementController != null)
-			{
-				movementController.UpdateMovement(attackMovement);
-			}
-		}
 		private void AttackingState()
 		{
 			if (movementController != null)
 			{
-				
+
 			}
 
 		}
