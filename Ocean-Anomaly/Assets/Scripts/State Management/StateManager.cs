@@ -2,49 +2,59 @@ using OceanAnomaly.Attributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[Serializable]
-public class StateManager
+namespace OceanAnomaly.StateManagement
 {
-	public bool failedUpdateProtection = true;
-	public readonly int maximumUpdateFailCount = 3;
-	[ReadOnly]
-	[SerializeField]
-	private int currentUpdateFailure = 0;
-	private State CurrentState;
-	public void Update()
+	[Serializable]
+	public class StateManager
 	{
-		if (currentUpdateFailure >= maximumUpdateFailCount)
+		public bool failedUpdateProtection = true;
+		[SerializeField]
+		public int maximumUpdateFailCount = 3;
+		[ReadOnly]
+		[SerializeField]
+		private int currentUpdateFailure = 0;
+		private State CurrentState;
+		public UnityEvent OnMaxFailedUpdates;
+		public void Update()
 		{
-			return;
-		}
-		try
-		{
-			if (CurrentState != null && CurrentState.Enabled)
+			if (currentUpdateFailure >= maximumUpdateFailCount)
 			{
-				CurrentState.Update();
+				return;
 			}
-		} catch (Exception e)
-		{
-			currentUpdateFailure++;
-			Debug.Log($"Error updating in {ToString()}\t{maximumUpdateFailCount - currentUpdateFailure} attempts left.\n{e.StackTrace}");
+			try
+			{
+				if (CurrentState != null && CurrentState.Enabled)
+				{
+					CurrentState.Update();
+				}
+			}
+			catch (Exception e)
+			{
+				currentUpdateFailure++;
+				Debug.Log($"Error updating in {ToString()}\t{maximumUpdateFailCount - currentUpdateFailure} attempts left.\n{e.StackTrace}");
+				if (currentUpdateFailure >= maximumUpdateFailCount)
+				{
+					OnMaxFailedUpdates?.Invoke();
+				}
+			}
 		}
-		
-	}
-	public void ChangeState(State state)
-	{
-		if ((CurrentState == state) || (state == null))
+		public void ChangeState(State state)
 		{
-			return;
+			if ((CurrentState == state) || (state == null))
+			{
+				return;
+			}
+			Debug.Log($"Entering {state}");
+			CurrentState?.OnExit();
+			currentUpdateFailure = 0;
+			state.OnEnter();
+			CurrentState = state;
 		}
-		Debug.Log($"Entering {state}");
-		CurrentState?.OnExit();
-		currentUpdateFailure = 0;
-		state.OnEnter();
-		CurrentState = state;
-	}
-	public State GetCurrentState()
-	{
-		return CurrentState;
+		public State GetCurrentState()
+		{
+			return CurrentState;
+		}
 	}
 }

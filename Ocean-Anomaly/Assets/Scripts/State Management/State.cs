@@ -2,16 +2,19 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class State
+namespace OceanAnomaly.StateManagement
 {
-	public bool Enabled = false;
-	public abstract void Update();
-	public virtual void OnEnter()
+	public abstract class State
 	{
-		Enabled = true;
-	}
-	public virtual void OnExit()
-	{
-		Enabled = false;
+		public bool Enabled = false;
+		public abstract void Update();
+		public virtual void OnEnter()
+		{
+			Enabled = true;
+		}
+		public virtual void OnExit()
+		{
+			Enabled = false;
+		}
 	}
 }

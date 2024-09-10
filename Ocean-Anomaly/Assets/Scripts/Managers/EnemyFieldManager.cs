@@ -59,6 +59,7 @@ public class EnemyFieldManager : MonoBehaviour
 	}
 	public Transform GetFieldStart()
 	{
+		Debug.Log("FieldStart null? " + fieldStart == null);
 		if (fieldStart == null)
 		{
 			return null;
@@ -83,8 +84,7 @@ public class EnemyFieldManager : MonoBehaviour
 
 		if (fieldStart == null)
 		{
-			fieldStart = new GameObject("FieldStartObject");
-			fieldStart.transform.parent = transform;
+			fieldStart = Instantiate(new GameObject("FieldStartObject"), transform);
 		}
 		fieldStart.transform.position = splinePoints[0].position;
 	}
