@@ -12,7 +12,7 @@ namespace OceanAnomaly.Controllers
 	{
 		Idle,
 		OnTrack,
-		Moving,
+		WanderFollow,
 		Strafing
 	}
 	public class MonsterMovement : BasicMoveBehavior
@@ -63,7 +63,7 @@ namespace OceanAnomaly.Controllers
 		void Update()
 		{
 			AnimateTail();
-			if (moveBehavior == MovementBehavior.Moving)
+			if (moveBehavior == MovementBehavior.WanderFollow)
 			{
 				rotateTo();
 				CheckIfAtMoveTarget();
@@ -71,7 +71,7 @@ namespace OceanAnomaly.Controllers
 		}
 		private void FixedUpdate()
 		{
-			if (moveBehavior == MovementBehavior.Moving)
+			if (moveBehavior == MovementBehavior.WanderFollow)
 			{
 				FixedBasicMove();
 			}

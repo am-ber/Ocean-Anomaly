@@ -18,12 +18,9 @@ public class EnemyFieldManager : MonoBehaviour
 	private int currentPoints = 0;
 	[SerializeField]
 	private SplineComputer splineComputer;
-
+	[SerializeField]
+	private GameObject fieldStart;
 	private void Start()
-	{
-		Initialize();
-	}
-	private void OnValidate()
 	{
 		Initialize();
 	}
@@ -44,17 +41,9 @@ public class EnemyFieldManager : MonoBehaviour
 
 		GenerateNewPoints();
 	}
-	/// <summary>
-	/// Used to properly add a user to the field spline.
-	/// </summary>
-	/// <param name="splineUser"></param>
-	public void SubscribeToSpline(SplineUser splineUser)
+	public SplineComputer GetSplineComputer()
 	{
-		if (splineComputer == null)
-		{
-			return;
-		}
-		splineComputer.Subscribe(splineUser);
+		return splineComputer;
 	}
 	/// <summary>
 	/// Used to get the current starting position of the field spline.
@@ -62,19 +51,19 @@ public class EnemyFieldManager : MonoBehaviour
 	/// <returns></returns>
 	public Vector3 GetFieldStartPosition()
 	{
-		if (splineComputer == null)
+		if (fieldStart == null)
 		{
 			return Vector3.zero;
 		}
-		return splineComputer.GetPoint(0).position;
+		return fieldStart.transform.position;
 	}
-	public void UnsubscribeToSpline(SplineUser splineUser)
+	public Transform GetFieldStart()
 	{
-		if (splineComputer == null)
+		if (fieldStart == null)
 		{
-			return;
+			return null;
 		}
-		splineComputer.Unsubscribe(splineUser);
+		return fieldStart.transform;
 	}
 	/// <summary>
 	/// Used to generate new points randomly in a circle with the radius of <seealso cref="pointGenerationRadius"/>.
@@ -91,5 +80,11 @@ public class EnemyFieldManager : MonoBehaviour
 		}
 		splineComputer.SetPoints(splinePoints);
 		splineComputer.Close();
+
+		if (fieldStart == null)
+		{
+			fieldStart = Instantiate(new GameObject("FieldStartObject"), transform);
+		}
+		fieldStart.transform.position = splinePoints[0].position;
 	}
 }

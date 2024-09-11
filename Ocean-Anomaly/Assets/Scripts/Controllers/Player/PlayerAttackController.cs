@@ -30,8 +30,6 @@ namespace OceanAnomaly.Controllers
 		[Header("Aiming Variables")]
 		[SerializeField]
 		private float aimSpeed = 10f;
-		[SerializeField]
-		private float aimSmoothing = 0.5f;
 		[ReadOnly]
 		public float aimAngle = 0f;
 		[ReadOnly]

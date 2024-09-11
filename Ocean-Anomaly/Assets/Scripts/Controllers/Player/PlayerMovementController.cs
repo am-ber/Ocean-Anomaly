@@ -55,6 +55,8 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private GameObject dashSpawnEffectsPrefab;
 		[SerializeField]
+		private float dashEffectDistanceDelta = 1f;
+		[SerializeField]
 		private float dashAmount = 30f;
 		[SerializeField]
 		private float dashCoolDown = 3f;
@@ -75,6 +77,12 @@ namespace OceanAnomaly.Controllers
 		[ReadOnly]
 		[SerializeField]
 		private float dashMultiplier = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private float dashPositionDelta = 0f;
+		[ReadOnly]
+		[SerializeField]
+		private Vector3 dashEffectPreviousPosition = Vector3.zero;
 		// Input System
 		private PlayerInputActions inputActions;
 		private InputAction inputMovement;
@@ -103,7 +111,7 @@ namespace OceanAnomaly.Controllers
 			dashed = true;
 			canDash = false;
 		}
-		
+
 		private void OnEnable()
 		{
 			// Enable Movement
@@ -149,9 +157,16 @@ namespace OceanAnomaly.Controllers
 					// Right here would be where to play the "Dash Ready" sound
 					dashTime = 0;
 				}
-				if (dashSpawnEffectsPrefab != null)
-				{
 
+			}
+			if ((dashSpawnEffectsPrefab != null) && (dashMultiplier > 0))
+			{
+				// If we travel our max delta away from the previous spot then lets spawn new particles
+				dashPositionDelta = (dashEffectPreviousPosition - transform.position).magnitude;
+				if (dashPositionDelta >= dashEffectDistanceDelta)
+				{
+					dashEffectPreviousPosition = transform.position;
+					Instantiate(dashSpawnEffectsPrefab, transform);
 				}
 			}
 		}
@@ -166,10 +181,10 @@ namespace OceanAnomaly.Controllers
 			// Applies clamping to the velocity based on current player speed upgrades
 			float maximumMovement = (maxMoveSpeed * UpgradeManager.moveFactor) + dashMultiplier;
 			velocity = Vector3.ClampMagnitude(velocity, maximumMovement);
-			
+
 			// Record the current speed
-			totalVelocity = velocity.RoundVector((int) roundingDecimalLimit);
-			currentSpeed = (float) Math.Round(totalVelocity.magnitude, (int) roundingDecimalLimit);
+			totalVelocity = velocity.RoundVector((int)roundingDecimalLimit);
+			currentSpeed = (float)Math.Round(totalVelocity.magnitude, (int)roundingDecimalLimit);
 			// Decelerates the current velocity of the player and resets the acceleration
 			velocity -= (velocity * decelerationRate).RoundVector((int)roundingDecimalLimit);
 		}
