@@ -59,7 +59,6 @@ public class EnemyFieldManager : MonoBehaviour
 	}
 	public Transform GetFieldStart()
 	{
-		Debug.Log("FieldStart null? " + fieldStart == null);
 		if (fieldStart == null)
 		{
 			return null;

@@ -43,7 +43,6 @@ namespace OceanAnomaly.StateManagement
 			if (fieldManager != null)
 			{
 				fieldManager.GenerateNewPoints();
-				Debug.Log("YUP");
 				movementController.GetMovementState().SetTarget(fieldManager.GetFieldStart());
 			}
 		}
