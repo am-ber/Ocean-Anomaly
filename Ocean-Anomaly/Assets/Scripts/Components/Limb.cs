@@ -13,8 +13,13 @@ namespace OceanAnomaly.Components
 		[SerializeField]
 		public string endpointTag = "Untagged";
 		[field: SerializeField]
-		public Transform EndPointOffset { get; private set; }
-		public Vector3 EndPointPositionOffset = Vector3.zero;
+		public Transform EndPoint { get; private set; }
+		public Vector3 EndPointOffset = Vector3.zero;
+		public float LeftRightSeparation = 0f;
+		[field: SerializeField]
+		public Transform LeftPoint { get; private set; }
+		[field: SerializeField]
+		public Transform RightPoint { get; private set; }
 		[field: SerializeField]
 		public Limb NextBodyPart { get; private set; }
 		[field: SerializeField]
@@ -34,22 +39,53 @@ namespace OceanAnomaly.Components
 		}
 		private void Initialize()
 		{
-			if (EndPointOffset == null)
+			// Resolve limb outter points
+			if (EndPoint == null)
 			{
-				EndPointOffset = transform.FindChildByTag(endpointTag);
+				EndPoint = transform.FindChildByTag(endpointTag);
 				// If we didn't find an offset we can just make one
-				if (EndPointOffset == null)
+				if (EndPoint == null)
 				{
-					EndPointOffset = new GameObject($"{gameObject.name} End Point").transform;
-					EndPointOffset.gameObject.tag = endpointTag;
-					EndPointOffset.transform.parent = transform;
+					EndPoint = new GameObject($"{gameObject.name} End Point").transform;
+					EndPoint.gameObject.tag = endpointTag;
+					EndPoint.parent = transform;
 				}
 			}
-			EndPointOffset.position += EndPointPositionOffset;
+			Vector3 midPoint = GlobalTools.MidPoint(transform.position, EndPoint.position);
+			if (LeftPoint == null)
+			{
+				Vector3 leftPoint = transform.position.ToVector2().RotatePoint(midPoint, -90);
+				LeftPoint = new GameObject($"{gameObject.name} Left Point").transform;
+				LeftPoint.parent = transform;
+				LeftPoint.position = leftPoint.AdjustDistance(midPoint, LeftRightSeparation);
+			}
+			if (RightPoint == null)
+			{
+				Vector3 rightPoint = transform.position.ToVector2().RotatePoint(midPoint, 90);
+				RightPoint = new GameObject($"{gameObject.name} Right Point").transform;
+				RightPoint.parent = transform;
+				RightPoint.position = rightPoint.AdjustDistance(midPoint, LeftRightSeparation);
+			}
+			EndPoint.position += EndPointOffset;
 			if (LimbHealth == null)
 			{
 				LimbHealth = gameObject.RecursiveFindComponentLocal<Health>();
 			}
+		}
+		public void ResetLeftAndRightToSeparation()
+		{
+			// Solve for the mid point position
+			Vector3 midPoint = GetMidPoint();
+			// Solve for the left point
+			Vector3 leftPoint = transform.position.ToVector2().RotatePoint(midPoint, -90).ToVector3().AdjustDistance(midPoint, LeftRightSeparation);
+			LeftPoint.position = leftPoint;
+			// Solve for the right point
+			Vector3 rightPoint = transform.position.ToVector2().RotatePoint(midPoint, 90).ToVector3().AdjustDistance(midPoint, LeftRightSeparation);
+			RightPoint.position = rightPoint;
+		}
+		public Vector3 GetMidPoint()
+		{
+			return GlobalTools.MidPoint(transform.position, EndPoint.position);
 		}
 		public void SnapToPrevious()
 		{
