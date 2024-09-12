@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using DG.Tweening;
 using System.Threading.Tasks;
+using OceanAnomaly.Controllers;
 
 namespace OceanAnomaly.Components
 {
@@ -16,7 +17,7 @@ namespace OceanAnomaly.Components
 		DampedConstraint,
 		Manual
 	}
-	public class TentecaleLimbSpawner : MonoBehaviour
+	public class TentacleLimbSpawner : LimbController
 	{
 		// These Fields need references in the inspector
 		[Header("Non-optional Fields")]
@@ -69,9 +70,6 @@ namespace OceanAnomaly.Components
 		private List<Limb> limbs;
 		[ReadOnly]
 		public bool limbDestroyed = false;
-		[ReadOnly]
-		[SerializeField]
-		private float limbTotalHealth = 0f;
 		private object limbDetachLock = new object();
 		private object rigAnimationLock = new object();
 		private void Awake()
@@ -154,7 +152,7 @@ namespace OceanAnomaly.Components
 			for (int i = 0; i < limbLengthLimit; i++)
 			{
 				// subsequent limbs get made from the impervious source limb
-				Limb newPart = Instantiate(limbPrefab, previousPart.EndPointOffset.position, previousPart.EndPointOffset.rotation);
+				Limb newPart = Instantiate(limbPrefab, previousPart.EndPoint.position, previousPart.EndPoint.rotation);
 				newPart.SetPreviousBodyPart(previousPart);
 				previousPart = newPart;
 				// Set the name and index for easy reference
@@ -168,6 +166,11 @@ namespace OceanAnomaly.Components
 				{
 					limbTotalHealth += value;
 				});
+				// Resolve leftAndRightSeparation
+				float currentIndexMultiplier = (limbLengthLimit - i) / limbLengthLimit;
+				float distanceMultiplied = currentIndexMultiplier * Vector3.Distance(newPart.transform.position, newPart.GetMidPoint());
+				print($"Limb {i} : {distanceMultiplied}");
+				newPart.LeftRightSeparation = distanceMultiplied;
 				// Add each new limb to the list of limbs to keep track of them
 				limbs.Add(previousPart);
 			}
@@ -179,10 +182,6 @@ namespace OceanAnomaly.Components
 			SetDampedTarget();
 			// Lastely build the rig with the new bones
 			rigBuilder.Build();
-		}
-		private void Update()
-		{
-
 		}
 		public void SetAnimationState(LimbAnimationState animationState, float newStateWeight = 1f, float previousStateWeight = 0f)
 		{
@@ -240,8 +239,8 @@ namespace OceanAnomaly.Components
 			// If we have no more limbs then lets break out of here
 			if (CheckForLimbsDestroyed()) return;
 			// Set the IK target position to the root end point
-			limbTargetIk.position = limbs[limbs.Count - 1].EndPointOffset.position;
-			limbIkConstraint.data.tip = limbs[limbs.Count - 1].EndPointOffset;
+			limbTargetIk.position = limbs[limbs.Count - 1].EndPoint.position;
+			limbIkConstraint.data.tip = limbs[limbs.Count - 1].EndPoint;
 			// Set the root and tip of the chain to the first and last limb found in limbs
 			limbIkConstraint.data.root = limbs[0].transform;
 		}
@@ -282,7 +281,14 @@ namespace OceanAnomaly.Components
 				limbDampedConstraints.Add(dampedTransform);
 			}
 		}
-
+		/// <summary>
+		/// Grabs the current limbs object.
+		/// </summary>
+		/// <returns></returns>
+		public List<Limb> GetLimbs()
+		{
+			return limbs;
+		}
 		public bool CheckForLimbsDestroyed()
 		{
 			// If we have no more limbs then lets break out of here
