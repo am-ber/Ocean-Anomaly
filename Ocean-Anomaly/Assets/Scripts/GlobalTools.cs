@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using OceanAnomaly.Components;
+using System.Linq;
 
 namespace OceanAnomaly.Tools
 {
@@ -199,11 +200,21 @@ namespace OceanAnomaly.Tools
 		/// <summary>
 		/// Used to return a new Vector3 with this Vector2's X and Y but a Z of 0 by default.
 		/// </summary>
-		/// <param name="vector"></param>
+		/// <param name="vector">The Vector2!</param>
+		/// <param name="z">Any z value you wish to put in the Vector3.</param>
 		/// <returns></returns>
 		public static Vector3 ToVector3(this Vector2 vector, float z = 0f)
 		{
 			return new Vector3(vector.x, vector.y, z);
+		}
+		/// <summary>
+		/// Used to return a new Vector2 with this Vector3's X and Y.
+		/// </summary>
+		/// <param name="vector">The Vector3!</param>
+		/// <returns></returns>
+		public static Vector2 ToVector2(this Vector3 vector)
+		{
+			return new Vector2(vector.x, vector.y);
 		}
 		/// <summary>
 		/// Used to find the first child by a tag. Will be obviously null if you don't got a child with that tag or component.
@@ -242,9 +253,118 @@ namespace OceanAnomaly.Tools
             }
 			return foundChilderen.ToArray();
 		}
+		/// <summary>
+		/// Used to grab a component that exisists in a child, if it doesn't exist there then we will create it.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="monoBehaviour"></param>
+		/// <param name="newChildName"></param>
+		/// <returns></returns>
+		public static T GetOrMakeComponentInChilderen<T>(this MonoBehaviour monoBehaviour, string newChildName = null) where T : Component
+		{
+			// Search for it in the children
+			T foundComponent = monoBehaviour.gameObject.GetComponentInChildren<T>();
+			// If we can't find it lets make it
+			if (foundComponent == null)
+			{
+				// If a name isn't given lets set the name
+				if (newChildName == null)
+				{
+					newChildName = $"{monoBehaviour.name} {typeof(T).Name}";
+				}
+				foundComponent = new GameObject(newChildName).AddComponent<T>();
+				// Set the parent to the monoBehaviour that called this
+				foundComponent.transform.parent = monoBehaviour.transform;
+			}
+			return foundComponent;
+		}
 		public static Vector3 RoundVector(this Vector3 vector, int decimals = 0)
 		{
 			return new Vector3((float) Math.Round(vector.x, decimals), (float) Math.Round(vector.y, decimals), (float) Math.Round(vector.z, decimals));
+		}
+		/// <summary>
+		/// Calculates the Convex Hull of a set of finite points.
+		/// Not my original code. Original can be found <a href="https://stackoverflow.com/a/46371357">here</a>.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <returns></returns>
+		public static List<Vector2> GetConvexHull(List<Vector2> points)
+		{
+			if (points == null)
+				return null;
+
+			if (points.Count() <= 1)
+				return points;
+
+			int n = points.Count(), k = 0;
+			List<Vector2> H = new List<Vector2>(new Vector2[2 * n]);
+
+			points.Sort((a, b) =>
+				 a.x == b.x ? a.y.CompareTo(b.y) : a.x.CompareTo(b.x));
+
+			// Build lower hull
+			for (int i = 0; i < n; ++i)
+			{
+				while (k >= 2 && Cross(H[k - 2], H[k - 1], points[i]) <= 0)
+					k--;
+				H[k++] = points[i];
+			}
+
+			// Build upper hull
+			for (int i = n - 2, t = k + 1; i >= 0; i--)
+			{
+				while (k >= t && Cross(H[k - 2], H[k - 1], points[i]) <= 0)
+					k--;
+				H[k++] = points[i];
+			}
+
+			return H.Take(k - 1).ToList();
+		}
+		/// <summary>
+		/// Calculates the cross between each of the points given.
+		/// Not my original code. Original can be found <a href="https://stackoverflow.com/a/46371357">here</a>.
+		/// </summary>
+		/// <param name="O"></param>
+		/// <param name="A"></param>
+		/// <param name="B"></param>
+		/// <returns></returns>
+		public static double Cross(Vector2 O, Vector2 A, Vector2 B)
+		{
+			return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
+		}
+		public static Vector3 MidPoint(Vector3 pointA, Vector3 pointB)
+		{
+			return Vector3.Lerp(pointA, pointB, 0.5f);
+		}
+		/// <summary>
+		/// Fun cool code to rotate a point around another point a certain amount of degrees.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <param name="pivot"></param>
+		/// <param name="degrees"></param>
+		/// <returns></returns>
+		public static Vector2 RotatePoint(this Vector2 point, Vector2 pivot, double degrees)
+		{
+			double cosTheta = Math.Cos(degrees * Mathf.Deg2Rad);
+			double sinTheta = Math.Sin(degrees * Mathf.Deg2Rad);
+
+			double x = (cosTheta * (point.x - pivot.x) - sinTheta * (point.y - pivot.y) + pivot.x);
+			double y = (sinTheta * (point.x - pivot.x) - cosTheta * (point.y - pivot.y) + pivot.y);
+
+			return new Vector2((float) x, (float) y);
+		}
+		/// <summary>
+		/// Adjusts the position of a vectors distance relative to another vector. Original code link <see href="https://stackoverflow.com/a/21001882">here</see>.
+		/// </summary>
+		/// <param name="pointA"></param>
+		/// <param name="pointB"></param>
+		/// <param name="distance"></param>
+		/// <returns></returns>
+		public static Vector3 AdjustDistance(this Vector3 pointA, Vector3 pointB, float distance)
+		{
+			return new Vector3(pointA.x + ((pointB.x - pointA.x) * distance),
+				pointA.y + ((pointB.y - pointA.y) * distance),
+				pointA.z + ((pointB.z - pointA.z) * distance));
 		}
 	}
 }

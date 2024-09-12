@@ -11,70 +11,114 @@ namespace OceanAnomaly.Components
 	{
 		[TagSelector]
 		[SerializeField]
-		private string endpointTag = "";
+		public string endpointTag = "Untagged";
 		[field: SerializeField]
-		public Transform EndPointOffset {  get; private set; }
+		public Transform EndPoint { get; private set; }
+		public Vector3 EndPointOffset = Vector3.zero;
+		public float LeftRightSeparation = 0f;
 		[field: SerializeField]
-		public Limb NextBodyPart {  get; private set; }
+		public Transform LeftPoint { get; private set; }
+		[field: SerializeField]
+		public Transform RightPoint { get; private set; }
+		[field: SerializeField]
+		public Limb NextBodyPart { get; private set; }
 		[field: SerializeField]
 		public Limb PreviousBodyPart { get; private set; }
 		public Health LimbHealth;
+		public Transform parent;
 		[ReadOnly]
 		public int LimbIndex = 0;
-		public UnityEvent<Limb> OnDetatching;
-		
+		[ReadOnly]
+		public object lockObject = new object();
+		public UnityEvent<Limb> OnDetatchingEntry;
+		public UnityEvent<Limb> OnDetatchingExit;
+
 		private void Awake()
-		{
-			Initialize();
-		}
-		private void OnValidate()
 		{
 			Initialize();
 		}
 		private void Initialize()
 		{
-			if (EndPointOffset == null)
+			// Resolve limb outter points
+			if (EndPoint == null)
 			{
-				EndPointOffset = transform.FindChildByTag(endpointTag);
+				EndPoint = transform.FindChildByTag(endpointTag);
+				// If we didn't find an offset we can just make one
+				if (EndPoint == null)
+				{
+					EndPoint = new GameObject($"{gameObject.name} End Point").transform;
+					EndPoint.gameObject.tag = endpointTag;
+					EndPoint.parent = transform;
+				}
 			}
+			Vector3 midPoint = GlobalTools.MidPoint(transform.position, EndPoint.position);
+			if (LeftPoint == null)
+			{
+				Vector3 leftPoint = transform.position.ToVector2().RotatePoint(midPoint, -90);
+				LeftPoint = new GameObject($"{gameObject.name} Left Point").transform;
+				LeftPoint.parent = transform;
+				LeftPoint.position = leftPoint.AdjustDistance(midPoint, LeftRightSeparation);
+			}
+			if (RightPoint == null)
+			{
+				Vector3 rightPoint = transform.position.ToVector2().RotatePoint(midPoint, 90);
+				RightPoint = new GameObject($"{gameObject.name} Right Point").transform;
+				RightPoint.parent = transform;
+				RightPoint.position = rightPoint.AdjustDistance(midPoint, LeftRightSeparation);
+			}
+			EndPoint.position += EndPointOffset;
 			if (LimbHealth == null)
 			{
 				LimbHealth = gameObject.RecursiveFindComponentLocal<Health>();
 			}
 		}
+		public void ResetLeftAndRightToSeparation()
+		{
+			// Solve for the mid point position
+			Vector3 midPoint = GetMidPoint();
+			// Solve for the left point
+			Vector3 leftPoint = transform.position.ToVector2().RotatePoint(midPoint, -90).ToVector3().AdjustDistance(midPoint, LeftRightSeparation);
+			LeftPoint.position = leftPoint;
+			// Solve for the right point
+			Vector3 rightPoint = transform.position.ToVector2().RotatePoint(midPoint, 90).ToVector3().AdjustDistance(midPoint, LeftRightSeparation);
+			RightPoint.position = rightPoint;
+		}
+		public Vector3 GetMidPoint()
+		{
+			return GlobalTools.MidPoint(transform.position, EndPoint.position);
+		}
 		public void SnapToPrevious()
 		{
-			if (PreviousBodyPart == null)
-			{
-				transform.position = transform.parent.position;
-			} else
-			{
-				transform.position = PreviousBodyPart.EndPointOffset.position;
-			}
+			transform.position = parent.position;
 		}
 		public void RemoveThisBodyPart()
 		{
-			// Check for the next body part in the chain so we can slide things down.
-			if (NextBodyPart != null)
+			OnDetatchingEntry?.Invoke(this);
+			lock (lockObject)
 			{
-				if (PreviousBodyPart != null)
-				{
-					NextBodyPart.SetPreviousBodyPart(PreviousBodyPart);
-				} else
-				{
-					NextBodyPart.transform.parent = transform.parent;
-				}
-			}
-			// Check for our previous body part in the chain so we can set our next part if it's there.
-			if (PreviousBodyPart != null)
-			{
+				// Check for the next body part in the chain so we can slide things down.
 				if (NextBodyPart != null)
 				{
-					PreviousBodyPart.SetNextBodyPart(NextBodyPart);
+					if (PreviousBodyPart != null)
+					{
+						NextBodyPart.SetPreviousBodyPart(PreviousBodyPart);
+					} else
+					{
+						NextBodyPart.parent = parent;
+						NextBodyPart.transform.parent = parent;
+					}
+				}
+				// Check for our previous body part in the chain so we can set our next part if it's there.
+				if (PreviousBodyPart != null)
+				{
+					if (NextBodyPart != null)
+					{
+						PreviousBodyPart.SetNextBodyPart(NextBodyPart);
+					}
 				}
 			}
 			// Whenever we detatch, tell our subscribers that we did indeed detatch just now.
-			OnDetatching?.Invoke(this);
+			OnDetatchingExit?.Invoke(this);
 		}
 		/// <summary>
 		/// Sets the NextBodyPart, the NextBodyPart's PreviousBodyPart reference, and the parent of the NextBodyPart transform.
@@ -82,9 +126,12 @@ namespace OceanAnomaly.Components
 		/// <param name="limbPart"></param>
 		public void SetNextBodyPart(Limb limbPart)
 		{
-			NextBodyPart = limbPart;
-			NextBodyPart.PreviousBodyPart = this;
-			NextBodyPart.transform.parent = transform;
+			lock (lockObject)
+			{
+				NextBodyPart = limbPart;
+				NextBodyPart.PreviousBodyPart = this;
+				NextBodyPart.transform.parent = transform;
+			}
 		}
 		/// <summary>
 		/// Sets the PreviousBodyPart, the PreviousBodyPart's NextBodyPart reference, and the parent of this transform.
@@ -92,9 +139,13 @@ namespace OceanAnomaly.Components
 		/// <param name="limbPart"></param>
 		public void SetPreviousBodyPart(Limb limbPart)
 		{
-			PreviousBodyPart = limbPart;
-			PreviousBodyPart.NextBodyPart = this;
-			transform.parent = PreviousBodyPart.transform;
+			lock (lockObject)
+			{
+				PreviousBodyPart = limbPart;
+				PreviousBodyPart.NextBodyPart = this;
+				parent = PreviousBodyPart.transform;
+				transform.parent = parent;
+			}
 		}
 	}
 }
