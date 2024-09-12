@@ -22,12 +22,17 @@ namespace OceanAnomaly.Controllers
 		{
 			foreach (LimbController limbController in limbControllers)
 			{
-				DrawLineInLimb(PopulateDrawLines(limbController as TentacleLimbSpawner));
+				PolylinePath limbLine = new PolylinePath();
+				// Create the points for the tentacle limb specifically
+				Vector3[] tentaclePoints = OrderTentacleLimbPoints(limbController as TentacleLimbSpawner);
+				// Add it to the limbPolyline
+				limbLine.AddPoints(tentaclePoints);
+				// Draw the PolyLine
+				DrawPolyLine(limbLine);
 			}
 		}
-		private PolylinePath PopulateDrawLines(TentacleLimbSpawner tentacleLimb)
+		private Vector3[] OrderTentacleLimbPoints(TentacleLimbSpawner tentacleLimb)
 		{
-			PolylinePath limbLine = new PolylinePath();
 			// For each of our limbs, lets add it to the polyLine
 			List<Limb> limbs = tentacleLimb.GetLimbs();
 			// Make a list of the points in the order we need to draw them in
@@ -40,12 +45,16 @@ namespace OceanAnomaly.Controllers
 				limbPoints[i] = limbs[i].LeftPoint.position;
 				limbPoints[(limbPoints.Length - 1) - i] = limbs[i].RightPoint.position;
 			}
-			// Add all the points we got, hopefully in order
-			limbLine.AddPoints(limbPoints);
-			return limbLine;
+			return limbPoints;
 		}
-		private void DrawLineInLimb(PolylinePath pathToDraw)
+		private void DrawPolyLine(PolylinePath pathToDraw)
 		{
+			// Null check for camera because we need it to draw
+			if (mainCamera == null)
+			{
+				return;
+			}
+			// Shapes API suggested drawing of a Polyline
 			using (Draw.Command(mainCamera))
 			{
 				Draw.Polyline(pathToDraw, true, 0.5f, Color.red);

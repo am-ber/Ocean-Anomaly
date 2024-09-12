@@ -68,7 +68,7 @@ namespace OceanAnomaly.Attributes
 		public Vector3 directionFromAngle(float angleInDegrees, bool angleIsGlobal)
 		{
 			if (!angleIsGlobal)
-				angleInDegrees += transform.eulerAngles.z;
+				angleInDegrees -= transform.eulerAngles.z;
 			return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
 		}
 		private void OnDisable()
