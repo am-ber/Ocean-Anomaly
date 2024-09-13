@@ -22,33 +22,77 @@ namespace OceanAnomaly.Controllers
 		{
 			foreach (LimbController limbController in limbControllers)
 			{
-				DrawLineInLimb(PopulateDrawLines(limbController as TentacleLimbSpawner));
+				PolylinePath limbLine = new PolylinePath();
+                PolygonPath limbShape = new PolygonPath();
+				// Create the points for the tentacle limb specifically
+				Vector3[] tentacleLinePoints = OrderTentacleLimbLinePoints(limbController as TentacleLimbSpawner);
+                Vector2[] tentacleShapePoints = OrderTentacleLimbShapePoints(limbController as TentacleLimbSpawner);
+				// Add it to the limbPolyline
+				limbLine.AddPoints(tentacleLinePoints);
+				limbShape.AddPoints(tentacleShapePoints);
+				// Draw the PolyLine
+				DrawPolyLine(limbLine);
+                DrawPolygon(limbShape);
 			}
 		}
-		private PolylinePath PopulateDrawLines(TentacleLimbSpawner tentacleLimb)
+		private Vector3[] OrderTentacleLimbLinePoints(TentacleLimbSpawner tentacleLimb)
 		{
-			PolylinePath limbLine = new PolylinePath();
 			// For each of our limbs, lets add it to the polyLine
 			List<Limb> limbs = tentacleLimb.GetLimbs();
 			// Make a list of the points in the order we need to draw them in
-			Vector3[] limbPoints = new Vector3[limbs.Count * 2 + 1];
+			Vector3[] limbLinePoints = new Vector3[limbs.Count * 2 + 1];
 			// Add last offset point in the middle of the limbPoint list
-			limbPoints[limbs.Count] = limbs[limbs.Count - 1].EndPoint.position;
+			limbLinePoints[limbs.Count] = limbs[limbs.Count - 1].EndPoint.position;
 			// Iterate through the list and populate the points we need
 			for (int i = 0; i < limbs.Count; i++)
 			{
-				limbPoints[i] = limbs[i].LeftPoint.position;
-				limbPoints[(limbPoints.Length - 1) - i] = limbs[i].RightPoint.position;
+				limbLinePoints[i] = limbs[i].LeftPoint.position;
+				limbLinePoints[(limbLinePoints.Length - 1) - i] = limbs[i].RightPoint.position;
 			}
-			// Add all the points we got, hopefully in order
-			limbLine.AddPoints(limbPoints);
-			return limbLine;
+			return limbLinePoints;
 		}
-		private void DrawLineInLimb(PolylinePath pathToDraw)
+		private Vector2[] OrderTentacleLimbShapePoints(TentacleLimbSpawner tentacleLimb)
 		{
+			// For each of our limbs, lets add it to the polyLine
+			List<Limb> limbs = tentacleLimb.GetLimbs();
+			// Make a list of the points in the order we need to draw them in
+			Vector2[] limbShapePoints = new Vector2[limbs.Count * 2 + 1];
+			// Add last offset point in the middle of the limbPoint list
+			limbShapePoints[limbs.Count] = limbs[limbs.Count - 1].EndPoint.position;
+			// Iterate through the list and populate the points we need
+			for (int i = 0; i < limbs.Count; i++)
+			{
+				limbShapePoints[i].x = limbs[i].LeftPoint.position.x;
+                limbShapePoints[i].y = limbs[i].LeftPoint.position.y;
+				limbShapePoints[(limbShapePoints.Length - 1) - i].x = limbs[i].RightPoint.position.x;
+                limbShapePoints[(limbShapePoints.Length - 1) - i].y = limbs[i].RightPoint.position.y;
+			}
+			return limbShapePoints;
+		}
+		private void DrawPolyLine(PolylinePath pathToDraw)
+		{
+			// Null check for camera because we need it to draw
+			if (mainCamera == null)
+			{
+				return;
+			}
+			// Shapes API suggested drawing of a Polyline
 			using (Draw.Command(mainCamera))
 			{
 				Draw.Polyline(pathToDraw, true, 0.5f, Color.red);
+			}
+		}
+		private void DrawPolygon(PolygonPath pathToDraw)
+		{
+			// Null check for camera because we need it to draw
+			if (mainCamera == null)
+			{
+				return;
+			}
+			// Shapes API suggested drawing of a Polyline
+			using (Draw.Command(mainCamera))
+			{
+				Draw.Polygon(pathToDraw, Color.red);
 			}
 		}
 	}

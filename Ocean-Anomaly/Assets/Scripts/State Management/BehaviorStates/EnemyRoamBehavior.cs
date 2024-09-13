@@ -42,8 +42,7 @@ namespace OceanAnomaly.StateManagement
 			// But sometimes we might not have the fieldManager for some reason?
 			if (fieldManager != null)
 			{
-				fieldManager.GenerateNewPoints();
-				movementController.GetMovementState().SetTarget(fieldManager.GetFieldStart());
+				GenerateNewPositionAndSetTarget();
 			}
 		}
 		public override void Update()
@@ -67,9 +66,12 @@ namespace OceanAnomaly.StateManagement
 		}
 		public void OnTargetReachedRoaming(Transform target)
 		{
-			Debug.Log($"{gameObject.name} reached {target.name}");
-			movementController.ChangeMovementState(movementController.trackState);
-			movementController.GetMovementState().OnTargetReach.RemoveListener(OnTargetReachedRoaming);
+			GenerateNewPositionAndSetTarget();
+		}
+		private void GenerateNewPositionAndSetTarget()
+		{
+			fieldManager.ChangeTargetPosition();
+			movementController.GetMovementState().SetTarget(fieldManager.GetEnemyTargetTransform());
 		}
 		private bool WillReactToAttack(float percentage = 1f)
 		{
@@ -79,6 +81,12 @@ namespace OceanAnomaly.StateManagement
 				return true;
 			}
 			return false;
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			// Unsubscribe from our action if we leave this state
+			movementController.GetMovementState().OnTargetReach.RemoveListener(OnTargetReachedRoaming);
 		}
 	}
 }

@@ -72,13 +72,14 @@ namespace OceanAnomaly.StateManagement
 			{
 				if (!notifiedOnTargetReachSubscribers)
 				{
-					// Call people listening if we reached our target
-					OnTargetReach?.Invoke(target);
-					// And removal of the target if we need to
+					Debug.Log($"{transform.name} reached {target.name}");
+					// Removal of the target first, before notifying potential subscribers
 					if (movementData.RemoveTargetAfterReach)
 					{
 						target = null;
 					}
+					OnTargetReach?.Invoke(target);
+					// This boolean prevents spam protection
 					notifiedOnTargetReachSubscribers = true;
 				}
 			} else

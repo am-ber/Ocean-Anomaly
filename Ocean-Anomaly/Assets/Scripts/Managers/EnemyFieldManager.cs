@@ -12,79 +12,61 @@ public class EnemyFieldManager : MonoBehaviour
 	[SerializeField]
 	private float pointGenerationRadiusMin = 0f;
 	[SerializeField]
-	private int maxPoints = 10;
-	[ReadOnly]
+	private float pointMinimumCloseness = 25f;
 	[SerializeField]
-	private int currentPoints = 0;
-	[SerializeField]
-	private SplineComputer splineComputer;
-	[SerializeField]
-	private GameObject fieldStart;
-	private void Start()
+	private GameObject enemyTargetInRadius;
+	private void Awake()
 	{
-		Initialize();
+		if (enemyTargetInRadius == null)
+		{
+			enemyTargetInRadius = Instantiate(new GameObject("FieldStartObject"), transform);
+		}
 	}
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, pointGenerationRadius);
-	}
-	private void Initialize()
-	{
-		if (splineComputer == null)
+		if (enemyTargetInRadius != null)
 		{
-			splineComputer = GetComponent<SplineComputer>();
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawWireSphere(enemyTargetInRadius.transform.position, 2);
 		}
-		splineComputer.type = Spline.Type.CatmullRom;
-		splineComputer.knotParametrization = 1f;
-		splineComputer.is2D = true;
-
-		GenerateNewPoints();
-	}
-	public SplineComputer GetSplineComputer()
-	{
-		return splineComputer;
 	}
 	/// <summary>
 	/// Used to get the current starting position of the field spline.
 	/// </summary>
 	/// <returns></returns>
-	public Vector3 GetFieldStartPosition()
+	public Vector3 GetEnemyTargetPosition()
 	{
-		if (fieldStart == null)
+		if (enemyTargetInRadius == null)
 		{
 			return Vector3.zero;
 		}
-		return fieldStart.transform.position;
+		return enemyTargetInRadius.transform.position;
 	}
-	public Transform GetFieldStart()
+	public Transform GetEnemyTargetTransform()
 	{
-		if (fieldStart == null)
+		if (enemyTargetInRadius == null)
 		{
 			return null;
 		}
-		return fieldStart.transform;
+		return enemyTargetInRadius.transform;
 	}
 	/// <summary>
-	/// Used to generate new points randomly in a circle with the radius of <seealso cref="pointGenerationRadius"/>.
+	/// Used to change the target transform position randomly in a circle with the radius of <seealso cref="pointGenerationRadius"/>.
 	/// </summary>
-	public void GenerateNewPoints()
+	public void ChangeTargetPosition()
 	{
-		// 4 is the minimum required control points in the spline computer from the documentation
-		currentPoints = UnityEngine.Random.Range(4, maxPoints + 1);
-		SplinePoint[] splinePoints = new SplinePoint[currentPoints];
-		for (int i = 0; i < splinePoints.Length; i++)
+		Vector3 newPosition = enemyTargetInRadius.transform.position;
+		// Keep looping until we have a distance that is a desired distance away from the mimimum closeness allowed
+		do
 		{
-			Vector3 pointPosition = GlobalTools.GetRandomPointInRadius2D(pointGenerationRadius, transform.position, pointGenerationRadiusMin);
-			splinePoints[i] = new SplinePoint(pointPosition);
-		}
-		splineComputer.SetPoints(splinePoints);
-		splineComputer.Close();
-
-		if (fieldStart == null)
-		{
-			fieldStart = Instantiate(new GameObject("FieldStartObject"), transform);
-		}
-		fieldStart.transform.position = splinePoints[0].position;
+			newPosition = GlobalTools.GetRandomPointInRadius2D(pointGenerationRadius, transform.position, pointGenerationRadiusMin);
+			// This while loop checks for the distance between the point we just generated and the current target position
+			// to be less than the minimumCloseness BUT only if that is less than 90% of the total generation radius
+		} while (Vector3.Distance(enemyTargetInRadius.transform.position, newPosition) <
+		(pointMinimumCloseness < (pointGenerationRadius * 0.9f) ? pointMinimumCloseness : (pointGenerationRadius * 0.9f)));
+		// Set the target position
+		enemyTargetInRadius.transform.position = newPosition;
 	}
 }

@@ -17,13 +17,11 @@ namespace OceanAnomaly.StateManagement
 		{
 			base.Update();
 			// Determine a new direction to head to
-			if (target == null)
-			{
-				desiredDirection = (desiredDirection + UnityEngine.Random.insideUnitCircle.ToVector3() * movementData.WanderStrength).normalized;
-			} else
+			if (target != null)
 			{
 				desiredDirection = (target.position - GetHeadOffset()).normalized;
 			}
+			desiredDirection = (desiredDirection + UnityEngine.Random.insideUnitCircle.ToVector3() * movementData.WanderStrength).normalized;
 			// Solve our desired velocity and acceleration
 			desiredVelocity = desiredDirection * movementData.MaxSpeed;
 			desiredSteeringForce = (desiredVelocity - velocity) * movementData.SteerStrength;
