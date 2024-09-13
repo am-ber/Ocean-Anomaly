@@ -25,6 +25,9 @@ namespace OceanAnomaly.Controllers
 		[SerializeField]
 		private BehaviorDataScriptable huntingData;
 		public EnemyHuntingBehavior huntingBehavior;
+		[SerializeField]
+		private BehaviorDataScriptable attackData;
+		public EnemyAttackBehavior attackBehavior;
 		[Header("Debug Settings")]
 		[ReadOnly]
 		[SerializeField]
@@ -52,6 +55,7 @@ namespace OceanAnomaly.Controllers
 			stateManager = new StateManager();
 			roamBehavior = new EnemyRoamBehavior(gameObject, roamingData, this, movementController, fieldManager);
 			huntingBehavior = new EnemyHuntingBehavior(gameObject, huntingData);
+			attackBehavior = new EnemyAttackBehavior(gameObject, attackData, this, movementController);
 			// Setup initial enemy state
 			movementController.OnInitialized.AddListener(() =>
 			{

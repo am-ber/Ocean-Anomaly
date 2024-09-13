@@ -315,7 +315,7 @@ MonoBehaviour:
   roamingData: {fileID: 11400000, guid: 6871e60dd3409f444a236522317d7dfd, type: 2}
   roamBehavior:
     Enabled: 0
-    behaviorData: {fileID: 0}
+    behaviorData: {fileID: 11400000, guid: 6871e60dd3409f444a236522317d7dfd, type: 2}
     timeInState: 0
     desiredTimeInState: 0
     OnEnabled:
@@ -333,6 +333,37 @@ MonoBehaviour:
     fieldManager: {fileID: 0}
     recievedDamage: 0
   huntingData: {fileID: 11400000, guid: 3d5d0b4628c86de4ba58bb7fbfbc5d9b, type: 2}
+  huntingBehavior:
+    Enabled: 0
+    behaviorData: {fileID: 11400000, guid: 3d5d0b4628c86de4ba58bb7fbfbc5d9b, type: 2}
+    timeInState: 0
+    desiredTimeInState: 0
+    OnEnabled:
+      m_PersistentCalls:
+        m_Calls: []
+    OnTimeInStateReached:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDisabled:
+      m_PersistentCalls:
+        m_Calls: []
+  attackData: {fileID: 11400000, guid: df5ff8695d7276441ac66e8304021208, type: 2}
+  attackBehavior:
+    Enabled: 0
+    behaviorData: {fileID: 11400000, guid: df5ff8695d7276441ac66e8304021208, type: 2}
+    timeInState: 0
+    desiredTimeInState: 0
+    OnEnabled:
+      m_PersistentCalls:
+        m_Calls: []
+    OnTimeInStateReached:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDisabled:
+      m_PersistentCalls:
+        m_Calls: []
+    aIController: {fileID: 0}
+    movementController: {fileID: 0}
   maximumReachDistance: 0
 --- !u!114 &161101447
 MonoBehaviour:

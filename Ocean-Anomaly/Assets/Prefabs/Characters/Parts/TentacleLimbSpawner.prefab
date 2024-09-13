@@ -44,11 +44,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f1b1500cd796044a30a9cae309f039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limbTotalHealth: 0
   limbPrefab: {fileID: 1927466720383174586, guid: 362c1d277084c834cad100117aeb87d2, type: 3}
   limbLengthLimit: 10
   limbEndpointTag: Body Part End Point
-  <currentAnimationState>k__BackingField: 1
-  animationTransitionSpeed: 0.01
+  stateManager:
+    failedUpdateProtection: 1
+    maximumUpdateFailCount: 3
+    currentUpdateFailure: 0
+    OnMaxFailedUpdates:
+      m_PersistentCalls:
+        m_Calls: []
+  ikRigAnimationData: {fileID: 11400000, guid: 1d8898ec5aa744b4d9d2747d85063c80, type: 2}
+  limbIkRigState:
+    Enabled: 0
+    animationData: {fileID: 11400000, guid: 1d8898ec5aa744b4d9d2747d85063c80, type: 2}
+    constrainedRig: {fileID: 0}
+  dampedRigData: {fileID: 11400000, guid: 66b7b4e09f8da3c44b107b1eb78d77fc, type: 2}
+  limbDampedRigState:
+    Enabled: 0
+    animationData: {fileID: 11400000, guid: 66b7b4e09f8da3c44b107b1eb78d77fc, type: 2}
+    constrainedRig: {fileID: 0}
   rigBuilder: {fileID: 0}
   limbIkRig: {fileID: 0}
   startWeightIkConstraint: 0
@@ -62,4 +78,3 @@ MonoBehaviour:
   limbDampedConstraints: []
   limbs: []
   limbDestroyed: 0
-  limbTotalHealth: 0
