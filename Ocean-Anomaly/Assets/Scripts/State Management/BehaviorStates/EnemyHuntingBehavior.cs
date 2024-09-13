@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace OceanAnomaly.StateManagement
 {
+	[Serializable]
 	public class EnemyHuntingBehavior : BehaviorState
 	{
 		public EnemyHuntingBehavior(GameObject gameObject, BehaviorDataScriptable behaviorData) : base(gameObject, behaviorData)

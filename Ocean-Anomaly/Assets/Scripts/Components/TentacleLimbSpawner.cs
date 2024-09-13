@@ -8,6 +8,8 @@ using UnityEngine.Animations.Rigging;
 using DG.Tweening;
 using System.Threading.Tasks;
 using OceanAnomaly.Controllers;
+using OceanAnomaly.StateManagement;
+using AnimationState = OceanAnomaly.StateManagement.AnimationState;
 
 namespace OceanAnomaly.Components
 {
@@ -28,9 +30,17 @@ namespace OceanAnomaly.Components
 		[TagSelector]
 		[SerializeField]
 		private string limbEndpointTag = "";
-		[field: SerializeField]
-		public LimbAnimationState currentAnimationState { get; private set; }
-		public float animationTransitionSpeed = 0.01f;
+		[Header("Animation State Settings")]
+		[SerializeField]
+		private StateManager stateManager;
+		[SerializeField]
+		private AnimationDataScriptable ikRigAnimationData;
+		[SerializeField]
+		private RigConstraintState limbIkRigState;
+		[SerializeField]
+		private AnimationDataScriptable dampedRigData;
+		[SerializeField]
+		private RigConstraintState limbDampedRigState;
 		// These fields are optional as new GameObjects will be Instantiated correctly
 		// Only fill these out if you know what you're doing!
 		[Header("Optional Fields")]
@@ -75,10 +85,6 @@ namespace OceanAnomaly.Components
 		private void Awake()
 		{
 			Initialize();
-		}
-		private void OnValidate()
-		{
-			SetAnimationState(currentAnimationState);
 		}
 		private void Initialize()
 		{
@@ -136,8 +142,11 @@ namespace OceanAnomaly.Components
 			}
 			// Set the target in the constraint to the limbTargetIk game object
 			limbIkConstraint.data.target = limbTargetIk;
-			// Set the current animation state
-			SetAnimationState(LimbAnimationState.DampedConstraint, startWeightDampedConstraint, 0f);
+			// Set animation states
+			stateManager = new StateManager();
+			limbIkRigState = new RigConstraintState(gameObject, ikRigAnimationData, limbIkRig);
+			limbDampedRigState = new RigConstraintState(gameObject, dampedRigData, limbDampedRig);
+			stateManager.ChangeState(limbDampedRigState);
 		}
 		private void Start()
 		{
@@ -182,34 +191,6 @@ namespace OceanAnomaly.Components
 			SetDampedTarget();
 			// Lastely build the rig with the new bones
 			rigBuilder.Build();
-		}
-		public void SetAnimationState(LimbAnimationState animationState, float newStateWeight = 1f, float previousStateWeight = 0f)
-		{
-			currentAnimationState = animationState;
-			// We turn off the rig we aren't using first before adding the next one in
-			switch (animationState)
-			{
-				case LimbAnimationState.IKConstraint:
-					SetRigWeight(limbDampedRig, previousStateWeight);
-					SetRigWeight(limbIkRig, newStateWeight);
-					break;
-				case LimbAnimationState.DampedConstraint:
-					SetRigWeight(limbIkRig, previousStateWeight);
-					SetRigWeight(limbDampedRig, newStateWeight);
-					break;
-				case LimbAnimationState.Manual:
-					SetRigWeight(limbIkRig, previousStateWeight);
-					SetRigWeight(limbDampedRig, previousStateWeight);
-					break;
-			}
-		}
-		private void SetRigWeight(Rig rig, float weight)
-		{
-			if (rig == null)
-			{
-				return;
-			}
-			rig.weight = weight;
 		}
 		private void OnLimbDetatchEntry(Limb detachedLimb)
 		{
@@ -315,6 +296,10 @@ namespace OceanAnomaly.Components
 			{
 				limb.SnapToPrevious();
 			}
+		}
+		public void ChangeAnimationState(AnimationState state)
+		{
+			stateManager.ChangeState(state);
 		}
 	}
 }

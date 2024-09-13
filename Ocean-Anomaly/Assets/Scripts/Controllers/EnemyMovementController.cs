@@ -10,7 +10,6 @@ using UnityEngine.Events;
 
 namespace OceanAnomaly.Controllers
 {
-	[RequireComponent(typeof(SplineFollower))]
 	public class EnemyMovementController : MonoBehaviour
 	{
 		[Header("Movement Settings")]
@@ -26,8 +25,6 @@ namespace OceanAnomaly.Controllers
 		private MovementDataScriptable onTrackMovementData;
 		[field: SerializeField]
 		public WanderMovementState wanderState { get; private set; }
-		[field: SerializeField]
-		public OnTrackMovement trackState { get; private set; }
 		public UnityEvent OnInitialized;
 		private void Start()
 		{
@@ -46,7 +43,6 @@ namespace OceanAnomaly.Controllers
 			// Initialize States
 			stateManager = new StateManager();
 			wanderState = new WanderMovementState(transform, wanderMovementData);
-			trackState = new OnTrackMovement(transform, onTrackMovementData, fieldManager.GetSplineComputer());
 			OnInitialized?.Invoke();
 		}
 		private void Update()
