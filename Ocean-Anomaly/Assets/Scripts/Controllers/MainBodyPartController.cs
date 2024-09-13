@@ -26,10 +26,9 @@ namespace OceanAnomaly.Controllers
                 PolygonPath limbShape = new PolygonPath();
 				// Create the points for the tentacle limb specifically
 				Vector3[] tentacleLinePoints = OrderTentacleLimbLinePoints(limbController as TentacleLimbSpawner);
-                Vector2[] tentacleShapePoints = OrderTentacleLimbShapePoints(limbController as TentacleLimbSpawner);
 				// Add it to the limbPolyline
 				limbLine.AddPoints(tentacleLinePoints);
-				limbShape.AddPoints(tentacleShapePoints);
+				limbShape.AddPoints(tentacleLinePoints.ToVector2Array());
 				// Draw the PolyLine
 				DrawPolyLine(limbLine);
                 DrawPolygon(limbShape);
@@ -50,24 +49,6 @@ namespace OceanAnomaly.Controllers
 				limbLinePoints[(limbLinePoints.Length - 1) - i] = limbs[i].RightPoint.position;
 			}
 			return limbLinePoints;
-		}
-		private Vector2[] OrderTentacleLimbShapePoints(TentacleLimbSpawner tentacleLimb)
-		{
-			// For each of our limbs, lets add it to the polyLine
-			List<Limb> limbs = tentacleLimb.GetLimbs();
-			// Make a list of the points in the order we need to draw them in
-			Vector2[] limbShapePoints = new Vector2[limbs.Count * 2 + 1];
-			// Add last offset point in the middle of the limbPoint list
-			limbShapePoints[limbs.Count] = limbs[limbs.Count - 1].EndPoint.position;
-			// Iterate through the list and populate the points we need
-			for (int i = 0; i < limbs.Count; i++)
-			{
-				limbShapePoints[i].x = limbs[i].LeftPoint.position.x;
-                limbShapePoints[i].y = limbs[i].LeftPoint.position.y;
-				limbShapePoints[(limbShapePoints.Length - 1) - i].x = limbs[i].RightPoint.position.x;
-                limbShapePoints[(limbShapePoints.Length - 1) - i].y = limbs[i].RightPoint.position.y;
-			}
-			return limbShapePoints;
 		}
 		private void DrawPolyLine(PolylinePath pathToDraw)
 		{
@@ -92,7 +73,7 @@ namespace OceanAnomaly.Controllers
 			// Shapes API suggested drawing of a Polyline
 			using (Draw.Command(mainCamera))
 			{
-				Draw.Polygon(pathToDraw, Color.red);
+				Draw.Polygon(pathToDraw, PolygonTriangulation.FastConvexOnly, Color.red);
 			}
 		}
 	}
