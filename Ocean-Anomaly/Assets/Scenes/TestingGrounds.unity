@@ -1126,10 +1126,10 @@ PrefabInstance:
     - target: {fileID: 868480368790005613, guid: d52995d024d76fd46bcae44852e6c79d, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2116248576}
+      objectReference: {fileID: 2133294117}
     - target: {fileID: 868480368790005613, guid: d52995d024d76fd46bcae44852e6c79d, type: 3}
       propertyPath: m_InstanceId
-      value: -2030
+      value: -5102
       objectReference: {fileID: 0}
     - target: {fileID: 4099512442777193424, guid: d52995d024d76fd46bcae44852e6c79d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1606,7 +1606,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3824004177193789601, guid: b0db393dbee56b44bbb1166c1987184f, type: 3}
   m_PrefabInstance: {fileID: 2059873374}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &2116248576
+--- !u!43 &2133294117
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1861,6 +1861,10 @@ PrefabInstance:
     - target: {fileID: 515883732051941963, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 596724663972645490, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1465737438505304702, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
       propertyPath: m_LocalPosition.z
@@ -38405,6 +38409,10 @@ PrefabInstance:
     - target: {fileID: 9190041370731039704, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
       propertyPath: m_ClearFlags
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9190041370731039704, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
+      propertyPath: orthographic size
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9190041370731039704, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
       propertyPath: m_BackGroundColor.b
