@@ -394,5 +394,14 @@ namespace OceanAnomaly.Tools
 			}
 			return result;
 		}
+		/// <summary>
+		/// Returns a clean scaled volume db value that makes for representing shifts in audio volume more perceptible.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static float dbLog(float value)
+		{
+			return Mathf.Log10(value) * 20;
+		}
 	}
 }

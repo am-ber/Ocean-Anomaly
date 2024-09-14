@@ -15,5 +15,5 @@ MonoBehaviour:
   MaxSpeed: 10
   MinSpeed: 7
   SteerStrength: 3
-  WanderStrength: 1
+  WanderStrength: 0.2
   RemoveTargetAfterReach: 1
