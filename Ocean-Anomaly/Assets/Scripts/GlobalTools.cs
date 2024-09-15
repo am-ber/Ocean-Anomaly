@@ -366,5 +366,42 @@ namespace OceanAnomaly.Tools
 				pointA.y + ((pointB.y - pointA.y) * distance),
 				pointA.z + ((pointB.z - pointA.z) * distance));
 		}
+		/// <summary>
+		/// Quickly changes a list of Vector3's into a list of Vector2's.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <returns></returns>
+		public static Vector2[] ToVector2Array(this Vector3[] points)
+		{
+			Vector2[] result = new Vector2[points.Length];
+			for (int i = 0; i < points.Length; i++)
+			{
+				result[i] = points[i].ToVector2();
+			}
+			return result;
+		}
+		/// <summary>
+		/// Quickly changes a list of Vector2's into a list of Vector3's.
+		/// </summary>
+		/// <param name="points"></param>
+		/// <returns></returns>
+		public static Vector3[] ToVector3Array(this Vector2[] points)
+		{
+			Vector3[] result = new Vector3[points.Length];
+			for (int i = 0; i < points.Length; i++)
+			{
+				result[i] = points[i].ToVector3();
+			}
+			return result;
+		}
+		/// <summary>
+		/// Returns a clean scaled volume db value that makes for representing shifts in audio volume more perceptible.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static float dbLog(float value)
+		{
+			return Mathf.Log10(value) * 20;
+		}
 	}
 }
