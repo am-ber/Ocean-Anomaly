@@ -1051,6 +1051,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   limbControllers: []
   mainCamera: {fileID: 1300830393}
+  meshFilter: {fileID: 0}
+  mesh: {fileID: 0}
+  meshNormal: {x: 0, y: 0, z: -1}
+  drawPolygon: 0
+  drawPolyline: 0
 --- !u!1001 &858449564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1473,12 +1478,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!20 &1300830393 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 9190041370731039704, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
-  m_PrefabInstance: {fileID: 8374387971055557843}
-  m_PrefabAsset: {fileID: 0}
---- !u!43 &1303056213
+--- !u!43 &1214348257
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1643,6 +1643,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!20 &1300830393 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9190041370731039704, guid: fad1a076480a31d41a26ab73b52ed099, type: 3}
+  m_PrefabInstance: {fileID: 8374387971055557843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1815202743
 PrefabInstance:
   m_ObjectHideFlags: 0

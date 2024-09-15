@@ -199,12 +199,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endpointTag: Body Part End Point
-  <EndPointOffset>k__BackingField: {fileID: 9195975218757577822}
+  <EndPoint>k__BackingField: {fileID: 0}
+  EndPointOffset: {x: 0, y: 0, z: 0}
+  LeftRightSeparation: 0
+  <LeftPoint>k__BackingField: {fileID: 0}
+  <RightPoint>k__BackingField: {fileID: 0}
   <NextBodyPart>k__BackingField: {fileID: 0}
   <PreviousBodyPart>k__BackingField: {fileID: 0}
   LimbHealth: {fileID: 6046444150580678228}
+  parent: {fileID: 0}
   LimbIndex: 0
-  OnDetatching:
+  OnDetatchingEntry:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDetatchingExit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &591185096903920586
@@ -295,7 +303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9001790835129121730
 Transform:
   m_ObjectHideFlags: 0

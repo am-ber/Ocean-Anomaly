@@ -178,7 +178,6 @@ namespace OceanAnomaly.Components
 				// Resolve leftAndRightSeparation
 				float currentIndexMultiplier = (limbLengthLimit - i) / limbLengthLimit;
 				float distanceMultiplied = currentIndexMultiplier * Vector3.Distance(newPart.transform.position, newPart.GetMidPoint());
-				print($"Limb {i} : {distanceMultiplied}");
 				newPart.LeftRightSeparation = distanceMultiplied;
 				// Add each new limb to the list of limbs to keep track of them
 				limbs.Add(previousPart);
