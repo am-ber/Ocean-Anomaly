@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5332290917893458504}
   - component: {fileID: 8638586347729265449}
+  - component: {fileID: 2079596224443572358}
   - component: {fileID: 6046444150580678228}
-  - component: {fileID: 1927466720383174586}
   - component: {fileID: 591185096903920586}
   - component: {fileID: 6820655871199239632}
   m_Layer: 7
-  m_Name: Limb
+  m_Name: TentacleLimb
   m_TagString: Monster
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -70,7 +70,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1}
+  m_Offset: {x: 0, y: 2.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -81,8 +81,36 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 3, y: 6}
   m_EdgeRadius: 0
+--- !u!114 &2079596224443572358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547364725121281258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89cced58cd9d4504b9290243849242e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endpointTag: Body Part End Point
+  LimbHealth: {fileID: 0}
+  LimbGfx: {fileID: 2313594537627287881}
+  LeftRightSeparation: 0
+  <EndPoint>k__BackingField: {fileID: 9195975218757577822}
+  <LeftPoint>k__BackingField: {fileID: 0}
+  <RightPoint>k__BackingField: {fileID: 0}
+  parent: {fileID: 0}
+  <NextBodyPart>k__BackingField: {fileID: 0}
+  <PreviousBodyPart>k__BackingField: {fileID: 0}
+  OnDetatchingEntry:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDetatchingExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6046444150580678228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +136,7 @@ MonoBehaviour:
   noHealthEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927466720383174586}
+      - m_Target: {fileID: 2079596224443572358}
         m_TargetAssemblyTypeName: OceanAnomaly.Components.Limb, Assembly-CSharp
         m_MethodName: RemoveThisBodyPart
         m_Mode: 1
@@ -186,35 +214,6 @@ MonoBehaviour:
   changeStatusEffectEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1927466720383174586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3547364725121281258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 660b93efa289eb94f98748fdbb699a18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endpointTag: Body Part End Point
-  <EndPoint>k__BackingField: {fileID: 0}
-  EndPointOffset: {x: 0, y: 0, z: 0}
-  LeftRightSeparation: 0
-  <LeftPoint>k__BackingField: {fileID: 0}
-  <RightPoint>k__BackingField: {fileID: 0}
-  <NextBodyPart>k__BackingField: {fileID: 0}
-  <PreviousBodyPart>k__BackingField: {fileID: 0}
-  LimbHealth: {fileID: 6046444150580678228}
-  parent: {fileID: 0}
-  LimbIndex: 0
-  OnDetatchingEntry:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDetatchingExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &591185096903920586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +280,7 @@ Transform:
   m_GameObject: {fileID: 4196239404854372706}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -303,7 +302,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9001790835129121730
 Transform:
   m_ObjectHideFlags: 0
@@ -313,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 5249172014453219650}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -360,12 +359,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: -1978001133, guid: dadca7be7e0f4a74b89d43f8ad5fb7a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 7, y: 7.003418}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

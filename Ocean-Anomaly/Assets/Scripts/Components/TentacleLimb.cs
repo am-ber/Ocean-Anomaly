@@ -3,36 +3,34 @@ using OceanAnomaly.Tools;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using DG.Tweening;
 
 namespace OceanAnomaly.Components
 {
-	public class Limb : MonoBehaviour
+	public class TentacleLimb : MonoBehaviour
 	{
 		[TagSelector]
 		[SerializeField]
 		public string endpointTag = "Untagged";
+		public Health LimbHealth;
+		public SpriteRenderer LimbGfx;
+		[Header("Limb Extent References")]
+		public float LeftRightSeparation = 0f;
 		[field: SerializeField]
 		public Transform EndPoint { get; private set; }
-		public Vector3 EndPointOffset = Vector3.zero;
-		public float LeftRightSeparation = 0f;
 		[field: SerializeField]
 		public Transform LeftPoint { get; private set; }
 		[field: SerializeField]
 		public Transform RightPoint { get; private set; }
-		[field: SerializeField]
-		public Limb NextBodyPart { get; private set; }
-		[field: SerializeField]
-		public Limb PreviousBodyPart { get; private set; }
-		public Health LimbHealth;
+		[Header("Limb Linking Variables")]
 		public Transform parent;
-		[ReadOnly]
-		public int LimbIndex = 0;
+		[field: SerializeField]
+		public TentacleLimb NextBodyPart { get; private set; }
+		[field: SerializeField]
+		public TentacleLimb PreviousBodyPart { get; private set; }
+		public UnityEvent<TentacleLimb> OnDetatchingEntry;
+		public UnityEvent<TentacleLimb> OnDetatchingExit;
 		[ReadOnly]
 		public object lockObject = new object();
-		public UnityEvent<Limb> OnDetatchingEntry;
-		public UnityEvent<Limb> OnDetatchingExit;
-
 		private void Awake()
 		{
 			Initialize();
@@ -66,10 +64,14 @@ namespace OceanAnomaly.Components
 				RightPoint.parent = transform;
 				RightPoint.position = rightPoint.AdjustDistance(midPoint, LeftRightSeparation);
 			}
-			EndPoint.position += EndPointOffset;
+			// Find local needed components
 			if (LimbHealth == null)
 			{
 				LimbHealth = gameObject.RecursiveFindComponentLocal<Health>();
+			}
+			if (LimbGfx == null)
+			{
+				LimbGfx = gameObject.RecursiveFindComponentLocal<SpriteRenderer>();
 			}
 		}
 		public void ResetLeftAndRightToSeparation()
@@ -89,7 +91,13 @@ namespace OceanAnomaly.Components
 		}
 		public void SnapToPrevious()
 		{
-			transform.position = parent.position;
+			if (PreviousBodyPart != null)
+			{
+				transform.position = PreviousBodyPart.EndPoint.position;
+			} else
+			{
+				transform.position = parent.position;
+			}
 		}
 		public void RemoveThisBodyPart()
 		{
@@ -124,7 +132,7 @@ namespace OceanAnomaly.Components
 		/// Sets the NextBodyPart, the NextBodyPart's PreviousBodyPart reference, and the parent of the NextBodyPart transform.
 		/// </summary>
 		/// <param name="limbPart"></param>
-		public void SetNextBodyPart(Limb limbPart)
+		public void SetNextBodyPart(TentacleLimb limbPart)
 		{
 			lock (lockObject)
 			{
@@ -137,7 +145,7 @@ namespace OceanAnomaly.Components
 		/// Sets the PreviousBodyPart, the PreviousBodyPart's NextBodyPart reference, and the parent of this transform.
 		/// </summary>
 		/// <param name="limbPart"></param>
-		public void SetPreviousBodyPart(Limb limbPart)
+		public void SetPreviousBodyPart(TentacleLimb limbPart)
 		{
 			lock (lockObject)
 			{
