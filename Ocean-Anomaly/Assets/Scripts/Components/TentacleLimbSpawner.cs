@@ -11,6 +11,7 @@ using OceanAnomaly.Controllers;
 using OceanAnomaly.StateManagement;
 using AnimationState = OceanAnomaly.StateManagement.AnimationState;
 using OceanAnomaly.Animation;
+using System.Threading;
 
 namespace OceanAnomaly.Components
 {
@@ -30,12 +31,13 @@ namespace OceanAnomaly.Components
 		private StateManager stateManager;
 		[SerializeField]
 		private AnimationDataScriptable ikRigAnimationData;
-		[SerializeField]
 		private RigConstraintState limbIkRigState;
 		[SerializeField]
 		private AnimationDataScriptable dampedRigData;
-		[SerializeField]
 		private RigConstraintState limbDampedRigState;
+		[SerializeField]
+		private AnimationDataScriptable manualAnimationData;
+		private AnimationState manualAnimationState;
 		// These fields are optional as new GameObjects will be Instantiated correctly
 		// Only fill these out if you know what you're doing!
 		[Header("Optional Fields")]
@@ -141,6 +143,7 @@ namespace OceanAnomaly.Components
 			stateManager = new StateManager();
 			limbIkRigState = new RigConstraintState(gameObject, ikRigAnimationData, limbIkRig);
 			limbDampedRigState = new RigConstraintState(gameObject, dampedRigData, limbDampedRig);
+			manualAnimationState = new AnimationState(gameObject, manualAnimationData);
 			stateManager.ChangeState(limbDampedRigState);
 		}
 		private void Start()
@@ -188,29 +191,40 @@ namespace OceanAnomaly.Components
 		}
 		private void OnLimbDetatchEntry(TentacleLimb detachedLimb)
 		{
-			// When a limb breaks from the chain we need to turn off the rigBuilder to modify transforms of the bones
-			rigBuilder.enabled = false;
-			// Disable the current rig
-			(stateManager.GetCurrentState() as RigConstraintState).constrainedRig.enabled = false;
+			lock (limbDetachLock)
+			{
+				Debug.Log($"Starting Detaching Process for: {detachedLimb.name}");
+				// When a limb breaks from the chain we need to turn off the rigBuilder to modify transforms of the bones
+				rigBuilder.enabled = false;
+				stateManager.ChangeState(manualAnimationState);
+				// Clear out the list of DampedTransforms
+				ClearDampedConstraints();
+			}
 		}
-		private void OnLimbDetatchExit(TentacleLimb detatchedLimb)
+		private void OnLimbDetatchExit(TentacleLimb detachedLimb)
 		{
 			lock (limbDetachLock)
 			{
+				Debug.Log($"Exiting Detach Process for: {detachedLimb.name}");
 				// Remove the detatchedLimb from our list
-				limbs.Remove(detatchedLimb);
+				limbs.Remove(detachedLimb);
+				// Enable the Builder to stop screwing with the damped contraint bs
+				rigBuilder.enabled = true;
 				// Set all repeated settings for a completed limb
 				SetAllLimbSettings();
-				// Enable the current rig state
-				(stateManager.GetCurrentState() as RigConstraintState).constrainedRig.enabled = true;
-				// OnEnable() of the builder should call Build() for the rigBuilder
-				rigBuilder.enabled = true;
+				// Lastely build the rig to reset it
+				rigBuilder.Build();
+				Debug.Log($"Built RigBuilder: {detachedLimb.name}");
+				// Enable the current rig after the 
+				stateManager.ChangeState(stateManager.GetPreviousState());
 			}
 		}
 		private void SetAllLimbSettings()
 		{
+			// If we have no more limbs then lets break out of here
+			if (CheckForLimbsDestroyed()) return;
 			// Reset the limbTransforms in the list
-			// ResetLimbTransforms();
+			ResetLimbTransforms();
 			// Recalculate limbTotalHealth because there's some inaccuracies
 			limbTotalHealth = GetLimbTotalHealth();
 			// Set the graphics start and end points
@@ -232,24 +246,16 @@ namespace OceanAnomaly.Components
 		}
 		private void SetTargetIk()
 		{
-			// If we have no more limbs then lets break out of here
-			if (CheckForLimbsDestroyed()) return;
 			// Set the IK target position to the root end point
 			limbTargetIk.position = limbs[limbs.Count - 1].EndPoint.position;
 			limbIkConstraint.data.tip = limbs[limbs.Count - 1].EndPoint;
 			// Set the root and tip of the chain to the first and last limb found in limbs
 			limbIkConstraint.data.root = limbs[0].transform;
+			Debug.Log($"Set IK Target to: {limbs[limbs.Count - 1].EndPoint.name}");
+			Debug.Log($"Set IK root to: {limbs[0].name}");
 		}
 		private void SetDampedTarget()
 		{
-			// If we have no more limbs then lets break out of here
-			if (CheckForLimbsDestroyed()) return;
-			// Clear out the list of object
-			foreach (DampedTransform dampedTransform in limbDampedConstraints)
-			{
-				Destroy(dampedTransform.gameObject);
-			}
-			limbDampedConstraints.Clear();
 			// Make a new set of damped transform constraints
 			TentacleLimb previousLimb = null;
 			foreach (TentacleLimb limb in limbs)
@@ -276,6 +282,18 @@ namespace OceanAnomaly.Components
 				// Finally add this new DamepedTransform constraint to the list
 				limbDampedConstraints.Add(dampedTransform);
 			}
+			Debug.Log($"Created {limbDampedConstraints.Count} Damped Constraints.");
+		}
+		private void ClearDampedConstraints()
+		{
+			// Clear out the list of object
+			foreach (DampedTransform dampedTransform in limbDampedConstraints)
+			{
+				dampedTransform.enabled = false;
+				Destroy(dampedTransform.gameObject);
+			}
+			Debug.Log($"Disabled and cleared {limbDampedConstraints.Count} Damped Constraints.");
+			limbDampedConstraints.Clear();
 		}
 		/// <summary>
 		/// Grabs the current limbs object.
@@ -306,11 +324,11 @@ namespace OceanAnomaly.Components
 		}
 		private void ResetLimbTransforms()
 		{
-			print("Reseting Limb Transforms");
 			foreach (TentacleLimb limb in limbs)
 			{
 				limb.SnapToPrevious();
 			}
+			Debug.Log($"Reset limb transforms for: {limbs.Count}");
 		}
 		public void ChangeAnimationState(AnimationState state)
 		{

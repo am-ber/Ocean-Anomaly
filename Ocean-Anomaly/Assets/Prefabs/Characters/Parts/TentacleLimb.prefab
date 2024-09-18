@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8638586347729265449}
   - component: {fileID: 2079596224443572358}
   - component: {fileID: 6046444150580678228}
-  - component: {fileID: 591185096903920586}
   - component: {fileID: 6820655871199239632}
   m_Layer: 7
   m_Name: TentacleLimb
@@ -53,7 +52,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1160
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -148,7 +147,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 591185096903920586}
+      - m_Target: {fileID: 6046444150580678228}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -158,9 +157,9 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6046444150580678228}
+      - m_Target: {fileID: 8638586347729265449}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -175,18 +174,6 @@ MonoBehaviour:
       - m_Target: {fileID: 6820655871199239632}
         m_TargetAssemblyTypeName: OceanAnomaly.Components.SpriteEffects, Assembly-CSharp
         m_MethodName: SpawnGFX
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6820655871199239632}
-        m_TargetAssemblyTypeName: OceanAnomaly.Components.SpriteEffects, Assembly-CSharp
-        m_MethodName: FadeSprite
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -212,29 +199,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   changeStatusEffectEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &591185096903920586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3547364725121281258}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 201174518d89f974cb4bbd483c8878f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TimeTillDeath: 1
-  destroyAttachedGameObject: 1
-  KillActive:
-    m_PersistentCalls:
-      m_Calls: []
-  KillInactive:
-    m_PersistentCalls:
-      m_Calls: []
-  DeathReached:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &6820655871199239632

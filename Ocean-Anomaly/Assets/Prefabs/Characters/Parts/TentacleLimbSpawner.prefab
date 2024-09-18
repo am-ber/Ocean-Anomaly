@@ -67,6 +67,10 @@ MonoBehaviour:
     Enabled: 0
     animationData: {fileID: 11400000, guid: 66b7b4e09f8da3c44b107b1eb78d77fc, type: 2}
     constrainedRig: {fileID: 0}
+  manualAnimationData: {fileID: 11400000, guid: 7fa2c5742b019f64ba0fbf8c194dbe3d, type: 2}
+  manualAnimationState:
+    Enabled: 0
+    animationData: {fileID: 11400000, guid: 7fa2c5742b019f64ba0fbf8c194dbe3d, type: 2}
   rigBuilder: {fileID: 0}
   limbIkRig: {fileID: 0}
   startWeightIkConstraint: 0

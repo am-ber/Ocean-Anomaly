@@ -16,6 +16,7 @@ namespace OceanAnomaly.StateManagement
 		[SerializeField]
 		private int currentUpdateFailure = 0;
 		private State CurrentState;
+		private State PreviousState;
 		public UnityEvent OnMaxFailedUpdates;
 		public void Update()
 		{
@@ -50,11 +51,17 @@ namespace OceanAnomaly.StateManagement
 			CurrentState?.OnExit();
 			currentUpdateFailure = 0;
 			state.OnEnter();
+			// Change object references
+			PreviousState = CurrentState;
 			CurrentState = state;
 		}
 		public State GetCurrentState()
 		{
 			return CurrentState;
+		}
+		public State GetPreviousState()
+		{
+			return PreviousState;
 		}
 	}
 }
