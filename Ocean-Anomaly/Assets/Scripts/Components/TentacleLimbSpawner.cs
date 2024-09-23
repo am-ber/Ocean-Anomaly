@@ -208,15 +208,15 @@ namespace OceanAnomaly.Components
 				Debug.Log($"Exiting Detach Process for: {detachedLimb.name}");
 				// Remove the detatchedLimb from our list
 				limbs.Remove(detachedLimb);
-				// Enable the Builder to stop screwing with the damped contraint bs
-				rigBuilder.enabled = true;
+				detachedLimb.transform.SetParent(null);
 				// Set all repeated settings for a completed limb
 				SetAllLimbSettings();
-				// Lastely build the rig to reset it
-				rigBuilder.Build();
-				Debug.Log($"Built RigBuilder: {detachedLimb.name}");
+				// Enable the Builder to stop screwing with the damped contraint bs
+				rigBuilder.enabled = true;
 				// Enable the current rig after the 
 				stateManager.ChangeState(stateManager.GetPreviousState());
+				Debug.Log($"Destroying: {detachedLimb.name}");
+				Destroy(detachedLimb.gameObject);
 			}
 		}
 		private void SetAllLimbSettings()

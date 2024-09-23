@@ -107,6 +107,9 @@ MonoBehaviour:
   OnDetatchingEntry:
     m_PersistentCalls:
       m_Calls: []
+  OnDetatching:
+    m_PersistentCalls:
+      m_Calls: []
   OnDetatchingExit:
     m_PersistentCalls:
       m_Calls: []
@@ -122,8 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc61c3e33e74ae43b75d3bfa7fc95c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 100
-  maxHealth: 100
+  startHealth: 50
+  maxHealth: 50
   currentHealth: 0
   regenRate: 5
   bleedRate: 2
@@ -135,18 +138,6 @@ MonoBehaviour:
   noHealthEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2079596224443572358}
-        m_TargetAssemblyTypeName: OceanAnomaly.Components.Limb, Assembly-CSharp
-        m_MethodName: RemoveThisBodyPart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 6046444150580678228}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
@@ -163,6 +154,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2079596224443572358}
+        m_TargetAssemblyTypeName: OceanAnomaly.Components.TentacleLimb, Assembly-CSharp
+        m_MethodName: RemoveThisBodyPart
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
