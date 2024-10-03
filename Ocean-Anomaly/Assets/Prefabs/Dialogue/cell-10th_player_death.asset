@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a1ae27698750ea4188b422729a5e0db, type: 3}
+  m_Name: cell-10th_player_death
+  m_EditorClassIdentifier: 
+  name: cell-10th_player_death
+  DialogueText: I know you don't really have to worry about actually dying, but you
+    are throwing tax payer dollars into the ocean.
+  Speaker: {fileID: 11400000, guid: 8c434f85557510e469974c6f988c27a6, type: 2}
+  DialogueAudio: {fileID: 0}
+  TextDisplaySpeed: 0.1
+  DialogueHoldTime: 3

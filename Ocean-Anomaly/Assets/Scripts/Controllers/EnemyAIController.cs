@@ -59,7 +59,7 @@ namespace OceanAnomaly.Controllers
 			// Setup initial enemy state
 			movementController.OnInitialized.AddListener(() =>
 			{
-				ChangeEnemyState(roamBehavior);
+				ChangeEnemyState(huntingBehavior);
 			});
 		}
 		private void Update()

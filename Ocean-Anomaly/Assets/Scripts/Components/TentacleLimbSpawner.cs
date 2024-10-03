@@ -12,6 +12,7 @@ using OceanAnomaly.StateManagement;
 using AnimationState = OceanAnomaly.StateManagement.AnimationState;
 using OceanAnomaly.Animation;
 using System.Threading;
+using System;
 
 namespace OceanAnomaly.Components
 {
@@ -43,6 +44,9 @@ namespace OceanAnomaly.Components
 		[Header("Optional Fields")]
 		[SerializeField]
 		private RigBuilder rigBuilder;
+		private GameObject rigBuilderGameObject;
+		[SerializeField]
+		private Animator animator;
 		[Header("IK Constraint Settings")]
 		[SerializeField]
 		private Rig limbIkRig;
@@ -97,6 +101,12 @@ namespace OceanAnomaly.Components
 					rigBuilder = gameObject.AddComponent<RigBuilder>();
 				}
 			}
+			rigBuilderGameObject = rigBuilder.gameObject;
+			// Grab the animator created from the RigBuilder if we didn't add it
+			if (animator == null)
+			{
+				animator = GetComponent<Animator>();
+			}
 			// Check for the Rig component in our childeren
 			if (limbIkRig == null)
 			{
@@ -144,7 +154,7 @@ namespace OceanAnomaly.Components
 			limbIkRigState = new RigConstraintState(gameObject, ikRigAnimationData, limbIkRig);
 			limbDampedRigState = new RigConstraintState(gameObject, dampedRigData, limbDampedRig);
 			manualAnimationState = new AnimationState(gameObject, manualAnimationData);
-			stateManager.ChangeState(limbDampedRigState);
+			stateManager.ChangeState(limbIkRigState);
 		}
 		private void Start()
 		{
@@ -194,9 +204,7 @@ namespace OceanAnomaly.Components
 			lock (limbDetachLock)
 			{
 				Debug.Log($"Starting Detaching Process for: {detachedLimb.name}");
-				// When a limb breaks from the chain we need to turn off the rigBuilder to modify transforms of the bones
-				rigBuilder.enabled = false;
-				stateManager.ChangeState(manualAnimationState);
+				ToggleRig(false);
 				// Clear out the list of DampedTransforms
 				ClearDampedConstraints();
 			}
@@ -211,12 +219,18 @@ namespace OceanAnomaly.Components
 				detachedLimb.transform.SetParent(null);
 				// Set all repeated settings for a completed limb
 				SetAllLimbSettings();
-				// Enable the Builder to stop screwing with the damped contraint bs
-				rigBuilder.enabled = true;
-				// Enable the current rig after the 
-				stateManager.ChangeState(stateManager.GetPreviousState());
 				Debug.Log($"Destroying: {detachedLimb.name}");
 				Destroy(detachedLimb.gameObject);
+				try
+				{
+					rigBuilder.Build();
+					ToggleRig(true);
+				}
+				catch (Exception ex)
+				{
+					Debug.Log($"Failed to build rig. Waiting until next frame.\n{ex.Message}");
+					StartCoroutine(OnFailedBuildCall());
+				}
 			}
 		}
 		private void SetAllLimbSettings()
@@ -233,6 +247,13 @@ namespace OceanAnomaly.Components
 			SetTargetIk();
 			// Reset the damped constrain target
 			SetDampedTarget();
+		}
+		private void ToggleRig(bool value)
+		{
+			limbIkRig.enabled = value;
+			limbDampedRig.enabled = value;
+			animator.enabled = value;
+			rigBuilder.enabled = value;
 		}
 		private void SetStartAndEndGfx()
 		{
@@ -321,6 +342,23 @@ namespace OceanAnomaly.Components
 				totalHealth += limb.LimbHealth.GetCurrentHealth();
 			}
 			return totalHealth;
+		}
+		/// <summary>
+		/// Literally just waits a single frame to do the shit that should work but doesn't for some reason.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator OnFailedBuildCall()
+		{
+			yield return new WaitForEndOfFrame();
+			try
+			{
+				ToggleRig(true);
+				rigBuilder.Build();
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+			}
 		}
 		private void ResetLimbTransforms()
 		{

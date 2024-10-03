@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using OceanAnomaly.Components;
 using System.Linq;
+using UnityEngine.Events;
 
 namespace OceanAnomaly.Tools
 {
@@ -402,6 +403,23 @@ namespace OceanAnomaly.Tools
 		public static float dbLog(float value)
 		{
 			return Mathf.Log10(value) * 20;
+		}
+		/// <summary>
+		/// Used as a blocking call to wait Until a given UnityEvent fires.
+		/// </summary>
+		/// <param name="unityEvent"></param>
+		/// <returns></returns>
+		public static IEnumerator WaitUntilEvent(UnityEvent unityEvent)
+		{
+			// Create a trigger to wait for
+			bool trigger = false;
+			Action action = () => trigger = true;
+			// Add the action to the listener
+			unityEvent.AddListener(action.Invoke);
+			// Wait until the trigger
+			yield return new WaitUntil(() => trigger);
+			// Remove the action from the listener
+			unityEvent.RemoveListener(action.Invoke);
 		}
 	}
 }

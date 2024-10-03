@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2079596224443572358}
   - component: {fileID: 6046444150580678228}
   - component: {fileID: 6820655871199239632}
+  - component: {fileID: 7941252392604589845}
   m_Layer: 7
   m_Name: TentacleLimb
   m_TagString: Monster
@@ -105,9 +106,6 @@ MonoBehaviour:
   <NextBodyPart>k__BackingField: {fileID: 0}
   <PreviousBodyPart>k__BackingField: {fileID: 0}
   OnDetatchingEntry:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDetatching:
     m_PersistentCalls:
       m_Calls: []
   OnDetatchingExit:
@@ -222,6 +220,36 @@ MonoBehaviour:
   flashSpeed: 0.1
   graphicsRenderer: {fileID: 2313594537627287881}
   spawnableGFXPrefab: {fileID: 8055848885476931499, guid: cf69586576d04f447ad250e20d9e5071, type: 3}
+--- !u!114 &7941252392604589845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547364725121281258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 00000000958e525c8d769f64c5aed8b1ffac6c67916298c94df32a722dd32568e179483a
+  m_ShapePath:
+  - {x: -1.5, y: -0.5, z: 0}
+  - {x: -1.5, y: 5.5, z: 0}
+  - {x: 1.5, y: 5.5, z: 0}
+  - {x: 1.5, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -41570
+  m_LocalBounds:
+    m_Center: {x: 0, y: 2.5, z: 0}
+    m_Extent: {x: 1.5, y: 3, z: 0}
 --- !u!1 &4196239404854372706
 GameObject:
   m_ObjectHideFlags: 0
