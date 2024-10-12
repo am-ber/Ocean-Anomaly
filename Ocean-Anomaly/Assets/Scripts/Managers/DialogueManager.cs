@@ -17,8 +17,13 @@ public class DialogueManager : MonoBehaviour
 	public GameObject UIParent;
 	public List<EventDialogue> dialogueEvents = new List<EventDialogue>();
 	public List<DialogueSequenceScriptable> dialogueSequences = new List<DialogueSequenceScriptable>();
+	private void SetupEvents()
+	{
+
+	}
 	public void StartSequence(DialogueSequenceScriptable sequence)
 	{
 
 	}
+
 }

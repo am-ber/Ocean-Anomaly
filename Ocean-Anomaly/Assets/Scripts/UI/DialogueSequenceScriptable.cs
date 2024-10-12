@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +19,8 @@ public class DialogueSequenceScriptable : ScriptableObject
 	public List<DialogueScriptable> dialogues = new List<DialogueScriptable>();
 	public UnityEvent OnSequenceStart;
 	public UnityEvent OnSequenceFinish;
+	public IEnumerator sequence;
+#if UNITY_EDITOR
 	private void OnValidate()
 	{
 		if (name == string.Empty)
@@ -24,6 +28,7 @@ public class DialogueSequenceScriptable : ScriptableObject
 			name = Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(this));
 		}
 	}
+#endif
 	public IEnumerator StartSequence(GameObject parentUI = null)
 	{
 		foreach (DialogueScriptable dialogueScriptable in dialogues)
@@ -42,5 +47,4 @@ public class DialogueSequenceScriptable : ScriptableObject
 			yield return new WaitForSeconds(additionalWait);
 		}
 	}
-
 }

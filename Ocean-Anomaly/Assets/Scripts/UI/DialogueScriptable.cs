@@ -18,6 +18,7 @@ public class DialogueScriptable : ScriptableObject
 	public float DialogueHoldTime = 3.0f;
 	public UnityEvent OnDialogue;
 
+#if UNITY_EDITOR
 	private void OnValidate()
 	{
 		if (name == string.Empty)
@@ -31,4 +32,6 @@ public class DialogueScriptable : ScriptableObject
 			}
 		}
 	}
+#endif
+
 }
