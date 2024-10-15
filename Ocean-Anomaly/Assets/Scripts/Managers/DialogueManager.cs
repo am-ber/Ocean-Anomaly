@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
 	}
 	public void StartSequence(DialogueSequenceScriptable sequence)
 	{
-
+		Debug.Log($"Starting Dialogue Sequence: {sequence.name}");
 	}
 
 }
