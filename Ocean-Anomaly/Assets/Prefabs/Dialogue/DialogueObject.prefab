@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 32.5, y: -10}
-  m_SizeDelta: {x: 5, y: 0}
+  m_AnchoredPosition: {x: 400.25, y: -75}
+  m_SizeDelta: {x: 5, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &376686355659960156
 CanvasRenderer:
@@ -150,8 +150,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 768, y: 75}
+  m_SizeDelta: {x: 1200, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8927777952105272896
 CanvasRenderer:
@@ -231,8 +231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeakerText: {fileID: 5619650999208675199}
   DialogueText: {fileID: 2189711718038596042}
-  DialogueScriptable: {fileID: 0}
+  Dialogue: {fileID: 0}
   ReadingText: 0
+  DialogueFinished: 0
   OnDialogueFinish:
     m_PersistentCalls:
       m_Calls: []

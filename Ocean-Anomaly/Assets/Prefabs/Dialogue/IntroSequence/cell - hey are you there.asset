@@ -16,7 +16,7 @@ MonoBehaviour:
   DialogueText: Hey? Are you there?
   Speaker: {fileID: 11400000, guid: 8c434f85557510e469974c6f988c27a6, type: 2}
   DialogueAudio: {fileID: 0}
-  TextDisplaySpeed: 0.1
+  TextDisplaySpeed: 0.05
   DialogueHoldTime: -1
   OnDialogue:
     m_PersistentCalls:

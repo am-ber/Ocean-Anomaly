@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSpeakerScriptable
   name: Dr. Celeste Morgan
   NickName: Cell
-  UseNickName: 0
+  UseNickName: 1
   DisplayColor: {r: 0.15686275, g: 0.6666667, b: 0.15686275, a: 1}

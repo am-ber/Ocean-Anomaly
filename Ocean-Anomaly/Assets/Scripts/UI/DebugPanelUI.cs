@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ public class DebugPanelUI : MonoBehaviour
 		{
 			Button debugButton = Instantiate(buttonPrefab);
 			debugButton.transform.SetParent(debugInputsPanel.transform);
-			debugButton.GetComponentInChildren<Text>().text = debugEvent.buttonText;
+			debugButton.GetComponentInChildren<TMP_Text>().text = debugEvent.buttonText;
 			debugButton.onClick.AddListener(() => {
 				debugEvent.eventToTrigger.Invoke();
 			});

@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: IntroSequence
   additionalWait: 1
-  dialoguePrefab: {fileID: 0}
+  dialoguePrefab: {fileID: 2342279143214251644, guid: 3e1e3bfea27b6d644b6cc11177e799e8, type: 3}
   dialogues:
   - {fileID: 11400000, guid: 4d815f787c7ddbd4099eadb36cd302d7, type: 2}
   - {fileID: 11400000, guid: 822d83578b660674892651e0744d9580, type: 2}
   - {fileID: 11400000, guid: a27c7f3c04c0093409d92f946b2a2ae2, type: 2}
   - {fileID: 11400000, guid: a894184c90bdafe41af1ccef01835842, type: 2}
-  - {fileID: 11400000, guid: a74d20cac1446144e8ddcf3a035d44fb, type: 2}
   OnSequenceStart:
     m_PersistentCalls:
       m_Calls: []

@@ -16,7 +16,7 @@ MonoBehaviour:
   DialogueText: Well, I suppose introductions are in order.
   Speaker: {fileID: 11400000, guid: 8c434f85557510e469974c6f988c27a6, type: 2}
   DialogueAudio: {fileID: 0}
-  TextDisplaySpeed: 0.1
+  TextDisplaySpeed: 0.05
   DialogueHoldTime: 3
   OnDialogue:
     m_PersistentCalls:

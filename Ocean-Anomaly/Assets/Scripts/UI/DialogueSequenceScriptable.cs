@@ -29,8 +29,13 @@ public class DialogueSequenceScriptable : ScriptableObject
 		}
 	}
 #endif
+	private void Awake()
+	{
+		sequence = StartSequence();
+	}
 	public IEnumerator StartSequence(GameObject parentUI = null)
 	{
+		OnSequenceStart?.Invoke();
 		foreach (DialogueScriptable dialogueScriptable in dialogues)
 		{
 			// Create the dialogue UI
@@ -45,6 +50,9 @@ public class DialogueSequenceScriptable : ScriptableObject
 			// Waiting events
 			yield return GlobalTools.WaitUntilEvent(dialogueUI.OnDialogueFinish);
 			yield return new WaitForSeconds(additionalWait);
+			// Clear old dialogue
+			Destroy(dialogueUI.gameObject);
 		}
+		OnSequenceFinish?.Invoke();
 	}
 }
